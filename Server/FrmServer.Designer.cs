@@ -38,7 +38,7 @@
 			this.button11 = new System.Windows.Forms.Button();
 			this.button10 = new System.Windows.Forms.Button();
 			this.button9 = new System.Windows.Forms.Button();
-			this.button4 = new System.Windows.Forms.Button();
+			this.btnDisconnectAll = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.cmdChonClientPath = new System.Windows.Forms.Button();
 			this.cmdChon = new System.Windows.Forms.Button();
@@ -80,7 +80,7 @@
 			this.groupBox4.Controls.Add(this.button11);
 			this.groupBox4.Controls.Add(this.button10);
 			this.groupBox4.Controls.Add(this.button9);
-			this.groupBox4.Controls.Add(this.button4);
+			this.groupBox4.Controls.Add(this.btnDisconnectAll);
 			this.groupBox4.Location = new System.Drawing.Point(12, 11);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(124, 422);
@@ -173,14 +173,15 @@
 			this.button9.Text = "Lấy Danh Sách Thi Từ File";
 			this.button9.UseVisualStyleBackColor = true;
 			// 
-			// button4
+			// btnDisconnectAll
 			// 
-			this.button4.Location = new System.Drawing.Point(7, 50);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(109, 26);
-			this.button4.TabIndex = 40;
-			this.button4.Text = "Disconnect";
-			this.button4.UseVisualStyleBackColor = true;
+			this.btnDisconnectAll.Location = new System.Drawing.Point(7, 50);
+			this.btnDisconnectAll.Name = "btnDisconnectAll";
+			this.btnDisconnectAll.Size = new System.Drawing.Size(109, 26);
+			this.btnDisconnectAll.TabIndex = 40;
+			this.btnDisconnectAll.Text = "Disconnect All";
+			this.btnDisconnectAll.UseVisualStyleBackColor = true;
+			this.btnDisconnectAll.Click += new System.EventHandler(this.btnDisconnectAll_Click);
 			// 
 			// groupBox3
 			// 
@@ -438,7 +439,7 @@
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnDisconnectAll;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button cmdChonClientPath;
         private System.Windows.Forms.Button cmdChon;

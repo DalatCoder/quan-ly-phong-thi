@@ -107,5 +107,10 @@ namespace Server
             }
 
         }
+
+		private void btnDisconnectAll_Click(object sender, EventArgs e)
+		{
+            serverProgram.DisconnectAll();
+		}
 	}
 }

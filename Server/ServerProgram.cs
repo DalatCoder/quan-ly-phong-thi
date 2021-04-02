@@ -242,8 +242,10 @@ namespace Server
 		{
 			foreach (Socket socket in clientList)
 			{
-				socket.Close();
+				ServerResponse response = new ServerResponse(ServerResponseType.DisconnectAll, null);
+				socket.Send(response.Serialize());
 			}
+
 			clientList.Clear();
 
 			clientInfoManager.DisconnectAll();

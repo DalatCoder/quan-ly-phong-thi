@@ -168,7 +168,8 @@ namespace Server
 		{
 			foreach (ClientInfo item in _clients)
 			{
-				item.Status = ClientInfoStatus.Disconnected;
+				if (item.Status != ClientInfoStatus.Undefined)
+					item.Status = ClientInfoStatus.Disconnected;
 			}
 		}
 	}

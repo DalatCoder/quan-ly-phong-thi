@@ -16,6 +16,7 @@ namespace Common
         SendStudent,
         SendString,
         SendPcName,
+        DisconnectAll,
         BeginExam,
         FinishExam,
         LockClient,
@@ -42,7 +43,7 @@ namespace Common
 
         public byte[] Serialize()
         {
-            if (Type.HasFlag(ServerResponseType.Undefined) || Data == null)
+            if (Type.HasFlag(ServerResponseType.Undefined))
                 throw new Exception("Response is invalid");
 
             MemoryStream stream = new MemoryStream();

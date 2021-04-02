@@ -114,7 +114,39 @@ namespace Client
                 {
                     byte[] buffer = new byte[1024 * 1024 * 20];
                     client.Receive(buffer);
-                }
+
+                    ServerResponse response = ServerResponse.Deserialize(buffer);
+
+					switch (response.Type)
+					{
+						case ServerResponseType.SendFile:
+							break;
+						case ServerResponseType.SendList:
+							break;
+						case ServerResponseType.SendStudent:
+							break;
+						case ServerResponseType.SendString:
+							break;
+						case ServerResponseType.SendPcName:
+							break;
+
+						case ServerResponseType.DisconnectAll:
+                            MessageBox.Show("Yêu cầu đóng kết nối từ server.");
+                            CloseConnection();
+							break;
+
+						case ServerResponseType.BeginExam:
+							break;
+						case ServerResponseType.FinishExam:
+							break;
+						case ServerResponseType.LockClient:
+							break;
+						case ServerResponseType.Undefined:
+							break;
+						default:
+							break;
+					}
+				}
             }
             catch (Exception ex)
             {
