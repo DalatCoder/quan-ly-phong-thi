@@ -54,12 +54,34 @@ namespace Server
 
         void RenderClientList(List<ClientInfo> clientList)
         {
-            flpMain.Controls.Clear();
-
-			foreach (ClientInfo clientInfo in clientList)
+            if (flpMain.Controls.Count == 0)
 			{
-                UFrmClient frm = new UFrmClient(clientInfo);
-                flpMain.Controls.Add(frm);
+                foreach (ClientInfo clientInfo in clientList)
+                {
+                    UFrmClient frm = new UFrmClient(clientInfo);
+                    flpMain.Controls.Add(frm);
+                }
+
+                return;
+            }
+
+            int clientControlLength = flpMain.Controls.Count;
+            for (int i = 0; i < clientList.Count; i++)
+			{
+                ClientInfo clientInfoInList = clientList[i];
+
+                if (i < clientControlLength)
+				{
+                    UFrmClient frm = flpMain.Controls[i] as UFrmClient;
+                    ClientInfo clientInfoInControl = frm.Client;
+
+                    frm.SetClient(clientInfoInList);
+				}
+				else
+				{
+                    UFrmClient frm = new UFrmClient(clientInfoInList);
+                    flpMain.Controls.Add(frm);
+                }
 			}
         }
 

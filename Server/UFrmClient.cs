@@ -76,6 +76,10 @@ namespace Server
             switch (client.Status)
             {
                 case ClientInfoStatus.Undefined:
+                    imageName = "desktop-undefined.png";
+                    break;
+
+                case ClientInfoStatus.ClientConnected:
                     imageName = "desktop-normal.png";
                     break;
 
@@ -88,7 +92,7 @@ namespace Server
                     break;
 
                 default:
-                    imageName = "desktop-normal.png";
+                    imageName = "desktop-undefined.png";
                     break;
             }
 
