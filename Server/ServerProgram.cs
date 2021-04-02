@@ -22,7 +22,13 @@ namespace Server
 		Socket server;
 		List<Socket> clientList;
 
-		List<ClientInfo> clientInfoList;
+		ClientInfoManager clientInfoManager;
+
+		public ServerProgram()
+		{
+			clientList = new List<Socket>();
+			clientInfoManager = new ClientInfoManager();
+		}
 
 		#region Events
 
@@ -58,63 +64,18 @@ namespace Server
 
 		public void SetClientInfoList(string FirstIP, string LastIP, string SubnetMask)
 		{
-			clientInfoList = new List<ClientInfo>();
-			try
-			{
-				string s1 = "", s2 = "";
-				int y = 0, x = 0, z = 0, t = 0;
-				if (FirstIP != "")
-				{
-					s1 = FirstIP.Substring(0, FirstIP.LastIndexOf("."));
-					x = int.Parse(FirstIP.Substring(FirstIP.LastIndexOf(".") + 1));
-				}
-				if (LastIP != "")
-				{
-					s2 = LastIP.Substring(0, LastIP.LastIndexOf("."));
-					y = int.Parse(LastIP.Substring(LastIP.LastIndexOf(".") + 1));
-				}
-				t = y - x;
-				if (SubnetMask != "")
-					z = 256 - int.Parse(SubnetMask.Substring(SubnetMask.LastIndexOf(".") + 1));
-
-				if (x < 255 && y < 255 && s1.CompareTo(s2) == 0)
-				{
-					for (int i = x; i < z && i <= y; i++)
-					{
-						string ip = s1 + "." + i.ToString();
-
-						ClientInfo clientInfo = new ClientInfo();
-						clientInfo.ClientIP = ip;
-						clientInfoList.Add(clientInfo);
-					}
-
-					if (_onClientListChanged != null)
-						_onClientListChanged(clientInfoList);
-				}
-				// else
-				// MessageBox.Show("Nhập sai");
-			}
-			catch
-			{
-				// MessageBox.Show("Nhập IP sai");
-			}
-		}
-
-		public void SetClientInfoList(int clientNum)
-		{
-			clientInfoList = new List<ClientInfo>();
-
-			for (int i = 0; i < clientNum; i++)
-			{
-				string ip = "0.0.0.0";
-
-				ClientInfo clientInfo = new ClientInfo();
-				clientInfo.ClientIP = ip;
-				clientInfoList.Add(clientInfo);
-			}
+			clientInfoManager = new ClientInfoManager(FirstIP, LastIP, SubnetMask);
 
 			if (_onClientListChanged != null)
-				_onClientListChanged(clientInfoList);
+				_onClientListChanged(clientInfoManager.Clients);
+		}
+
+		public void SetClientInfoList(int numberOfClients)
+		{
+			clientInfoManager = new ClientInfoManager(numberOfClients);
+
+			if (_onClientListChanged != null)
+				_onClientListChanged(clientInfoManager.Clients);
 		}
 
 		#endregion
@@ -125,9 +86,6 @@ namespace Server
 		{
 			IP = new IPEndPoint(IPAddress.Any, PORT);
 			server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-			clientList = new List<Socket>();
-			clientInfoList = new List<ClientInfo>();
 
 			server.Bind(IP);
 
@@ -168,23 +126,18 @@ namespace Server
 
 					string clientIP = clientSocket.RemoteEndPoint.ToString().Split(':')[0];
 
-					ClientInfo clientInfo = FindClientInfo(clientIP);
-					if (clientInfo != null)
+					ClientInfo newClient = new ClientInfo()
 					{
-						clientInfo.Endpoint = clientSocket.RemoteEndPoint as IPEndPoint;
-					}
-					else
-					{
-						clientInfo = new ClientInfo();
-						clientInfo.ClientIP = clientIP;
-						clientInfo.Endpoint = clientSocket.RemoteEndPoint as IPEndPoint;
-						clientInfoList.Add(clientInfo);
-					}
+						Endpoint = clientSocket.RemoteEndPoint as IPEndPoint,
+						ClientIP = clientIP,
+						Status = ClientInfoStatus.ClientConnected
+					};
 
-					clientInfo.Status = ClientInfoStatus.ClientConnected;
+					// Thêm mới nếu chưa có, tự cập nhật nếu đã có
+					clientInfoManager.Add(newClient);
 
 					if (_onClientListChanged != null)
-						_onClientListChanged(clientInfoList);
+						_onClientListChanged(clientInfoManager.Clients);
 
 					Thread receive = new Thread(Receive);
 					receive.IsBackground = true;
@@ -211,7 +164,7 @@ namespace Server
 		{
 			Socket client = obj as Socket;
 			string clientIP = client.RemoteEndPoint.ToString().Split(':')[0];
-			ClientInfo clientInfo = FindClientInfo(clientIP);
+			ClientInfo clientInfo = clientInfoManager.Find(clientIP);
 
 			try
 			{
@@ -231,7 +184,7 @@ namespace Server
 							clientInfo.Status = ClientInfoStatus.ClientConnected;
 
 							if (_onClientListChanged != null)
-								_onClientListChanged(clientInfoList);
+								_onClientListChanged(clientInfoManager.Clients);
 
 							break;
 
@@ -242,7 +195,7 @@ namespace Server
 							clientInfo.Status = ClientInfoStatus.StudentConnected;
 
 							if (_onClientListChanged != null)
-								_onClientListChanged(clientInfoList);
+								_onClientListChanged(clientInfoManager.Clients);
 
 							break;
 
@@ -274,7 +227,7 @@ namespace Server
 				clientInfo.Status = ClientInfoStatus.Disconnected;
 
 				if (_onClientListChanged != null)
-					_onClientListChanged(clientInfoList);
+					_onClientListChanged(clientInfoManager.Clients);
 
 				clientList.Remove(client);
 				client.Close();
@@ -283,9 +236,19 @@ namespace Server
 
 		#endregion
 
-		ClientInfo FindClientInfo(string ipAddress)
+		#region Methods
+
+		public void DisconnectAll()
 		{
-			return clientInfoList.Find(c => c.ClientIP.Equals(ipAddress));
+			foreach (Socket socket in clientList)
+			{
+				socket.Close();
+			}
+			clientList.Clear();
+
+			clientInfoManager.DisconnectAll();
 		}
+
+		#endregion
 	}
 }

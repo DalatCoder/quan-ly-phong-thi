@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientInfo.cs" />
+    <Compile Include="ClientInfoManager.cs" />
     <Compile Include="FrmServer.cs">
       <SubType>Form</SubType>
     </Compile>
