@@ -66,7 +66,8 @@ namespace Server
             }
 
             int clientControlLength = flpMain.Controls.Count;
-            for (int i = 0; i < clientList.Count; i++)
+            int i = 0;
+            for (i = 0; i < clientList.Count; i++)
 			{
                 ClientInfo clientInfoInList = clientList[i];
 
@@ -83,6 +84,10 @@ namespace Server
                     flpMain.Controls.Add(frm);
                 }
 			}
+
+            if (i < flpMain.Controls.Count)
+                for (int j = flpMain.Controls.Count - 1; j >= i; j--)
+                    flpMain.Controls.RemoveAt(j);
         }
 
         private void cmdNhapVungIP_Click(object sender, EventArgs e)

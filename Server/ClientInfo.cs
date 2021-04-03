@@ -26,11 +26,8 @@ namespace Server
 
         public ClientInfo()
         {
-            PCName = "N/A";
-            StudentInfo = new Student()
-            {
-                ID = "N/A",
-            };
+            StudentInfo = new Student();
+            Endpoint = new IPEndPoint(IPAddress.Any, 0);
             Status = ClientInfoStatus.Undefined;
         }
 
