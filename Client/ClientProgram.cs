@@ -13,146 +13,204 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    public class ClientProgram
-    {
-        IPEndPoint IP;
-        Socket client;
+	public class ClientProgram
+	{
+		IPEndPoint IP;
+		Socket client;
 
-        event Action _onSuccessConnected;
-        public event Action OnSuccessConnected 
-        { 
-            add
-            {
-                _onSuccessConnected += value;
-            }
-            remove
-            {
-                _onSuccessConnected -= value;
-            }
-        }
+		string _clientPath;
+		string _serverPath;
 
-        event Action<string> _onErrorConnected;
-        public event Action<string> OnErrorConnected
-        {
-            add
-            {
-                _onErrorConnected += value;
-            }
-            remove
-            {
-                _onErrorConnected -= value;
-            }
-        }
-
-        event Action<string> _onErrorReceived;
-        public event Action<string> OnErrorReceived
-        {
-            add
-            {
-                _onErrorReceived += value;
-            }
-            remove
-            {
-                _onErrorReceived -= value;
-            }
-        }
-
-        event Action<string> _onReceivedExam;
-        public event Action<string> OnReceivedExam
+		event Action _onSuccessConnected;
+		public event Action OnSuccessConnected
 		{
-            add
+			add
 			{
-                _onReceivedExam += value;
+				_onSuccessConnected += value;
 			}
-            remove
+			remove
 			{
-                _onReceivedExam -= value;
+				_onSuccessConnected -= value;
 			}
 		}
 
-        public void Connect(string hostname, int port)
-        {
-            IP = new IPEndPoint(IPAddress.Parse(hostname), port);
-            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            string computerName = System.Environment.MachineName;
+		event Action<string> _onErrorConnected;
+		public event Action<string> OnErrorConnected
+		{
+			add
+			{
+				_onErrorConnected += value;
+			}
+			remove
+			{
+				_onErrorConnected -= value;
+			}
+		}
 
-            try
-            {
-                client.Connect(IP);
+		event Action<string> _onErrorReceived;
+		public event Action<string> OnErrorReceived
+		{
+			add
+			{
+				_onErrorReceived += value;
+			}
+			remove
+			{
+				_onErrorReceived -= value;
+			}
+		}
 
-                if (_onSuccessConnected != null)
-                    _onSuccessConnected();
+		event Action<string> _onReceivedExam;
+		public event Action<string> OnReceivedExam
+		{
+			add
+			{
+				_onReceivedExam += value;
+			}
+			remove
+			{
+				_onReceivedExam -= value;
+			}
+		}
 
-                DataContainer response = new DataContainer(DataContainerType.SendPcName, computerName);            
-                client.Send(response.Serialize());
-            }
-            catch (Exception ex)
-            {
-                if (_onErrorConnected != null)
-                    _onErrorConnected("Có lỗi trong quá trình kết nối đến server. " + ex.Message);
+		public void Connect(string hostname, int port)
+		{
+			IP = new IPEndPoint(IPAddress.Parse(hostname), port);
+			client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			string computerName = System.Environment.MachineName;
 
-                return;
-            }
+			try
+			{
+				client.Connect(IP);
 
-            Thread listen = new Thread(Receive);
-            listen.IsBackground = true;
-            listen.Start();
-        }
+				if (_onSuccessConnected != null)
+					_onSuccessConnected();
 
-        public void CloseConnection()
-        {
-            if (client != null)
-                client.Close();
-        }
+				DataContainer response = new DataContainer(DataContainerType.SendPcName, computerName);
+				client.Send(response.Serialize());
+			}
+			catch (Exception ex)
+			{
+				if (_onErrorConnected != null)
+					_onErrorConnected("Có lỗi trong quá trình kết nối đến server. " + ex.Message);
 
-        public void Send(DataContainer response)
-        {
-            try
-            {
-                client.Send(response.Serialize());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                client.Close();
-            }
-        }
+				return;
+			}
 
-        void Receive()
-        {
-            try
-            {
-                while (true)
-                {
-                    byte[] buffer = new byte[1024 * 1024 * 20];
-                    client.Receive(buffer);
+			Thread listen = new Thread(Receive);
+			listen.IsBackground = true;
+			listen.Start();
+		}
 
-                    DataContainer dataContainer = DataContainer.Deserialize(buffer);
+		public void CloseConnection()
+		{
+			if (client != null)
+				client.Close();
+		}
+
+		public void Send(DataContainer response)
+		{
+			try
+			{
+				client.Send(response.Serialize());
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+				client.Close();
+			}
+		}
+
+		void Receive()
+		{
+			try
+			{
+				while (true)
+				{
+					byte[] buffer = new byte[1024 * 1024 * 20];
+					client.Receive(buffer);
+
+					DataContainer dataContainer = DataContainer.Deserialize(buffer);
 
 					switch (dataContainer.Type)
 					{
 						case DataContainerType.PhatDe:
 
-                            FileContainer fileContainer = dataContainer.Data as FileContainer;
+							FileContainer fileContainer = dataContainer.Data as FileContainer;
 
-                            string savePath = fileContainer.SavePath;
+							string savePath = fileContainer.ClientPath;
+							_clientPath = fileContainer.ClientPath;
+							_serverPath = fileContainer.ServerPath;
 
-                            if (!Directory.Exists(savePath))
-                                Directory.CreateDirectory(savePath);
+							if (Directory.Exists(savePath))
+								Common.DirectoryHelper.DeleteDirectory(savePath);
 
-                            string fileName = fileContainer.FileInfo.Name;
+							Directory.CreateDirectory(savePath);
 
-                            string fullPath = Path.Combine(savePath, fileName);
+							string fileName = fileContainer.FileInfo.Name;
 
-                            using (var fileStream = File.Create(fullPath))
-                            {
-                                fileStream.Write(fileContainer.FileContent, 0, fileContainer.FileContent.Length);
-                            }
+							string fullPath = Path.Combine(savePath, fileName);
+
+							using (var fileStream = File.Create(fullPath))
+							{
+								fileStream.Write(fileContainer.FileContent, 0, fileContainer.FileContent.Length);
+							}
 
 							if (_onReceivedExam != null)
 								_onReceivedExam(fullPath);
 
-                            break;
+							break;
+
+						case DataContainerType.ThuBai:
+
+							// Kiem tra thu muc luu bai thi
+							if (!string.IsNullOrWhiteSpace(_clientPath))
+							{
+								if (!Directory.Exists(_clientPath))
+								{
+									// Thu muc luu bai thi khong ton tai
+								}
+							}
+
+							List<string> allowExtensions = new List<string>()
+							{
+								".zip",
+								".7z",
+								".rar"
+							};
+
+							// Tim file .zip trong thu muc luu bai thi
+							DirectoryInfo d = new DirectoryInfo(_clientPath);
+							FileInfo[] Files = d.GetFiles("*.*");
+
+							string fileNopBai = null;
+							foreach (FileInfo file in Files)
+							{
+								string filename = file.Name;
+								string extension = Path.GetExtension(filename);
+
+								if (allowExtensions.Contains(extension))
+								{
+									fileNopBai = file.FullName;
+									break;
+								}
+							}
+
+							// Gui file .zip len server
+							FileContainer fileNopBaiContainer = new FileContainer(fileNopBai, _clientPath, _serverPath);
+
+							DataContainer dataContainerNopBai = new DataContainer(DataContainerType.ThuBai, fileNopBaiContainer);
+
+							try
+							{
+								client.Send(dataContainerNopBai.Serialize());
+							}
+							catch (Exception ex)
+							{
+
+							}
+
+							break;
 
 						case DataContainerType.SendList:
 							break;
@@ -164,14 +222,17 @@ namespace Client
 							break;
 
 						case DataContainerType.DisconnectAll:
-                            MessageBox.Show("Yêu cầu đóng kết nối từ server.");
-                            CloseConnection();
+							MessageBox.Show("Yêu cầu đóng kết nối từ server.");
+							CloseConnection();
 							break;
 
 						case DataContainerType.BeginExam:
 							break;
+
 						case DataContainerType.FinishExam:
+
 							break;
+
 						case DataContainerType.LockClient:
 							break;
 						case DataContainerType.Undefined:
@@ -180,14 +241,14 @@ namespace Client
 							break;
 					}
 				}
-            }
-            catch (Exception ex)
-            {
-                if (_onErrorReceived != null)
-                    _onErrorReceived("Có lỗi xảy ra trong quá trình nhận phản hồi từ server. Đóng kết nối. " + ex.Message);
+			}
+			catch (Exception ex)
+			{
+				if (_onErrorReceived != null)
+					_onErrorReceived("Có lỗi xảy ra trong quá trình nhận phản hồi từ server. Đóng kết nối. " + ex.Message);
 
-                CloseConnection();
-            }
-        }
-    }
+				CloseConnection();
+			}
+		}
+	}
 }

@@ -13,6 +13,7 @@ namespace Common
     {
         PhatDe,
         ThuBai,
+        LuuBaiODau,
         SendList,
         SendStudent,
         SendString,

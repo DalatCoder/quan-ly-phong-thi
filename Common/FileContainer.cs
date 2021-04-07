@@ -12,9 +12,10 @@ namespace Common
     {
         public byte[] FileContent { get; private set; }
         public FileInfo FileInfo { get; private set; }
-		public string SavePath { get; set; }
+		public string ClientPath { get; set; }
+		public string ServerPath { get; set; }
 
-		public FileContainer(string fileNameURL, string savePath)
+		public FileContainer(string fileNameURL, string clientPath, string serverPath)
         {
             FileInfo = new FileInfo(fileNameURL);
 
@@ -26,7 +27,8 @@ namespace Common
                 FileContent = stream.ToArray();
             }
 
-            SavePath = savePath;
+            ClientPath = clientPath;
+            ServerPath = serverPath;
         }
     }
 }

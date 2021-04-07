@@ -173,13 +173,13 @@ namespace Server
 					byte[] buffer = new byte[BUFFER_SIZE];
 					client.Receive(buffer);
 
-					DataContainer response = DataContainer.Deserialize(buffer);
+					DataContainer dataContainer = DataContainer.Deserialize(buffer);
 
-					switch (response.Type)
+					switch (dataContainer.Type)
 					{
 						case DataContainerType.SendPcName:
 
-							string pcName = response.Data as string;
+							string pcName = dataContainer.Data as string;
 							clientInfo.PCName = pcName;
 							clientInfo.Status = ClientInfoStatus.ClientConnected;
 
@@ -190,7 +190,7 @@ namespace Server
 
 						case DataContainerType.SendStudent:
 
-							Student student = response.Data as Student;
+							Student student = dataContainer.Data as Student;
 							clientInfo.StudentInfo = student;
 							clientInfo.Status = ClientInfoStatus.StudentConnected;
 
@@ -200,6 +200,24 @@ namespace Server
 							break;
 
 						case DataContainerType.ThuBai:
+
+							FileContainer fileNopBaiContainer = dataContainer.Data as FileContainer;
+
+							string savePath = fileNopBaiContainer.ServerPath;
+
+							if (!Directory.Exists(savePath))
+								Directory.CreateDirectory(savePath);
+
+
+							string fileName = fileNopBaiContainer.FileInfo.Name;
+
+							string fullPath = Path.Combine(savePath, fileName);
+
+							using (var fileStream = File.Create(fullPath))
+							{
+								fileStream.Write(fileNopBaiContainer.FileContent, 0, fileNopBaiContainer.FileContent.Length);
+							}
+
 							break;
 
 						case DataContainerType.SendList:
@@ -238,7 +256,7 @@ namespace Server
 
 		#region Methods
 
-		public void PhatDeThi(List<string> danhSachDeThi, string savePath)
+		public void PhatDeThi(List<string> danhSachDeThi, string clientPath, string serverPath)
 		{
 			if (danhSachDeThi.Count == 0)
 				return;
@@ -246,7 +264,7 @@ namespace Server
 			List<FileContainer> listOfFiles = new List<FileContainer>();
 			foreach (string deThiURL in danhSachDeThi)
 			{
-				listOfFiles.Add(new FileContainer(deThiURL, savePath));
+				listOfFiles.Add(new FileContainer(deThiURL, clientPath, serverPath));
 			}
 
 			if (danhSachDeThi.Count == 1)
@@ -272,6 +290,16 @@ namespace Server
 					if (counter == soLuongDeThi)
 						counter = 0;
 				}
+			}
+		}
+
+		public void ThuBai()
+		{
+			DataContainer container = new DataContainer(DataContainerType.ThuBai, null);
+
+			foreach (Socket socket in clientList)
+			{
+				socket.Send(container.Serialize());
 			}
 		}
 

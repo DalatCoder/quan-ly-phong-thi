@@ -147,10 +147,16 @@ namespace Server
 
             List<string> listOfDeThiURL = new List<string>();
             string clientPath = txtClientPath.Text;
+            string serverPath = txtServerPath.Text;
 
             if (string.IsNullOrWhiteSpace(clientPath))
 			{
-                MessageBox.Show("Vui long nhap duong dan hop le");
+                MessageBox.Show("Vui long nhap duong dan phat bai thi hop le");
+                return;
+			}
+            if (string.IsNullOrWhiteSpace(serverPath))
+			{
+                MessageBox.Show("Vui long nhap duong dan luu bai hop le");
                 return;
 			}
 
@@ -160,7 +166,38 @@ namespace Server
                 listOfDeThiURL.Add(deThiURL);
 			}
 
-            serverProgram.PhatDeThi(listOfDeThiURL, clientPath);
+            serverProgram.PhatDeThi(listOfDeThiURL, clientPath, serverPath);
 		}
+
+		private void btnThuBai_Click(object sender, EventArgs e)
+		{
+            serverProgram.ThuBai();
+		}
+
+		private void cmdChon_Click(object sender, EventArgs e)
+		{
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    txtServerPath.Text = fbd.SelectedPath;
+                }
+            }
+        }
+
+		private void cmdChonClientPath_Click(object sender, EventArgs e)
+		{
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    txtClientPath.Text = fbd.SelectedPath;
+                }
+            }
+        }
 	}
 }

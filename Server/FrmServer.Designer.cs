@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.btnThuBai = new System.Windows.Forms.Button();
 			this.grbTimeLeft = new System.Windows.Forms.GroupBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.cmdNhapVungIP = new System.Windows.Forms.Button();
@@ -47,19 +48,21 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.btnPhatDe = new System.Windows.Forms.Button();
 			this.btnThemDe = new System.Windows.Forms.Button();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.cmdChapNhan = new System.Windows.Forms.Button();
 			this.txtThoiGianLamBai = new System.Windows.Forms.TextBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.radioButton2 = new System.Windows.Forms.RadioButton();
-			this.radioButton1 = new System.Windows.Forms.RadioButton();
+			this.btnBaiThiLuuODau = new System.Windows.Forms.Button();
+			this.rdLuuOServer = new System.Windows.Forms.RadioButton();
+			this.rdLuuOClient = new System.Windows.Forms.RadioButton();
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
-			this.btnPhatDe = new System.Windows.Forms.Button();
 			this.lsvDeThi = new System.Windows.Forms.ListView();
+			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.groupBox4.SuspendLayout();
 			this.grbTimeLeft.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -73,6 +76,7 @@
 			// 
 			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+			this.groupBox4.Controls.Add(this.btnThuBai);
 			this.groupBox4.Controls.Add(this.grbTimeLeft);
 			this.groupBox4.Controls.Add(this.cmdNhapVungIP);
 			this.groupBox4.Controls.Add(this.cmdKichHoatAllClient);
@@ -84,15 +88,25 @@
 			this.groupBox4.Controls.Add(this.btnDisconnectAll);
 			this.groupBox4.Location = new System.Drawing.Point(12, 11);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(124, 422);
+			this.groupBox4.Size = new System.Drawing.Size(124, 517);
 			this.groupBox4.TabIndex = 48;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Chức Năng";
 			// 
+			// btnThuBai
+			// 
+			this.btnThuBai.Location = new System.Drawing.Point(7, 354);
+			this.btnThuBai.Name = "btnThuBai";
+			this.btnThuBai.Size = new System.Drawing.Size(109, 41);
+			this.btnThuBai.TabIndex = 47;
+			this.btnThuBai.Text = "Thu Bài";
+			this.btnThuBai.UseVisualStyleBackColor = true;
+			this.btnThuBai.Click += new System.EventHandler(this.btnThuBai_Click);
+			// 
 			// grbTimeLeft
 			// 
 			this.grbTimeLeft.Controls.Add(this.label4);
-			this.grbTimeLeft.Location = new System.Drawing.Point(7, 355);
+			this.grbTimeLeft.Location = new System.Drawing.Point(6, 401);
 			this.grbTimeLeft.Name = "grbTimeLeft";
 			this.grbTimeLeft.Size = new System.Drawing.Size(108, 61);
 			this.grbTimeLeft.TabIndex = 0;
@@ -193,7 +207,7 @@
 			this.groupBox3.Controls.Add(this.txtServerPath);
 			this.groupBox3.Controls.Add(this.label3);
 			this.groupBox3.Controls.Add(this.label2);
-			this.groupBox3.Location = new System.Drawing.Point(12, 439);
+			this.groupBox3.Location = new System.Drawing.Point(12, 534);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(219, 109);
 			this.groupBox3.TabIndex = 50;
@@ -208,6 +222,7 @@
 			this.cmdChonClientPath.TabIndex = 36;
 			this.cmdChonClientPath.Text = "Chọn";
 			this.cmdChonClientPath.UseVisualStyleBackColor = true;
+			this.cmdChonClientPath.Click += new System.EventHandler(this.cmdChonClientPath_Click);
 			// 
 			// cmdChon
 			// 
@@ -217,6 +232,7 @@
 			this.cmdChon.TabIndex = 35;
 			this.cmdChon.Text = "Chọn";
 			this.cmdChon.UseVisualStyleBackColor = true;
+			this.cmdChon.Click += new System.EventHandler(this.cmdChon_Click);
 			// 
 			// txtClientPath
 			// 
@@ -259,12 +275,24 @@
 			this.groupBox1.Controls.Add(this.lsvDeThi);
 			this.groupBox1.Controls.Add(this.btnPhatDe);
 			this.groupBox1.Controls.Add(this.btnThemDe);
-			this.groupBox1.Location = new System.Drawing.Point(237, 439);
+			this.groupBox1.Location = new System.Drawing.Point(237, 534);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(347, 109);
 			this.groupBox1.TabIndex = 51;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Chọn Đề Thi";
+			// 
+			// btnPhatDe
+			// 
+			this.btnPhatDe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnPhatDe.Location = new System.Drawing.Point(252, 74);
+			this.btnPhatDe.Name = "btnPhatDe";
+			this.btnPhatDe.Size = new System.Drawing.Size(88, 26);
+			this.btnPhatDe.TabIndex = 32;
+			this.btnPhatDe.Text = "Phát Đề";
+			this.btnPhatDe.UseVisualStyleBackColor = true;
+			this.btnPhatDe.Click += new System.EventHandler(this.btnPhatDe_Click);
 			// 
 			// btnThemDe
 			// 
@@ -284,7 +312,7 @@
 			this.groupBox5.Controls.Add(this.comboBox1);
 			this.groupBox5.Controls.Add(this.cmdChapNhan);
 			this.groupBox5.Controls.Add(this.txtThoiGianLamBai);
-			this.groupBox5.Location = new System.Drawing.Point(590, 440);
+			this.groupBox5.Location = new System.Drawing.Point(590, 535);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(239, 108);
 			this.groupBox5.TabIndex = 52;
@@ -320,38 +348,48 @@
 			// groupBox2
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox2.Controls.Add(this.radioButton2);
-			this.groupBox2.Controls.Add(this.radioButton1);
+			this.groupBox2.Controls.Add(this.btnBaiThiLuuODau);
+			this.groupBox2.Controls.Add(this.rdLuuOServer);
+			this.groupBox2.Controls.Add(this.rdLuuOClient);
 			this.groupBox2.Controls.Add(this.label1);
-			this.groupBox2.Location = new System.Drawing.Point(835, 440);
+			this.groupBox2.Location = new System.Drawing.Point(835, 535);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(143, 108);
 			this.groupBox2.TabIndex = 33;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Chọn Noi Lưu Bài Thi";
 			// 
-			// radioButton2
+			// btnBaiThiLuuODau
 			// 
-			this.radioButton2.AutoSize = true;
-			this.radioButton2.Location = new System.Drawing.Point(10, 74);
-			this.radioButton2.Name = "radioButton2";
-			this.radioButton2.Size = new System.Drawing.Size(57, 19);
-			this.radioButton2.TabIndex = 1;
-			this.radioButton2.TabStop = true;
-			this.radioButton2.Text = "Server";
-			this.radioButton2.UseVisualStyleBackColor = true;
+			this.btnBaiThiLuuODau.Location = new System.Drawing.Point(7, 79);
+			this.btnBaiThiLuuODau.Name = "btnBaiThiLuuODau";
+			this.btnBaiThiLuuODau.Size = new System.Drawing.Size(122, 23);
+			this.btnBaiThiLuuODau.TabIndex = 31;
+			this.btnBaiThiLuuODau.Text = "Chấp Nhận";
+			this.btnBaiThiLuuODau.UseVisualStyleBackColor = true;
 			// 
-			// radioButton1
+			// rdLuuOServer
 			// 
-			this.radioButton1.AutoSize = true;
-			this.radioButton1.Checked = true;
-			this.radioButton1.Location = new System.Drawing.Point(10, 51);
-			this.radioButton1.Name = "radioButton1";
-			this.radioButton1.Size = new System.Drawing.Size(56, 19);
-			this.radioButton1.TabIndex = 1;
-			this.radioButton1.TabStop = true;
-			this.radioButton1.Text = "Client";
-			this.radioButton1.UseVisualStyleBackColor = true;
+			this.rdLuuOServer.AutoSize = true;
+			this.rdLuuOServer.Location = new System.Drawing.Point(72, 51);
+			this.rdLuuOServer.Name = "rdLuuOServer";
+			this.rdLuuOServer.Size = new System.Drawing.Size(57, 19);
+			this.rdLuuOServer.TabIndex = 1;
+			this.rdLuuOServer.TabStop = true;
+			this.rdLuuOServer.Text = "Server";
+			this.rdLuuOServer.UseVisualStyleBackColor = true;
+			// 
+			// rdLuuOClient
+			// 
+			this.rdLuuOClient.AutoSize = true;
+			this.rdLuuOClient.Checked = true;
+			this.rdLuuOClient.Location = new System.Drawing.Point(10, 51);
+			this.rdLuuOClient.Name = "rdLuuOClient";
+			this.rdLuuOClient.Size = new System.Drawing.Size(56, 19);
+			this.rdLuuOClient.TabIndex = 1;
+			this.rdLuuOClient.TabStop = true;
+			this.rdLuuOClient.Text = "Client";
+			this.rdLuuOClient.UseVisualStyleBackColor = true;
 			// 
 			// label1
 			// 
@@ -370,7 +408,7 @@
 			this.groupBox6.Controls.Add(this.flpMain);
 			this.groupBox6.Location = new System.Drawing.Point(142, 12);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(836, 421);
+			this.groupBox6.Size = new System.Drawing.Size(836, 516);
 			this.groupBox6.TabIndex = 53;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Danh sách các máy con trong phòng";
@@ -381,37 +419,36 @@
 			this.flpMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flpMain.Location = new System.Drawing.Point(3, 19);
 			this.flpMain.Name = "flpMain";
-			this.flpMain.Size = new System.Drawing.Size(830, 399);
+			this.flpMain.Size = new System.Drawing.Size(830, 494);
 			this.flpMain.TabIndex = 0;
-			// 
-			// btnPhatDe
-			// 
-			this.btnPhatDe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnPhatDe.Location = new System.Drawing.Point(252, 74);
-			this.btnPhatDe.Name = "btnPhatDe";
-			this.btnPhatDe.Size = new System.Drawing.Size(88, 26);
-			this.btnPhatDe.TabIndex = 32;
-			this.btnPhatDe.Text = "Phát Đề";
-			this.btnPhatDe.UseVisualStyleBackColor = true;
-			this.btnPhatDe.Click += new System.EventHandler(this.btnPhatDe_Click);
 			// 
 			// lsvDeThi
 			// 
+			this.lsvDeThi.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+			this.lsvDeThi.AllowDrop = true;
+			this.lsvDeThi.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
 			this.lsvDeThi.FullRowSelect = true;
+			this.lsvDeThi.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.lsvDeThi.HideSelection = false;
 			this.lsvDeThi.Location = new System.Drawing.Point(6, 18);
+			this.lsvDeThi.MultiSelect = false;
 			this.lsvDeThi.Name = "lsvDeThi";
 			this.lsvDeThi.Size = new System.Drawing.Size(240, 85);
 			this.lsvDeThi.TabIndex = 33;
 			this.lsvDeThi.UseCompatibleStateImageBehavior = false;
 			this.lsvDeThi.View = System.Windows.Forms.View.List;
 			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Danh sách đề thi";
+			this.columnHeader1.Width = 600;
+			// 
 			// Server
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(990, 560);
+			this.ClientSize = new System.Drawing.Size(990, 655);
 			this.Controls.Add(this.groupBox6);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox5);
@@ -461,8 +498,8 @@
         private System.Windows.Forms.Button cmdChapNhan;
         private System.Windows.Forms.TextBox txtThoiGianLamBai;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rdLuuOServer;
+        private System.Windows.Forms.RadioButton rdLuuOClient;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox grbTimeLeft;
         private System.Windows.Forms.Label label4;
@@ -470,7 +507,10 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.FlowLayoutPanel flpMain;
 		private System.Windows.Forms.Button btnPhatDe;
+		private System.Windows.Forms.Button btnThuBai;
+		private System.Windows.Forms.Button btnBaiThiLuuODau;
 		private System.Windows.Forms.ListView lsvDeThi;
+		private System.Windows.Forms.ColumnHeader columnHeader1;
 	}
 }
 
