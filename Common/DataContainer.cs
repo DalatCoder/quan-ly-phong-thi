@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 namespace Common
 {
     [Serializable]
-    public enum ServerResponseType
+    public enum DataContainerType
     {
-        SendFile,
+        PhatDe,
+        ThuBai,
         SendList,
         SendStudent,
         SendString,
@@ -24,18 +25,18 @@ namespace Common
     }
 
     [Serializable]
-    public class ServerResponse
+    public class DataContainer
     {
-        public ServerResponseType Type { get; private set; }
+        public DataContainerType Type { get; private set; }
         public object Data { get; private set; }
 
-        private ServerResponse()
+        private DataContainer()
         {
-            Type = ServerResponseType.Undefined;
+            Type = DataContainerType.Undefined;
             Data = null;
         }
 
-        public ServerResponse(ServerResponseType Type, object Data)
+        public DataContainer(DataContainerType Type, object Data)
         {
             this.Type = Type;
             this.Data = Data;
@@ -43,7 +44,7 @@ namespace Common
 
         public byte[] Serialize()
         {
-            if (Type.HasFlag(ServerResponseType.Undefined))
+            if (Type.HasFlag(DataContainerType.Undefined))
                 throw new Exception("Response is invalid");
 
             MemoryStream stream = new MemoryStream();
@@ -54,14 +55,14 @@ namespace Common
             return stream.ToArray();
         }
 
-        public static ServerResponse Deserialize(byte[] data)
+        public static DataContainer Deserialize(byte[] data)
         {
             MemoryStream stream = new MemoryStream(data);
             BinaryFormatter formatter = new BinaryFormatter();
 
             object obj = formatter.Deserialize(stream);
 
-            return obj as ServerResponse;
+            return obj as DataContainer;
         }
     }
 }

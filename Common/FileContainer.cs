@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    [Serializable]
-    public class FileResponse
+	[Serializable]
+    public class FileContainer
     {
         public byte[] FileContent { get; private set; }
         public FileInfo FileInfo { get; private set; }
+		public string SavePath { get; set; }
 
-        public FileResponse(string fileNameURL)
+		public FileContainer(string fileNameURL, string savePath)
         {
             FileInfo = new FileInfo(fileNameURL);
 
@@ -24,6 +25,8 @@ namespace Common
 
                 FileContent = stream.ToArray();
             }
+
+            SavePath = savePath;
         }
     }
 }
