@@ -47,8 +47,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.button3 = new System.Windows.Forms.Button();
-			this.lstDeThi = new System.Windows.Forms.ListBox();
+			this.btnThemDe = new System.Windows.Forms.Button();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.cmdChapNhan = new System.Windows.Forms.Button();
@@ -59,6 +58,8 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
+			this.btnPhatDe = new System.Windows.Forms.Button();
+			this.lsvDeThi = new System.Windows.Forms.ListView();
 			this.groupBox4.SuspendLayout();
 			this.grbTimeLeft.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -255,8 +256,9 @@
 			// 
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox1.Controls.Add(this.button3);
-			this.groupBox1.Controls.Add(this.lstDeThi);
+			this.groupBox1.Controls.Add(this.lsvDeThi);
+			this.groupBox1.Controls.Add(this.btnPhatDe);
+			this.groupBox1.Controls.Add(this.btnThemDe);
 			this.groupBox1.Location = new System.Drawing.Point(237, 439);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(347, 109);
@@ -264,34 +266,17 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Chọn Đề Thi";
 			// 
-			// button3
+			// btnThemDe
 			// 
-			this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.btnThemDe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.button3.Location = new System.Drawing.Point(252, 48);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(88, 26);
-			this.button3.TabIndex = 31;
-			this.button3.Text = "Thêm Đề Thi";
-			this.button3.UseVisualStyleBackColor = true;
-			// 
-			// lstDeThi
-			// 
-			this.lstDeThi.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.lstDeThi.FormattingEnabled = true;
-			this.lstDeThi.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.lstDeThi.ItemHeight = 15;
-			this.lstDeThi.Items.AddRange(new object[] {
-            "\\\\192.168.6.1\\dethi\\de1.htm",
-            "\\\\192.168.6.1\\dethi\\de2.htm",
-            "\\\\192.168.6.1\\dethi\\de3.htm",
-            "\\\\192.168.6.3\\dethi\\de4.htm"});
-			this.lstDeThi.Location = new System.Drawing.Point(6, 21);
-			this.lstDeThi.Name = "lstDeThi";
-			this.lstDeThi.Size = new System.Drawing.Size(240, 79);
-			this.lstDeThi.TabIndex = 30;
+			this.btnThemDe.Location = new System.Drawing.Point(253, 21);
+			this.btnThemDe.Name = "btnThemDe";
+			this.btnThemDe.Size = new System.Drawing.Size(88, 26);
+			this.btnThemDe.TabIndex = 31;
+			this.btnThemDe.Text = "Thêm Đề Thi";
+			this.btnThemDe.UseVisualStyleBackColor = true;
+			this.btnThemDe.Click += new System.EventHandler(this.btnThemDe_Click);
 			// 
 			// groupBox5
 			// 
@@ -399,6 +384,29 @@
 			this.flpMain.Size = new System.Drawing.Size(830, 399);
 			this.flpMain.TabIndex = 0;
 			// 
+			// btnPhatDe
+			// 
+			this.btnPhatDe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnPhatDe.Location = new System.Drawing.Point(252, 74);
+			this.btnPhatDe.Name = "btnPhatDe";
+			this.btnPhatDe.Size = new System.Drawing.Size(88, 26);
+			this.btnPhatDe.TabIndex = 32;
+			this.btnPhatDe.Text = "Phát Đề";
+			this.btnPhatDe.UseVisualStyleBackColor = true;
+			this.btnPhatDe.Click += new System.EventHandler(this.btnPhatDe_Click);
+			// 
+			// lsvDeThi
+			// 
+			this.lsvDeThi.FullRowSelect = true;
+			this.lsvDeThi.HideSelection = false;
+			this.lsvDeThi.Location = new System.Drawing.Point(6, 18);
+			this.lsvDeThi.Name = "lsvDeThi";
+			this.lsvDeThi.Size = new System.Drawing.Size(240, 85);
+			this.lsvDeThi.TabIndex = 33;
+			this.lsvDeThi.UseCompatibleStateImageBehavior = false;
+			this.lsvDeThi.View = System.Windows.Forms.View.List;
+			// 
 			// Server
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -448,8 +456,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ListBox lstDeThi;
+        private System.Windows.Forms.Button btnThemDe;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button cmdChapNhan;
         private System.Windows.Forms.TextBox txtThoiGianLamBai;
@@ -462,6 +469,8 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.FlowLayoutPanel flpMain;
-    }
+		private System.Windows.Forms.Button btnPhatDe;
+		private System.Windows.Forms.ListView lsvDeThi;
+	}
 }
 

@@ -57,6 +57,18 @@ namespace Client
             }
         }
 
+        event Action<string> _onReceivedExam;
+        public event Action<string> OnReceivedExam
+		{
+            add
+			{
+                _onReceivedExam += value;
+			}
+            remove
+			{
+                _onReceivedExam -= value;
+			}
+		}
 
         public void Connect(string hostname, int port)
         {
@@ -71,7 +83,7 @@ namespace Client
                 if (_onSuccessConnected != null)
                     _onSuccessConnected();
 
-                ServerResponse response = new ServerResponse(ServerResponseType.SendPcName, computerName);            
+                DataContainer response = new DataContainer(DataContainerType.SendPcName, computerName);            
                 client.Send(response.Serialize());
             }
             catch (Exception ex)
@@ -93,7 +105,7 @@ namespace Client
                 client.Close();
         }
 
-        public void Send(ServerResponse response)
+        public void Send(DataContainer response)
         {
             try
             {
@@ -115,33 +127,54 @@ namespace Client
                     byte[] buffer = new byte[1024 * 1024 * 20];
                     client.Receive(buffer);
 
-                    ServerResponse response = ServerResponse.Deserialize(buffer);
+                    DataContainer dataContainer = DataContainer.Deserialize(buffer);
 
-					switch (response.Type)
+					switch (dataContainer.Type)
 					{
-						case ServerResponseType.SendFile:
+						case DataContainerType.PhatDe:
+
+                            FileContainer fileContainer = dataContainer.Data as FileContainer;
+
+                            string savePath = fileContainer.SavePath;
+
+                            if (!Directory.Exists(savePath))
+                                Directory.CreateDirectory(savePath);
+
+                            string fileName = fileContainer.FileInfo.Name;
+
+                            string fullPath = Path.Combine(savePath, fileName);
+
+                            using (var fileStream = File.Create(fullPath))
+                            {
+                                fileStream.Write(fileContainer.FileContent, 0, fileContainer.FileContent.Length);
+                            }
+
+							if (_onReceivedExam != null)
+								_onReceivedExam(fullPath);
+
+                            break;
+
+						case DataContainerType.SendList:
 							break;
-						case ServerResponseType.SendList:
+						case DataContainerType.SendStudent:
 							break;
-						case ServerResponseType.SendStudent:
+						case DataContainerType.SendString:
 							break;
-						case ServerResponseType.SendString:
-							break;
-						case ServerResponseType.SendPcName:
+						case DataContainerType.SendPcName:
 							break;
 
-						case ServerResponseType.DisconnectAll:
+						case DataContainerType.DisconnectAll:
                             MessageBox.Show("Yêu cầu đóng kết nối từ server.");
                             CloseConnection();
 							break;
 
-						case ServerResponseType.BeginExam:
+						case DataContainerType.BeginExam:
 							break;
-						case ServerResponseType.FinishExam:
+						case DataContainerType.FinishExam:
 							break;
-						case ServerResponseType.LockClient:
+						case DataContainerType.LockClient:
 							break;
-						case ServerResponseType.Undefined:
+						case DataContainerType.Undefined:
 							break;
 						default:
 							break;

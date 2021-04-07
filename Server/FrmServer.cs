@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -116,6 +117,50 @@ namespace Server
 		private void btnDisconnectAll_Click(object sender, EventArgs e)
 		{
             serverProgram.DisconnectAll();
+		}
+
+		private void btnThemDe_Click(object sender, EventArgs e)
+		{
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "All files (*.*)|*.*";
+            openFile.Multiselect = true;
+
+            if (openFile.ShowDialog() != DialogResult.OK)
+                return;
+
+			foreach (string filename in openFile.FileNames)
+			{
+                ListViewItem row = new ListViewItem();
+                row.Text = Path.GetFileName(filename);
+                row.Tag = filename;
+                lsvDeThi.Items.Add(row);
+            }
+        }
+
+		private void btnPhatDe_Click(object sender, EventArgs e)
+		{
+            if (lsvDeThi.Items.Count == 0)
+			{
+                MessageBox.Show("Vui long chon de thi");
+                return;
+			}                
+
+            List<string> listOfDeThiURL = new List<string>();
+            string clientPath = txtClientPath.Text;
+
+            if (string.IsNullOrWhiteSpace(clientPath))
+			{
+                MessageBox.Show("Vui long nhap duong dan hop le");
+                return;
+			}
+
+			foreach (ListViewItem row in lsvDeThi.Items)
+			{
+                string deThiURL = row.Tag as string;
+                listOfDeThiURL.Add(deThiURL);
+			}
+
+            serverProgram.PhatDeThi(listOfDeThiURL, clientPath);
 		}
 	}
 }

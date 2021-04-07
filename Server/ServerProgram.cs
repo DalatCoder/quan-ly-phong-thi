@@ -173,11 +173,11 @@ namespace Server
 					byte[] buffer = new byte[BUFFER_SIZE];
 					client.Receive(buffer);
 
-					ServerResponse response = ServerResponse.Deserialize(buffer);
+					DataContainer response = DataContainer.Deserialize(buffer);
 
 					switch (response.Type)
 					{
-						case ServerResponseType.SendPcName:
+						case DataContainerType.SendPcName:
 
 							string pcName = response.Data as string;
 							clientInfo.PCName = pcName;
@@ -188,7 +188,7 @@ namespace Server
 
 							break;
 
-						case ServerResponseType.SendStudent:
+						case DataContainerType.SendStudent:
 
 							Student student = response.Data as Student;
 							clientInfo.StudentInfo = student;
@@ -199,22 +199,22 @@ namespace Server
 
 							break;
 
-						case ServerResponseType.SendFile:
+						case DataContainerType.ThuBai:
 							break;
 
-						case ServerResponseType.SendList:
+						case DataContainerType.SendList:
 							break;
 
-						case ServerResponseType.SendString:
+						case DataContainerType.SendString:
 							break;
 
-						case ServerResponseType.BeginExam:
+						case DataContainerType.BeginExam:
 							break;
 
-						case ServerResponseType.FinishExam:
+						case DataContainerType.FinishExam:
 							break;
 
-						case ServerResponseType.LockClient:
+						case DataContainerType.LockClient:
 							break;
 
 						default:
@@ -238,11 +238,47 @@ namespace Server
 
 		#region Methods
 
+		public void PhatDeThi(List<string> danhSachDeThi, string savePath)
+		{
+			if (danhSachDeThi.Count == 0)
+				return;
+
+			List<FileContainer> listOfFiles = new List<FileContainer>();
+			foreach (string deThiURL in danhSachDeThi)
+			{
+				listOfFiles.Add(new FileContainer(deThiURL, savePath));
+			}
+
+			if (danhSachDeThi.Count == 1)
+				foreach (Socket client in clientList)
+				{
+					DataContainer container = new DataContainer(DataContainerType.PhatDe, listOfFiles[0]);
+					client.Send(container.Serialize());
+				}
+
+			if (danhSachDeThi.Count > 1)
+			{
+				int soLuongDeThi = danhSachDeThi.Count;
+
+				int counter = 0;
+
+				foreach (Socket client in clientList)
+				{
+					DataContainer container = new DataContainer(DataContainerType.PhatDe, listOfFiles[counter]);
+
+					counter++;
+
+					if (counter == soLuongDeThi)
+						counter = 0;
+				}
+			}
+		}
+
 		public void DisconnectAll()
 		{
 			foreach (Socket socket in clientList)
 			{
-				ServerResponse response = new ServerResponse(ServerResponseType.DisconnectAll, null);
+				DataContainer response = new DataContainer(DataContainerType.DisconnectAll, null);
 				socket.Send(response.Serialize());
 			}
 

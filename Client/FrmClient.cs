@@ -27,9 +27,15 @@ namespace Client
             clientProgram.OnSuccessConnected += HandleOnSuccessConnected;
             clientProgram.OnErrorConnected += HandleOnErrorConnected;
             clientProgram.OnErrorReceived += HandleOnErrorReceived;
+			clientProgram.OnReceivedExam += HandleOnReceivedExam;
         }
 
-        private void HandleOnErrorReceived(string errorMessage)
+		private void HandleOnReceivedExam(string examFileUrl)
+		{
+            lblDeThi.Text = examFileUrl;
+		}
+
+		private void HandleOnErrorReceived(string errorMessage)
         {
             MessageBox.Show(errorMessage);
         }
@@ -60,7 +66,7 @@ namespace Client
                 LastName = "Nguyen Trong"
             };
 
-            ServerResponse response = new ServerResponse(ServerResponseType.SendStudent, student);
+            DataContainer response = new DataContainer(DataContainerType.SendStudent, student);
 
             clientProgram.Send(response);
         }
