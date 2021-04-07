@@ -265,6 +265,7 @@ namespace Server
 				foreach (Socket client in clientList)
 				{
 					DataContainer container = new DataContainer(DataContainerType.PhatDe, listOfFiles[counter]);
+					client.Send(container.Serialize());
 
 					counter++;
 
