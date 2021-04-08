@@ -24,51 +24,36 @@ namespace Client
             CheckForIllegalCrossThreadCalls = false;
 
             clientProgram = new ClientProgram();
-            clientProgram.OnSuccessConnected += HandleOnSuccessConnected;
-            clientProgram.OnErrorConnected += HandleOnErrorConnected;
-            clientProgram.OnErrorReceived += HandleOnErrorReceived;
+
+			clientProgram.OnSuccessNotification += HandleOnSuccessNotification;
+			clientProgram.OnErrorNotification += HandleOnErrorNotification;
 			clientProgram.OnReceivedExam += HandleOnReceivedExam;
         }
+
+		private void HandleOnErrorNotification(string errorMessage, Exception ex)
+		{
+            string msg = errorMessage;
+
+            if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
+                msg += ". " + ex.Message;
+
+            MessageBox.Show(msg);
+		}
+
+		private void HandleOnSuccessNotification(string message)
+		{
+            MessageBox.Show(message);
+		}
 
 		private void HandleOnReceivedExam(string examFileUrl)
 		{
             lblDeThi.Text = examFileUrl;
 		}
 
-		private void HandleOnErrorReceived(string errorMessage)
-        {
-            MessageBox.Show(errorMessage);
-        }
-
-        private void HandleOnErrorConnected(string errorMessage)
-        {
-            this.Text = "Client - Xảy ra lỗi trong quá trình kết nối tới server";
-            MessageBox.Show(errorMessage);
-        }
-
-        private void HandleOnSuccessConnected()
-        {
-            this.Text = "Client - Đã kết nối tới server";
-        }
-
         private void btnConnectToServer_Click(object sender, EventArgs e)
         {
             clientProgram.Connect(txtServerIP.Text, SERVER_PORT);
             btnConnectToServer.Enabled = false;
-        }
-
-        private void btnSendStudentInfo_Click(object sender, EventArgs e)
-        {
-            Student student = new Student()
-            {
-                ID = "1812756",
-                FirstName = "Hieu",
-                LastName = "Nguyen Trong"
-            };
-
-            DataContainer response = new DataContainer(DataContainerType.SendStudent, student);
-
-            clientProgram.Send(response);
         }
     }
 }

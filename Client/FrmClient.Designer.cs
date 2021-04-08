@@ -264,7 +264,6 @@
             this.btnSendStudentInfo.TabIndex = 1;
             this.btnSendStudentInfo.Text = "Chấp Nhận";
             this.btnSendStudentInfo.UseVisualStyleBackColor = true;
-            this.btnSendStudentInfo.Click += new System.EventHandler(this.btnSendStudentInfo_Click);
             // 
             // cbDSThi
             // 

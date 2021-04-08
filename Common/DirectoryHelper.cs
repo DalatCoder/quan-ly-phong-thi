@@ -9,23 +9,18 @@ namespace Common
 {
 	public class DirectoryHelper
 	{
-        public static void DeleteDirectory(string target_dir)
+        public static void DeleteAllFileInDirectory(string target_dir)
         {
-            string[] files = Directory.GetFiles(target_dir);
-            string[] dirs = Directory.GetDirectories(target_dir);
+            DirectoryInfo di = new DirectoryInfo(target_dir);
 
-            foreach (string file in files)
+            foreach (FileInfo file in di.GetFiles())
             {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
+                file.Delete();
             }
-
-            foreach (string dir in dirs)
+            foreach (DirectoryInfo dir in di.GetDirectories())
             {
-                DeleteDirectory(dir);
+                dir.Delete(true);
             }
-
-            Directory.Delete(target_dir, false);
         }
     }
 }
