@@ -23,6 +23,9 @@ namespace Server
 
             serverProgram = new ServerProgram();
 
+            serverProgram.SetClientPath(txtClientPath.Text);
+            serverProgram.SetServerPath(txtServerPath.Text);
+
             serverProgram.OnServerStarted += HandleOnServerStarted;
             serverProgram.OnClientListChanged += HandleOnClientListChanged;
 
@@ -51,9 +54,11 @@ namespace Server
             this.Text = "Server is running at: " + serverIPendpoint.ToString();
         }
 
-        #endregion
+		#endregion
 
-        void RenderClientList(List<ClientInfo> clientList)
+		#region Methods
+
+		void RenderClientList(List<ClientInfo> clientList)
         {
             if (flpMain.Controls.Count == 0)
 			{
@@ -91,7 +96,11 @@ namespace Server
                     flpMain.Controls.RemoveAt(j);
         }
 
-        private void cmdNhapVungIP_Click(object sender, EventArgs e)
+		#endregion
+
+		#region Handle events on UI
+
+		private void cmdNhapVungIP_Click(object sender, EventArgs e)
         {
             FrmSetIPRange frm = new FrmSetIPRange();
             DialogResult result = frm.ShowDialog();
@@ -166,7 +175,7 @@ namespace Server
                 listOfDeThiURL.Add(deThiURL);
 			}
 
-            serverProgram.PhatDeThi(listOfDeThiURL, clientPath, serverPath);
+            serverProgram.PhatDeThi(listOfDeThiURL);
 		}
 
 		private void btnThuBai_Click(object sender, EventArgs e)
@@ -174,7 +183,7 @@ namespace Server
             serverProgram.ThuBai();
 		}
 
-		private void cmdChon_Click(object sender, EventArgs e)
+		private void btnChonServerPath_Click(object sender, EventArgs e)
 		{
             using (var fbd = new FolderBrowserDialog())
             {
@@ -183,11 +192,12 @@ namespace Server
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     txtServerPath.Text = fbd.SelectedPath;
+                    serverProgram.SetServerPath(fbd.SelectedPath);
                 }
             }
         }
 
-		private void cmdChonClientPath_Click(object sender, EventArgs e)
+		private void btnChonClientPath_Click(object sender, EventArgs e)
 		{
             using (var fbd = new FolderBrowserDialog())
             {
@@ -196,8 +206,11 @@ namespace Server
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     txtClientPath.Text = fbd.SelectedPath;
+                    serverProgram.SetClientPath(fbd.SelectedPath);
                 }
             }
         }
+
+		#endregion
 	}
 }

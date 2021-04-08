@@ -18,45 +18,31 @@ namespace Client
 		IPEndPoint IP;
 		Socket client;
 
-		string _clientPath;
-		string _serverPath;
+		string savePath = null; // Thu muc luu de thi
 
-		event Action _onSuccessConnected;
-		public event Action OnSuccessConnected
+		event Action<string> _onSuccessNotification;
+		public event Action<string> OnSuccessNotification
 		{
 			add
 			{
-				_onSuccessConnected += value;
+				_onSuccessNotification += value;
 			}
 			remove
 			{
-				_onSuccessConnected -= value;
+				_onSuccessNotification -= value;
 			}
 		}
 
-		event Action<string> _onErrorConnected;
-		public event Action<string> OnErrorConnected
+		event Action<string, Exception> _onErrorNotification;
+		public event Action<string, Exception> OnErrorNotification
 		{
 			add
 			{
-				_onErrorConnected += value;
+				_onErrorNotification += value;
 			}
 			remove
 			{
-				_onErrorConnected -= value;
-			}
-		}
-
-		event Action<string> _onErrorReceived;
-		public event Action<string> OnErrorReceived
-		{
-			add
-			{
-				_onErrorReceived += value;
-			}
-			remove
-			{
-				_onErrorReceived -= value;
+				_onErrorNotification -= value;
 			}
 		}
 
@@ -83,42 +69,46 @@ namespace Client
 			{
 				client.Connect(IP);
 
-				if (_onSuccessConnected != null)
-					_onSuccessConnected();
+				if (_onSuccessNotification != null)
+					_onSuccessNotification("Kết nối đến máy chủ thành công");
 
-				DataContainer response = new DataContainer(DataContainerType.SendPcName, computerName);
-				client.Send(response.Serialize());
+				DataContainer container = new DataContainer(DataContainerType.SendPcName, computerName);
+				SendDataToServer(container);
+
+				Thread listen = new Thread(Receive);
+				listen.IsBackground = true;
+				listen.Start();
 			}
 			catch (Exception ex)
 			{
-				if (_onErrorConnected != null)
-					_onErrorConnected("Có lỗi trong quá trình kết nối đến server. " + ex.Message);
-
-				return;
+				if (_onErrorNotification != null)
+					_onErrorNotification("Có lỗi xảy ra trong quá trình kết nối đến máy chủ", ex);
 			}
+		}
 
-			Thread listen = new Thread(Receive);
-			listen.IsBackground = true;
-			listen.Start();
+		void SendDataToServer(DataContainer container)
+		{
+			try
+			{
+				if (container == null)
+					throw new ArgumentException("Dữ liệu trống");
+			}
+			catch (ArgumentException ex)
+			{
+				if (_onErrorNotification != null)
+					_onErrorNotification("Dữ liệu gửi đi không hợp lệ", ex);
+			}
+			catch (Exception ex)
+			{
+				if (_onErrorNotification != null)
+					_onErrorNotification("Có lỗi xảy ra trong quá trình gửi dữ liệu đến máy chủ", ex);
+			}
 		}
 
 		public void CloseConnection()
 		{
 			if (client != null)
 				client.Close();
-		}
-
-		public void Send(DataContainer response)
-		{
-			try
-			{
-				client.Send(response.Serialize());
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-				client.Close();
-			}
 		}
 
 		void Receive()
@@ -138,41 +128,56 @@ namespace Client
 
 							FileContainer fileContainer = dataContainer.Data as FileContainer;
 
-							string savePath = fileContainer.ClientPath;
-							_clientPath = fileContainer.ClientPath;
-							_serverPath = fileContainer.ServerPath;
+							string savePath = fileContainer.SavePath;
+							this.savePath = fileContainer.SavePath;
 
 							if (Directory.Exists(savePath))
-								Common.DirectoryHelper.DeleteDirectory(savePath);
+								Common.DirectoryHelper.DeleteAllFileInDirectory(savePath);
 
 							Directory.CreateDirectory(savePath);
 
 							string fileName = fileContainer.FileInfo.Name;
 
 							string fullPath = Path.Combine(savePath, fileName);
+							byte[] fileContent = fileContainer.FileContent;
 
 							using (var fileStream = File.Create(fullPath))
 							{
-								fileStream.Write(fileContainer.FileContent, 0, fileContainer.FileContent.Length);
+								fileStream.Write(fileContent, 0, fileContent.Length);
 							}
 
 							if (_onReceivedExam != null)
 								_onReceivedExam(fullPath);
 
+							if (_onSuccessNotification != null)
+								_onSuccessNotification("Đã nhận đề thi thành công");
+
 							break;
 
 						case DataContainerType.ThuBai:
 
-							// Kiem tra thu muc luu bai thi
-							if (!string.IsNullOrWhiteSpace(_clientPath))
+							// Khong co duong dan chua de thi
+							if (string.IsNullOrWhiteSpace(this.savePath))
 							{
-								if (!Directory.Exists(_clientPath))
-								{
-									// Thu muc luu bai thi khong ton tai
-								}
+								// Handle error
+								break;
 							}
 
-							List<string> allowExtensions = new List<string>()
+							// Khong co thu muc luu bai thi
+							if (!Directory.Exists(this.savePath))
+							{
+								// Handle error
+								if (_onErrorNotification != null)
+								{
+									string msg = "Không tìm thấy thư mục lưu bài thi tại: " + this.savePath;
+
+									_onErrorNotification(msg, null);
+								}
+
+								break;
+							}
+
+							List<string> allowFileExtensions = new List<string>()
 							{
 								".zip",
 								".7z",
@@ -180,7 +185,7 @@ namespace Client
 							};
 
 							// Tim file .zip trong thu muc luu bai thi
-							DirectoryInfo d = new DirectoryInfo(_clientPath);
+							DirectoryInfo d = new DirectoryInfo(this.savePath);
 							FileInfo[] Files = d.GetFiles("*.*");
 
 							string fileNopBai = null;
@@ -189,26 +194,27 @@ namespace Client
 								string filename = file.Name;
 								string extension = Path.GetExtension(filename);
 
-								if (allowExtensions.Contains(extension))
+								if (allowFileExtensions.Contains(extension))
 								{
 									fileNopBai = file.FullName;
 									break;
 								}
 							}
 
+							if (string.IsNullOrWhiteSpace(fileNopBai))
+							{
+								if (_onErrorNotification != null)
+									_onErrorNotification("Không tìm thấy thư mục lưu bài", null);
+
+								break;
+							}
+
 							// Gui file .zip len server
-							FileContainer fileNopBaiContainer = new FileContainer(fileNopBai, _clientPath, _serverPath);
+							FileContainer fileNopBaiContainer = new FileContainer(fileNopBai, null);
 
 							DataContainer dataContainerNopBai = new DataContainer(DataContainerType.ThuBai, fileNopBaiContainer);
 
-							try
-							{
-								client.Send(dataContainerNopBai.Serialize());
-							}
-							catch (Exception ex)
-							{
-
-							}
+							SendDataToServer(dataContainerNopBai);
 
 							break;
 
@@ -222,7 +228,10 @@ namespace Client
 							break;
 
 						case DataContainerType.DisconnectAll:
-							MessageBox.Show("Yêu cầu đóng kết nối từ server.");
+
+							if (_onSuccessNotification != null)
+								_onSuccessNotification("Đã ngắt đường truyền do nhận được yêu cầu đóng kết nối từ máy chủ");
+
 							CloseConnection();
 							break;
 
@@ -244,11 +253,14 @@ namespace Client
 			}
 			catch (Exception ex)
 			{
-				if (_onErrorReceived != null)
-					_onErrorReceived("Có lỗi xảy ra trong quá trình nhận phản hồi từ server. Đóng kết nối. " + ex.Message);
+				if (_onErrorNotification != null)
+				{
+					string msg = "Có lỗi xảy ra trong quá trình tương tác với server. Đã ngắt đường truyền";
+					_onErrorNotification(msg, ex);
+				}
 
 				CloseConnection();
 			}
-		}
+		}	
 	}
 }

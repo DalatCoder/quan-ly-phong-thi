@@ -41,13 +41,15 @@
 			this.button9 = new System.Windows.Forms.Button();
 			this.btnDisconnectAll = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.cmdChonClientPath = new System.Windows.Forms.Button();
-			this.cmdChon = new System.Windows.Forms.Button();
+			this.btnChonClientPath = new System.Windows.Forms.Button();
+			this.btnChonServerPath = new System.Windows.Forms.Button();
 			this.txtClientPath = new System.Windows.Forms.TextBox();
 			this.txtServerPath = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.lsvDeThi = new System.Windows.Forms.ListView();
+			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.btnPhatDe = new System.Windows.Forms.Button();
 			this.btnThemDe = new System.Windows.Forms.Button();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -61,8 +63,6 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
-			this.lsvDeThi = new System.Windows.Forms.ListView();
-			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.groupBox4.SuspendLayout();
 			this.grbTimeLeft.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -201,8 +201,8 @@
 			// groupBox3
 			// 
 			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.groupBox3.Controls.Add(this.cmdChonClientPath);
-			this.groupBox3.Controls.Add(this.cmdChon);
+			this.groupBox3.Controls.Add(this.btnChonClientPath);
+			this.groupBox3.Controls.Add(this.btnChonServerPath);
 			this.groupBox3.Controls.Add(this.txtClientPath);
 			this.groupBox3.Controls.Add(this.txtServerPath);
 			this.groupBox3.Controls.Add(this.label3);
@@ -214,25 +214,25 @@
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Chọn Đường Dẫn";
 			// 
-			// cmdChonClientPath
+			// btnChonClientPath
 			// 
-			this.cmdChonClientPath.Location = new System.Drawing.Point(139, 71);
-			this.cmdChonClientPath.Name = "cmdChonClientPath";
-			this.cmdChonClientPath.Size = new System.Drawing.Size(62, 24);
-			this.cmdChonClientPath.TabIndex = 36;
-			this.cmdChonClientPath.Text = "Chọn";
-			this.cmdChonClientPath.UseVisualStyleBackColor = true;
-			this.cmdChonClientPath.Click += new System.EventHandler(this.cmdChonClientPath_Click);
+			this.btnChonClientPath.Location = new System.Drawing.Point(139, 71);
+			this.btnChonClientPath.Name = "btnChonClientPath";
+			this.btnChonClientPath.Size = new System.Drawing.Size(62, 24);
+			this.btnChonClientPath.TabIndex = 36;
+			this.btnChonClientPath.Text = "Chọn";
+			this.btnChonClientPath.UseVisualStyleBackColor = true;
+			this.btnChonClientPath.Click += new System.EventHandler(this.btnChonClientPath_Click);
 			// 
-			// cmdChon
+			// btnChonServerPath
 			// 
-			this.cmdChon.Location = new System.Drawing.Point(139, 32);
-			this.cmdChon.Name = "cmdChon";
-			this.cmdChon.Size = new System.Drawing.Size(62, 22);
-			this.cmdChon.TabIndex = 35;
-			this.cmdChon.Text = "Chọn";
-			this.cmdChon.UseVisualStyleBackColor = true;
-			this.cmdChon.Click += new System.EventHandler(this.cmdChon_Click);
+			this.btnChonServerPath.Location = new System.Drawing.Point(139, 32);
+			this.btnChonServerPath.Name = "btnChonServerPath";
+			this.btnChonServerPath.Size = new System.Drawing.Size(62, 22);
+			this.btnChonServerPath.TabIndex = 35;
+			this.btnChonServerPath.Text = "Chọn";
+			this.btnChonServerPath.UseVisualStyleBackColor = true;
+			this.btnChonServerPath.Click += new System.EventHandler(this.btnChonServerPath_Click);
 			// 
 			// txtClientPath
 			// 
@@ -281,6 +281,28 @@
 			this.groupBox1.TabIndex = 51;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Chọn Đề Thi";
+			// 
+			// lsvDeThi
+			// 
+			this.lsvDeThi.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+			this.lsvDeThi.AllowDrop = true;
+			this.lsvDeThi.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+			this.lsvDeThi.FullRowSelect = true;
+			this.lsvDeThi.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this.lsvDeThi.HideSelection = false;
+			this.lsvDeThi.Location = new System.Drawing.Point(6, 18);
+			this.lsvDeThi.MultiSelect = false;
+			this.lsvDeThi.Name = "lsvDeThi";
+			this.lsvDeThi.Size = new System.Drawing.Size(240, 85);
+			this.lsvDeThi.TabIndex = 33;
+			this.lsvDeThi.UseCompatibleStateImageBehavior = false;
+			this.lsvDeThi.View = System.Windows.Forms.View.List;
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Danh sách đề thi";
+			this.columnHeader1.Width = 600;
 			// 
 			// btnPhatDe
 			// 
@@ -422,28 +444,6 @@
 			this.flpMain.Size = new System.Drawing.Size(830, 494);
 			this.flpMain.TabIndex = 0;
 			// 
-			// lsvDeThi
-			// 
-			this.lsvDeThi.Alignment = System.Windows.Forms.ListViewAlignment.Left;
-			this.lsvDeThi.AllowDrop = true;
-			this.lsvDeThi.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
-			this.lsvDeThi.FullRowSelect = true;
-			this.lsvDeThi.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			this.lsvDeThi.HideSelection = false;
-			this.lsvDeThi.Location = new System.Drawing.Point(6, 18);
-			this.lsvDeThi.MultiSelect = false;
-			this.lsvDeThi.Name = "lsvDeThi";
-			this.lsvDeThi.Size = new System.Drawing.Size(240, 85);
-			this.lsvDeThi.TabIndex = 33;
-			this.lsvDeThi.UseCompatibleStateImageBehavior = false;
-			this.lsvDeThi.View = System.Windows.Forms.View.List;
-			// 
-			// columnHeader1
-			// 
-			this.columnHeader1.Text = "Danh sách đề thi";
-			this.columnHeader1.Width = 600;
-			// 
 			// Server
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -486,8 +486,8 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button btnDisconnectAll;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button cmdChonClientPath;
-        private System.Windows.Forms.Button cmdChon;
+        private System.Windows.Forms.Button btnChonClientPath;
+        private System.Windows.Forms.Button btnChonServerPath;
         private System.Windows.Forms.TextBox txtClientPath;
         private System.Windows.Forms.TextBox txtServerPath;
         private System.Windows.Forms.Label label3;

@@ -22,6 +22,9 @@ namespace Server
 		Socket server;
 		List<Socket> clientList;
 
+		string clientPath = null; // Đường dẫn lưu trữ đề thi ở phía client
+		string serverPath = null; // Đường dẫn lưu trữ bài làm ở phía server
+
 		ClientInfoManager clientInfoManager;
 
 		public ServerProgram()
@@ -203,20 +206,22 @@ namespace Server
 
 							FileContainer fileNopBaiContainer = dataContainer.Data as FileContainer;
 
-							string savePath = fileNopBaiContainer.ServerPath;
+							string savePath = this.serverPath;
 
 							if (!Directory.Exists(savePath))
 								Directory.CreateDirectory(savePath);
 
+							string timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString();
+
+							savePath = Path.Combine(savePath, timestamp);
 
 							string fileName = fileNopBaiContainer.FileInfo.Name;
-
 							string fullPath = Path.Combine(savePath, fileName);
 
+							byte[] fileContent = fileNopBaiContainer.FileContent;
+
 							using (var fileStream = File.Create(fullPath))
-							{
-								fileStream.Write(fileNopBaiContainer.FileContent, 0, fileNopBaiContainer.FileContent.Length);
-							}
+								fileStream.Write(fileContent, 0, fileContent.Length);
 
 							break;
 
@@ -256,7 +261,17 @@ namespace Server
 
 		#region Methods
 
-		public void PhatDeThi(List<string> danhSachDeThi, string clientPath, string serverPath)
+		public void SetClientPath(string clientPath)
+		{
+			this.clientPath = clientPath;
+		}
+
+		public void SetServerPath(string serverPath)
+		{
+			this.serverPath = serverPath;
+		}
+
+		public void PhatDeThi(List<string> danhSachDeThi)
 		{
 			if (danhSachDeThi.Count == 0)
 				return;
@@ -264,15 +279,18 @@ namespace Server
 			List<FileContainer> listOfFiles = new List<FileContainer>();
 			foreach (string deThiURL in danhSachDeThi)
 			{
-				listOfFiles.Add(new FileContainer(deThiURL, clientPath, serverPath));
+				listOfFiles.Add(new FileContainer(deThiURL, this.clientPath));
 			}
 
 			if (danhSachDeThi.Count == 1)
+			{
+				FileContainer fileDeThi = listOfFiles[0];
 				foreach (Socket client in clientList)
 				{
-					DataContainer container = new DataContainer(DataContainerType.PhatDe, listOfFiles[0]);
+					DataContainer container = new DataContainer(DataContainerType.PhatDe, fileDeThi);
 					client.Send(container.Serialize());
 				}
+			}
 
 			if (danhSachDeThi.Count > 1)
 			{
