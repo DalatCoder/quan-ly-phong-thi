@@ -146,7 +146,15 @@ namespace Server
             }
         }
 
-		private void btnPhatDe_Click(object sender, EventArgs e)
+        private void btnXoaDe_Click(object sender, EventArgs e)
+        {
+            if (lsvDeThi.SelectedItems.Count == 0)
+                return;
+
+            lsvDeThi.Items.Remove(lsvDeThi.SelectedItems[0]);
+        }
+
+        private void btnPhatDe_Click(object sender, EventArgs e)
 		{
             if (lsvDeThi.Items.Count == 0)
 			{
@@ -212,5 +220,7 @@ namespace Server
         }
 
 		#endregion
+
+
 	}
 }
