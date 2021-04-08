@@ -92,6 +92,8 @@ namespace Client
 			{
 				if (container == null)
 					throw new ArgumentException("Dữ liệu trống");
+
+				client.Send(container.Serialize());
 			}
 			catch (ArgumentException ex)
 			{

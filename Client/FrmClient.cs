@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tulpep.NotificationWindow;
 
 namespace Client
 {
@@ -15,7 +16,8 @@ namespace Client
     {
         private const int SERVER_PORT = 2010;
 
-        ClientProgram clientProgram;        
+        ClientProgram clientProgram;
+        PopupNotifier popup;
 
         public FrmClient()
         {
@@ -28,22 +30,62 @@ namespace Client
 			clientProgram.OnSuccessNotification += HandleOnSuccessNotification;
 			clientProgram.OnErrorNotification += HandleOnErrorNotification;
 			clientProgram.OnReceivedExam += HandleOnReceivedExam;
+
+            InitPopupNotifier();
+        }
+
+        void InitPopupNotifier()
+		{
+            popup = new PopupNotifier();
+            popup.ShowOptionsButton = false;
+            popup.ContentPadding = new Padding(10, 3, 10, 3);
+            popup.TitlePadding = new Padding(10, 3, 10, 3); 
+        }
+
+        void RenderNotificationPopup(string title, string content)
+		{           
+            popup.TitleText = title;
+            popup.ContentText = content;
+
+            popup.Popup();
         }
 
 		private void HandleOnErrorNotification(string errorMessage, Exception ex)
 		{
+
             string msg = errorMessage;
 
             if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
                 msg += ". " + ex.Message;
 
-            MessageBox.Show(msg);
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    RenderNotificationPopup("Thông báo lỗi", msg);
+                });
+            }
+            else
+            {
+                RenderNotificationPopup("Thông báo lỗi", msg);
+            }
 		}
 
 		private void HandleOnSuccessNotification(string message)
 		{
-            MessageBox.Show(message);
-		}
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    RenderNotificationPopup("Thông báo mới", message);
+                });
+            }
+            else
+            {
+                RenderNotificationPopup("Thông báo mới", message);
+            }
+
+        }
 
 		private void HandleOnReceivedExam(string examFileUrl)
 		{
