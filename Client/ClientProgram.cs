@@ -59,6 +59,8 @@ namespace Client
 			}
 		}
 
+		public Action<string> onNhanThongBao;
+
 		public void Connect(string hostname, int port)
 		{
 			IP = new IPEndPoint(IPAddress.Parse(hostname), port);
@@ -220,6 +222,15 @@ namespace Client
 
 							break;
 
+
+						case DataContainerType.GuiThongBaoAll:
+
+							string message = dataContainer.Data.ToString();
+
+							onNhanThongBao(message);
+
+							break;
+
 						case DataContainerType.SendList:
 							break;
 						case DataContainerType.SendStudent:
@@ -263,6 +274,6 @@ namespace Client
 
 				CloseConnection();
 			}
-		}	
+		}
 	}
 }

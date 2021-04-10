@@ -8,12 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tulpep.NotificationWindow;
 
 namespace Server
 {
     public partial class Server : Form
     {
         ServerProgram serverProgram;
+        PopupNotifier popup;
 
         public Server()
         {
@@ -30,6 +32,16 @@ namespace Server
             serverProgram.OnClientListChanged += HandleOnClientListChanged;
 
             serverProgram.Start();
+
+            InitPopupNotifier();
+        }
+
+        void InitPopupNotifier()
+        {
+            popup = new PopupNotifier();
+            popup.ShowOptionsButton = false;
+            popup.ContentPadding = new Padding(10, 3, 10, 3);
+            popup.TitlePadding = new Padding(10, 3, 10, 3);
         }
 
         #region Server Program Events
@@ -219,8 +231,24 @@ namespace Server
             }
         }
 
+
+
 		#endregion
 
+		private void btnGuiTinNhan_Click(object sender, EventArgs e)
+		{
+            FrmSendMessage frmSendMessage = new FrmSendMessage();
+
+            frmSendMessage.onClickSendButton = HandleOnClickSendButton;
+
+            frmSendMessage.ShowDialog();
+		}
+
+        void HandleOnClickSendButton(string tinnhan)
+		{
+            // gui tin nhan toi client
+            serverProgram.GuiTinNhanChoTatCaMayCon(tinnhan);
+		}
 
 	}
 }

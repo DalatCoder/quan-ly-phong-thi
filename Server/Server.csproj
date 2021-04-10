@@ -51,6 +51,12 @@
   <ItemGroup>
     <Compile Include="ClientInfo.cs" />
     <Compile Include="ClientInfoManager.cs" />
+    <Compile Include="FrmSendMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSendMessage.Designer.cs">
+      <DependentUpon>FrmSendMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmServer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,9 @@
     <Compile Include="UFrmClient.Designer.cs">
       <DependentUpon>UFrmClient.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="FrmSendMessage.resx">
+      <DependentUpon>FrmSendMessage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmServer.resx">
       <DependentUpon>FrmServer.cs</DependentUpon>
     </EmbeddedResource>

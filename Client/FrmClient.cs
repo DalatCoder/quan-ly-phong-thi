@@ -31,6 +31,8 @@ namespace Client
 			clientProgram.OnErrorNotification += HandleOnErrorNotification;
 			clientProgram.OnReceivedExam += HandleOnReceivedExam;
 
+            clientProgram.onNhanThongBao = HandleOnNhanThongBao;
+
             InitPopupNotifier();
         }
 
@@ -97,5 +99,29 @@ namespace Client
             clientProgram.Connect(txtServerIP.Text, SERVER_PORT);
             btnConnectToServer.Enabled = false;
         }
+
+        void HandleOnNhanThongBao(string message)
+		{
+
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    popup.TitleText = "Thông báo từ server";
+                    popup.ContentText = message;
+
+                    popup.Popup();
+                });
+            }
+            else
+            {
+                popup.TitleText = "Thông báo từ server";
+                popup.ContentText = message;
+
+                popup.Popup();
+            }
+
+
+		}
     }
 }

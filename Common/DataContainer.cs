@@ -14,6 +14,7 @@ namespace Common
         PhatDe,
         ThuBai,
         LuuBaiODau,
+        GuiThongBaoAll,
         SendList,
         SendStudent,
         SendString,

@@ -35,7 +35,7 @@
 			this.cmdNhapVungIP = new System.Windows.Forms.Button();
 			this.cmdKichHoatAllClient = new System.Windows.Forms.Button();
 			this.cmdBatDauLamBai = new System.Windows.Forms.Button();
-			this.button6 = new System.Windows.Forms.Button();
+			this.btnGuiTinNhan = new System.Windows.Forms.Button();
 			this.button11 = new System.Windows.Forms.Button();
 			this.button10 = new System.Windows.Forms.Button();
 			this.button9 = new System.Windows.Forms.Button();
@@ -48,6 +48,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.btnXoaDe = new System.Windows.Forms.Button();
 			this.lsvDeThi = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.btnPhatDe = new System.Windows.Forms.Button();
@@ -63,7 +64,6 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
-			this.btnXoaDe = new System.Windows.Forms.Button();
 			this.groupBox4.SuspendLayout();
 			this.grbTimeLeft.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -82,7 +82,7 @@
 			this.groupBox4.Controls.Add(this.cmdNhapVungIP);
 			this.groupBox4.Controls.Add(this.cmdKichHoatAllClient);
 			this.groupBox4.Controls.Add(this.cmdBatDauLamBai);
-			this.groupBox4.Controls.Add(this.button6);
+			this.groupBox4.Controls.Add(this.btnGuiTinNhan);
 			this.groupBox4.Controls.Add(this.button11);
 			this.groupBox4.Controls.Add(this.button10);
 			this.groupBox4.Controls.Add(this.button9);
@@ -153,14 +153,15 @@
 			this.cmdBatDauLamBai.Text = "Bắt Đầu Làm Bài";
 			this.cmdBatDauLamBai.UseVisualStyleBackColor = true;
 			// 
-			// button6
+			// btnGuiTinNhan
 			// 
-			this.button6.Location = new System.Drawing.Point(7, 83);
-			this.button6.Name = "button6";
-			this.button6.Size = new System.Drawing.Size(109, 45);
-			this.button6.TabIndex = 40;
-			this.button6.Text = "Send Message To All";
-			this.button6.UseVisualStyleBackColor = true;
+			this.btnGuiTinNhan.Location = new System.Drawing.Point(7, 83);
+			this.btnGuiTinNhan.Name = "btnGuiTinNhan";
+			this.btnGuiTinNhan.Size = new System.Drawing.Size(109, 45);
+			this.btnGuiTinNhan.TabIndex = 40;
+			this.btnGuiTinNhan.Text = "Send Message To All";
+			this.btnGuiTinNhan.UseVisualStyleBackColor = true;
+			this.btnGuiTinNhan.Click += new System.EventHandler(this.btnGuiTinNhan_Click);
 			// 
 			// button11
 			// 
@@ -283,6 +284,18 @@
 			this.groupBox1.TabIndex = 51;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Đề Thi";
+			// 
+			// btnXoaDe
+			// 
+			this.btnXoaDe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnXoaDe.Location = new System.Drawing.Point(252, 63);
+			this.btnXoaDe.Name = "btnXoaDe";
+			this.btnXoaDe.Size = new System.Drawing.Size(88, 29);
+			this.btnXoaDe.TabIndex = 34;
+			this.btnXoaDe.Text = "Xóa";
+			this.btnXoaDe.UseVisualStyleBackColor = true;
+			this.btnXoaDe.Click += new System.EventHandler(this.btnXoaDe_Click);
 			// 
 			// lsvDeThi
 			// 
@@ -448,18 +461,6 @@
 			this.flpMain.Size = new System.Drawing.Size(830, 492);
 			this.flpMain.TabIndex = 0;
 			// 
-			// btnXoaDe
-			// 
-			this.btnXoaDe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnXoaDe.Location = new System.Drawing.Point(252, 63);
-			this.btnXoaDe.Name = "btnXoaDe";
-			this.btnXoaDe.Size = new System.Drawing.Size(88, 29);
-			this.btnXoaDe.TabIndex = 34;
-			this.btnXoaDe.Text = "Xóa";
-			this.btnXoaDe.UseVisualStyleBackColor = true;
-			this.btnXoaDe.Click += new System.EventHandler(this.btnXoaDe_Click);
-			// 
 			// Server
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -496,7 +497,7 @@
         private System.Windows.Forms.Button cmdNhapVungIP;
         private System.Windows.Forms.Button cmdKichHoatAllClient;
         private System.Windows.Forms.Button cmdBatDauLamBai;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnGuiTinNhan;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button9;

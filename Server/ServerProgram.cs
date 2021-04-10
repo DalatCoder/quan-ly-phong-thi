@@ -334,6 +334,18 @@ namespace Server
 			clientInfoManager.DisconnectAll();
 		}
 
+		public void GuiTinNhanChoTatCaMayCon(string tinNhan)
+		{
+			DataContainer dataContainer = new DataContainer(DataContainerType.GuiThongBaoAll, tinNhan);
+
+			byte[] buffer = dataContainer.Serialize();
+
+			foreach (Socket item in clientList)
+			{
+				item.Send(buffer);
+			}
+		}
+
 		#endregion
 	}
 }
