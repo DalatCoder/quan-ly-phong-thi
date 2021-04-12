@@ -37,8 +37,8 @@
 			this.cmdBatDauLamBai = new System.Windows.Forms.Button();
 			this.btnGuiTinNhan = new System.Windows.Forms.Button();
 			this.button11 = new System.Windows.Forms.Button();
-			this.button10 = new System.Windows.Forms.Button();
-			this.button9 = new System.Windows.Forms.Button();
+			this.btnLayDSSinhVienTuCSDL = new System.Windows.Forms.Button();
+			this.btnGuiDSSVTuFile = new System.Windows.Forms.Button();
 			this.btnDisconnectAll = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.btnChonClientPath = new System.Windows.Forms.Button();
@@ -84,8 +84,8 @@
 			this.groupBox4.Controls.Add(this.cmdBatDauLamBai);
 			this.groupBox4.Controls.Add(this.btnGuiTinNhan);
 			this.groupBox4.Controls.Add(this.button11);
-			this.groupBox4.Controls.Add(this.button10);
-			this.groupBox4.Controls.Add(this.button9);
+			this.groupBox4.Controls.Add(this.btnLayDSSinhVienTuCSDL);
+			this.groupBox4.Controls.Add(this.btnGuiDSSVTuFile);
 			this.groupBox4.Controls.Add(this.btnDisconnectAll);
 			this.groupBox4.Location = new System.Drawing.Point(12, 11);
 			this.groupBox4.Name = "groupBox4";
@@ -172,23 +172,25 @@
 			this.button11.Text = "Disable Tất Cả Các Máy Trống";
 			this.button11.UseVisualStyleBackColor = true;
 			// 
-			// button10
+			// btnLayDSSinhVienTuCSDL
 			// 
-			this.button10.Location = new System.Drawing.Point(6, 176);
-			this.button10.Name = "button10";
-			this.button10.Size = new System.Drawing.Size(109, 38);
-			this.button10.TabIndex = 40;
-			this.button10.Text = "Lấy Danh Sách Thi Từ CSDL";
-			this.button10.UseVisualStyleBackColor = true;
+			this.btnLayDSSinhVienTuCSDL.Location = new System.Drawing.Point(6, 176);
+			this.btnLayDSSinhVienTuCSDL.Name = "btnLayDSSinhVienTuCSDL";
+			this.btnLayDSSinhVienTuCSDL.Size = new System.Drawing.Size(109, 38);
+			this.btnLayDSSinhVienTuCSDL.TabIndex = 40;
+			this.btnLayDSSinhVienTuCSDL.Text = "Lấy Danh Sách Thi Từ CSDL";
+			this.btnLayDSSinhVienTuCSDL.UseVisualStyleBackColor = true;
+			this.btnLayDSSinhVienTuCSDL.Click += new System.EventHandler(this.btnLayDSSinhVienTuCSDL_Click);
 			// 
-			// button9
+			// btnGuiDSSVTuFile
 			// 
-			this.button9.Location = new System.Drawing.Point(6, 134);
-			this.button9.Name = "button9";
-			this.button9.Size = new System.Drawing.Size(109, 38);
-			this.button9.TabIndex = 40;
-			this.button9.Text = "Lấy Danh Sách Thi Từ File";
-			this.button9.UseVisualStyleBackColor = true;
+			this.btnGuiDSSVTuFile.Location = new System.Drawing.Point(6, 134);
+			this.btnGuiDSSVTuFile.Name = "btnGuiDSSVTuFile";
+			this.btnGuiDSSVTuFile.Size = new System.Drawing.Size(109, 38);
+			this.btnGuiDSSVTuFile.TabIndex = 40;
+			this.btnGuiDSSVTuFile.Text = "Lấy Danh Sách Thi Từ File";
+			this.btnGuiDSSVTuFile.UseVisualStyleBackColor = true;
+			this.btnGuiDSSVTuFile.Click += new System.EventHandler(this.btnGuiDSSVTuFile_Click);
 			// 
 			// btnDisconnectAll
 			// 
@@ -499,8 +501,8 @@
         private System.Windows.Forms.Button cmdBatDauLamBai;
         private System.Windows.Forms.Button btnGuiTinNhan;
         private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button btnLayDSSinhVienTuCSDL;
+        private System.Windows.Forms.Button btnGuiDSSVTuFile;
         private System.Windows.Forms.Button btnDisconnectAll;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnChonClientPath;

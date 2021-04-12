@@ -49,7 +49,7 @@ namespace Server
 
             ClientInfo client = obj as ClientInfo;
 
-            return client.ClientIP == ClientIP && client.PCName == PCName && client.Status == Status && client.StudentInfo.ID == StudentInfo.ID;
+            return client.ClientIP == ClientIP && client.PCName == PCName && client.Status == Status && client.StudentInfo.MSSV == StudentInfo.MSSV;
         }
 
 		public override string ToString()

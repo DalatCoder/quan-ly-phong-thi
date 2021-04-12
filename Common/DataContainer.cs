@@ -15,6 +15,8 @@ namespace Common
         ThuBai,
         LuuBaiODau,
         GuiThongBaoAll,
+        GuiDanhSachSV,
+        GuiSinhVien,
         SendList,
         SendStudent,
         SendString,
