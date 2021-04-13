@@ -61,6 +61,7 @@ namespace Client
 
 		public Action<string> onNhanThongBao;
 		public Action<List<Student>> onNhanDanhSachSVTuExcel;
+		public Action<int> onNhanSoPhut;
 
 		public void Connect(string hostname, int port)
 		{
@@ -245,6 +246,10 @@ namespace Client
 							onNhanDanhSachSVTuExcel(students);
 							break;
 
+						case DataContainerType.BatDauLamBai:
+							int minnute = Convert.ToInt32(dataContainer.Data);
+							onNhanSoPhut(minnute);
+							break;
 
 						case DataContainerType.SendList:
 							break;
@@ -264,6 +269,7 @@ namespace Client
 							break;
 
 						case DataContainerType.BeginExam:
+
 							break;
 
 						case DataContainerType.FinishExam:

@@ -18,6 +18,8 @@ namespace Client
 
 		ClientProgram clientProgram;
 		PopupNotifier popup;
+		int counter = 0; // Dem nguoc theo tung giay
+		System.Timers.Timer countdown;
 
 		public FrmClient()
 		{
@@ -33,11 +35,17 @@ namespace Client
 
 			clientProgram.onNhanThongBao = HandleOnNhanThongBao;
 			clientProgram.onNhanDanhSachSVTuExcel = HandleOnNhanDanhSachSVTuExcel;
+			clientProgram.onNhanSoPhut = HandleOnNhanSoPhut;
+			countdown = new System.Timers.Timer();
+			countdown.Elapsed += Countdown_Elapsed; ;
+			countdown.Interval = 1000;
 
 			InitPopupNotifier();
 		}
 
-		void InitPopupNotifier()
+
+
+        void InitPopupNotifier()
 		{
 			popup = new PopupNotifier();
 			popup.ShowOptionsButton = false;
@@ -153,6 +161,12 @@ namespace Client
 
 		}
 
+		private void HandleOnNhanSoPhut(int minute)
+        {
+			counter = minute * 60;
+			countdown.Enabled = true;
+		}
+
 		private void btnSendStudentInfo_Click(object sender, EventArgs e)
 		{
 			if (cbDSThi.SelectedItem == null)
@@ -161,5 +175,22 @@ namespace Client
 			Student student = cbDSThi.SelectedItem as Student;
 			clientProgram.SendStudent(student);
 		}
+
+		private void Countdown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+		{
+			counter -= 1;
+
+			int minute = counter / 60;
+			int second = counter % 60;
+
+			lblThoiGian.Text = minute + ":" + second;
+
+			if (counter == 0)
+			{
+				countdown.Stop();
+
+			}
+		}
+
 	}
 }

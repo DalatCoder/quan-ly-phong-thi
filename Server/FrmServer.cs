@@ -19,6 +19,8 @@ namespace Server
     {
         ServerProgram serverProgram;
         PopupNotifier popup;
+        int counter = 0; // Dem nguoc theo tung giay
+        System.Timers.Timer countdown;
 
         public Server()
         {
@@ -33,11 +35,18 @@ namespace Server
 
             serverProgram.OnServerStarted += HandleOnServerStarted;
             serverProgram.OnClientListChanged += HandleOnClientListChanged;
+            countdown = new System.Timers.Timer();
+            countdown.Elapsed += Countdown_Elapsed;
+            countdown.Interval = 1000;
 
             serverProgram.Start();
 
+            
+
             InitPopupNotifier();
         }
+
+
 
         void InitPopupNotifier()
         {
@@ -331,5 +340,33 @@ namespace Server
 
             serverProgram.GuiDanhSachSinhVien(danhSachSV);
 		}
-	}
+
+        private void cmdBatDauLamBai_Click(object sender, EventArgs e)
+        {
+            int minute = Convert.ToInt32(txtThoiGianLamBai.Text);
+            counter = minute * 60;
+            countdown.Enabled = true;
+
+            serverProgram.batDauLamBai(minute);
+            
+            
+          }
+        private void Countdown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            counter -= 1;
+
+            int minute = counter / 60;
+            int second = counter % 60;
+
+            lblTimeLeft.Text = minute + ":" + second;
+            if (counter == 0)
+            {
+                countdown.Stop();
+
+                serverProgram.GuiTinNhanChoTatCaMayCon("Đã Hết Thời Gian Làm bài");
+            }
+
+           
+        }
+    }
 }
