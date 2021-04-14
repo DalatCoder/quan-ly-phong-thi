@@ -340,16 +340,20 @@ namespace Server
 
 		private void btnGuiDSSVTuFile_Click(object sender, EventArgs e)
 		{
-			//Doc file excel
 			List<Student> danhSachSV = DocNoiDungFileExcel(@"D:\Nam3_Ki_II\LapTrinhMang\quan-ly-phong-thi\danhsachsinhvien.xlsx");
 
-			//Goi ham gui
+			if (danhSachSV.Count == 0)
+				return;
+
 			serverProgram.GuiDanhSachSinhVien(danhSachSV);
 		}
 
 		private void btnLayDSSinhVienTuCSDL_Click(object sender, EventArgs e)
 		{
 			List<Student> danhSachSV = StudentDAO.Instance.GetStudents();
+
+			if (danhSachSV.Count == 0)
+				return;
 
 			serverProgram.GuiDanhSachSinhVien(danhSachSV);
 		}
@@ -378,11 +382,9 @@ namespace Server
 
 				serverProgram.GuiTinNhanChoTatCaMayCon("Đã Hết Thời Gian Làm bài");
 			}
-
-
 		}
 
-		private void btnBlockApps_Click(object sender, EventArgs e)
+		private void BtnBlockApps_Click(object sender, EventArgs e)
 		{
 			FrmChooseProgram frm = new FrmChooseProgram();
 			frm.ShowDialog();
