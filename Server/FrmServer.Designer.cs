@@ -64,6 +64,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
+			this.btnBlockApps = new System.Windows.Forms.Button();
 			this.groupBox4.SuspendLayout();
 			this.grbTimeLeft.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -77,6 +78,7 @@
 			// 
 			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+			this.groupBox4.Controls.Add(this.btnBlockApps);
 			this.groupBox4.Controls.Add(this.btnThuBai);
 			this.groupBox4.Controls.Add(this.grbTimeLeft);
 			this.groupBox4.Controls.Add(this.cmdNhapVungIP);
@@ -96,7 +98,7 @@
 			// 
 			// btnThuBai
 			// 
-			this.btnThuBai.Location = new System.Drawing.Point(7, 354);
+			this.btnThuBai.Location = new System.Drawing.Point(6, 401);
 			this.btnThuBai.Name = "btnThuBai";
 			this.btnThuBai.Size = new System.Drawing.Size(109, 41);
 			this.btnThuBai.TabIndex = 47;
@@ -107,7 +109,7 @@
 			// grbTimeLeft
 			// 
 			this.grbTimeLeft.Controls.Add(this.label4);
-			this.grbTimeLeft.Location = new System.Drawing.Point(6, 401);
+			this.grbTimeLeft.Location = new System.Drawing.Point(7, 448);
 			this.grbTimeLeft.Name = "grbTimeLeft";
 			this.grbTimeLeft.Size = new System.Drawing.Size(108, 61);
 			this.grbTimeLeft.TabIndex = 0;
@@ -146,7 +148,7 @@
 			// 
 			// cmdBatDauLamBai
 			// 
-			this.cmdBatDauLamBai.Location = new System.Drawing.Point(7, 308);
+			this.cmdBatDauLamBai.Location = new System.Drawing.Point(6, 354);
 			this.cmdBatDauLamBai.Name = "cmdBatDauLamBai";
 			this.cmdBatDauLamBai.Size = new System.Drawing.Size(109, 41);
 			this.cmdBatDauLamBai.TabIndex = 44;
@@ -463,6 +465,16 @@
 			this.flpMain.Size = new System.Drawing.Size(830, 492);
 			this.flpMain.TabIndex = 0;
 			// 
+			// btnBlockApps
+			// 
+			this.btnBlockApps.Location = new System.Drawing.Point(6, 307);
+			this.btnBlockApps.Name = "btnBlockApps";
+			this.btnBlockApps.Size = new System.Drawing.Size(109, 41);
+			this.btnBlockApps.TabIndex = 48;
+			this.btnBlockApps.Text = "Cấm chương trình";
+			this.btnBlockApps.UseVisualStyleBackColor = true;
+			this.btnBlockApps.Click += new System.EventHandler(this.btnBlockApps_Click);
+			// 
 			// Server
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -531,6 +543,7 @@
 		private System.Windows.Forms.ListView lsvDeThi;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.Button btnXoaDe;
+		private System.Windows.Forms.Button btnBlockApps;
 	}
 }
 

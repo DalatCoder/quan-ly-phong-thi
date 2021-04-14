@@ -18,6 +18,7 @@ namespace Client
 
 		ClientProgram clientProgram;
 		PopupNotifier popup;
+		ProcessManager processManager;
 
 		public FrmClient()
 		{
@@ -30,11 +31,42 @@ namespace Client
 			clientProgram.OnSuccessNotification += HandleOnSuccessNotification;
 			clientProgram.OnErrorNotification += HandleOnErrorNotification;
 			clientProgram.OnReceivedExam += HandleOnReceivedExam;
+			clientProgram.OnCamChuongTrinh += HandleOnCamChuongTrinh;
 
 			clientProgram.onNhanThongBao = HandleOnNhanThongBao;
 			clientProgram.onNhanDanhSachSVTuExcel = HandleOnNhanDanhSachSVTuExcel;
 
+			InitProcessManager();
 			InitPopupNotifier();
+		}
+
+		private void HandleOnCamChuongTrinh(List<string> programs)
+		{
+			foreach (string program in programs)
+			{
+				processManager.AddProcess(program);
+			}
+		}
+
+		void InitProcessManager()
+		{
+			processManager = new ProcessManager();
+			processManager.OnInvalidProcessKilled += HandleOnInvalidProcessKilled;
+		}
+
+		private void HandleOnInvalidProcessKilled(string processName)
+		{
+			if (this.InvokeRequired)
+			{
+				this.BeginInvoke((MethodInvoker)delegate ()
+				{
+					RenderNotificationPopup("Lỗi", "chương trình không được phép chạy: " + processName);
+				});
+			}
+			else
+			{
+				RenderNotificationPopup("Lỗi", "chương trình không được phép chạy: " + processName);
+			}
 		}
 
 		void InitPopupNotifier()
@@ -55,7 +87,6 @@ namespace Client
 
 		private void HandleOnErrorNotification(string errorMessage, Exception ex)
 		{
-
 			string msg = errorMessage;
 
 			if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))
