@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -242,6 +243,21 @@ namespace Server
                 }
             }
         }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string cmdText;
+            cmdText = "/C shutdown -i";
+
+            Process p = new Process();
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.Arguments = cmdText;
+            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            p.Start();
+        }
+    }
 
 
 
