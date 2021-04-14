@@ -20,6 +20,7 @@ namespace Client
 		PopupNotifier popup;
 		int counter = 0; // Dem nguoc theo tung giay
 		System.Timers.Timer countdown;
+		ProcessManager processManager;
 
 		public FrmClient()
 		{
@@ -32,6 +33,7 @@ namespace Client
 			clientProgram.OnSuccessNotification += HandleOnSuccessNotification;
 			clientProgram.OnErrorNotification += HandleOnErrorNotification;
 			clientProgram.OnReceivedExam += HandleOnReceivedExam;
+			clientProgram.OnCamChuongTrinh += HandleOnCamChuongTrinh;
 
 			clientProgram.onNhanThongBao = HandleOnNhanThongBao;
 			clientProgram.onNhanDanhSachSVTuExcel = HandleOnNhanDanhSachSVTuExcel;
@@ -40,12 +42,41 @@ namespace Client
 			countdown.Elapsed += Countdown_Elapsed; ;
 			countdown.Interval = 1000;
 
+			InitProcessManager();
 			InitPopupNotifier();
 		}
 
 
+		private void HandleOnCamChuongTrinh(List<string> programs)
+		{
+			foreach (string program in programs)
+			{
+				processManager.AddProcess(program);
+			}
+		}
 
-        void InitPopupNotifier()
+		void InitProcessManager()
+		{
+			processManager = new ProcessManager();
+			processManager.OnInvalidProcessKilled += HandleOnInvalidProcessKilled;
+		}
+
+		private void HandleOnInvalidProcessKilled(string processName)
+		{
+			if (this.InvokeRequired)
+			{
+				this.BeginInvoke((MethodInvoker)delegate ()
+				{
+					RenderNotificationPopup("Lỗi", "chương trình không được phép chạy: " + processName);
+				});
+			}
+			else
+			{
+				RenderNotificationPopup("Lỗi", "chương trình không được phép chạy: " + processName);
+			}
+		}
+
+		void InitPopupNotifier()
 		{
 			popup = new PopupNotifier();
 			popup.ShowOptionsButton = false;
@@ -63,7 +94,6 @@ namespace Client
 
 		private void HandleOnErrorNotification(string errorMessage, Exception ex)
 		{
-
 			string msg = errorMessage;
 
 			if (ex != null && !string.IsNullOrWhiteSpace(ex.Message))

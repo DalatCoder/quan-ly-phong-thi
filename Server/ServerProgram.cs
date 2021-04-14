@@ -354,6 +354,16 @@ namespace Server
 			clientInfoManager.DisconnectAll();
 		}
 
+		public void CamChuongTrinh(List<string> programs)
+		{
+			DataContainer container = new DataContainer(DataContainerType.CamChuongTrinh, programs);
+
+			foreach (Socket item in clientList)
+			{
+				item.Send(container.Serialize());
+			}
+		}
+
 		public void GuiTinNhanChoTatCaMayCon(string tinNhan)
 		{
 			DataContainer dataContainer = new DataContainer(DataContainerType.GuiThongBaoAll, tinNhan);

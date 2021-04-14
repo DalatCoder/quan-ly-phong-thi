@@ -18,6 +18,7 @@ namespace Common
         GuiDanhSachSV,
         GuiSinhVien,
         BatDauLamBai,
+        CamChuongTrinh,
         SendList,
         SendStudent,
         SendString,

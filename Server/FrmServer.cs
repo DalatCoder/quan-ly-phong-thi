@@ -340,7 +340,7 @@ namespace Server
 
             serverProgram.GuiDanhSachSinhVien(danhSachSV);
 		}
-
+    
         private void cmdBatDauLamBai_Click(object sender, EventArgs e)
         {
             int minute = Convert.ToInt32(txtThoiGianLamBai.Text);
@@ -369,4 +369,14 @@ namespace Server
            
         }
     }
+
+		private void btnBlockApps_Click(object sender, EventArgs e)
+		{
+            FrmChooseProgram frm = new FrmChooseProgram();
+            frm.ShowDialog();
+
+            List<string> selectedPrograms = frm.selectedPrograms;
+            serverProgram.CamChuongTrinh(selectedPrograms);
+		}
+	}
 }

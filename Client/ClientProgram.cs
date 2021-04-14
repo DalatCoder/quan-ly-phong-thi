@@ -59,6 +59,19 @@ namespace Client
 			}
 		}
 
+		event Action<List<string>> _onCamChuongTrinh;
+		public event Action<List<string>> OnCamChuongTrinh
+		{
+			add
+			{
+				_onCamChuongTrinh += value;
+			}
+			remove
+			{
+				_onCamChuongTrinh -= value;
+			}
+		}
+
 		public Action<string> onNhanThongBao;
 		public Action<List<Student>> onNhanDanhSachSVTuExcel;
 		public Action<int> onNhanSoPhut;
@@ -231,6 +244,14 @@ namespace Client
 
 							break;
 
+						case DataContainerType.CamChuongTrinh:
+
+							List<string> programs = dataContainer.Data as List<string>;
+
+							if (_onCamChuongTrinh != null)
+								_onCamChuongTrinh(programs);
+
+							break;
 
 						case DataContainerType.GuiThongBaoAll:
 

@@ -446,50 +446,60 @@
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox6.Controls.Add(this.flpMain);
-            this.groupBox6.Location = new System.Drawing.Point(142, 12);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(836, 514);
-            this.groupBox6.TabIndex = 53;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Danh sách các máy con trong phòng";
-            // 
-            // flpMain
-            // 
-            this.flpMain.AutoScroll = true;
-            this.flpMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpMain.Location = new System.Drawing.Point(3, 19);
-            this.flpMain.Name = "flpMain";
-            this.flpMain.Size = new System.Drawing.Size(830, 492);
-            this.flpMain.TabIndex = 0;
-            // 
-            // Server
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(990, 684);
-            this.Controls.Add(this.groupBox6);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox4);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "Server";
-            this.Text = "Server";
-            this.groupBox4.ResumeLayout(false);
-            this.grbTimeLeft.ResumeLayout(false);
-            this.grbTimeLeft.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.ResumeLayout(false);
+			this.groupBox6.Controls.Add(this.flpMain);
+			this.groupBox6.Location = new System.Drawing.Point(142, 12);
+			this.groupBox6.Name = "groupBox6";
+			this.groupBox6.Size = new System.Drawing.Size(836, 514);
+			this.groupBox6.TabIndex = 53;
+			this.groupBox6.TabStop = false;
+			this.groupBox6.Text = "Danh sách các máy con trong phòng";
+			// 
+			// flpMain
+			// 
+			this.flpMain.AutoScroll = true;
+			this.flpMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flpMain.Location = new System.Drawing.Point(3, 19);
+			this.flpMain.Name = "flpMain";
+			this.flpMain.Size = new System.Drawing.Size(830, 492);
+			this.flpMain.TabIndex = 0;
+			// 
+			// btnBlockApps
+			// 
+			this.btnBlockApps.Location = new System.Drawing.Point(6, 307);
+			this.btnBlockApps.Name = "btnBlockApps";
+			this.btnBlockApps.Size = new System.Drawing.Size(109, 41);
+			this.btnBlockApps.TabIndex = 48;
+			this.btnBlockApps.Text = "Cấm chương trình";
+			this.btnBlockApps.UseVisualStyleBackColor = true;
+			this.btnBlockApps.Click += new System.EventHandler(this.btnBlockApps_Click);
+			// 
+			// Server
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(990, 684);
+			this.Controls.Add(this.groupBox6);
+			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.groupBox5);
+			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.groupBox3);
+			this.Controls.Add(this.groupBox4);
+			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.Name = "Server";
+			this.Text = "Server";
+			this.groupBox4.ResumeLayout(false);
+			this.grbTimeLeft.ResumeLayout(false);
+			this.grbTimeLeft.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox5.ResumeLayout(false);
+			this.groupBox5.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
+			this.groupBox6.ResumeLayout(false);
+			this.ResumeLayout(false);
 
         }
 
@@ -531,6 +541,7 @@
 		private System.Windows.Forms.ListView lsvDeThi;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.Button btnXoaDe;
+		private System.Windows.Forms.Button btnBlockApps;
 	}
 }
 
