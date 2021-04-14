@@ -245,21 +245,18 @@ namespace Server
 		}
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string cmdText;
-            cmdText = "/C shutdown -i";
+		private void button1_Click(object sender, EventArgs e)
+		{
+			string cmdText;
+			cmdText = "/C shutdown -i";
 
-            Process p = new Process();
-            p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.Arguments = cmdText;
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			Process p = new Process();
+			p.StartInfo.FileName = "cmd.exe";
+			p.StartInfo.Arguments = cmdText;
+			p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
-            p.Start();
-        }
-    }
-
-
+			p.Start();
+		}
 
 		#endregion
 
