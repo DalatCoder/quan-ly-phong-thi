@@ -322,6 +322,15 @@ namespace Server
 			}
 		}
 
+		public void batDauLamBai(int sophut)
+        {
+			DataContainer container = new DataContainer(DataContainerType.BatDauLamBai,sophut);
+            foreach (Socket item in clientList)
+            {
+				item.Send(container.Serialize());
+            }
+        }
+
 		public void ThuBai()
 		{
 			DataContainer container = new DataContainer(DataContainerType.ThuBai, null);

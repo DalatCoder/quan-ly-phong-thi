@@ -17,6 +17,7 @@ namespace Common
         GuiThongBaoAll,
         GuiDanhSachSV,
         GuiSinhVien,
+        BatDauLamBai,
         CamChuongTrinh,
         SendList,
         SendStudent,
@@ -32,10 +33,10 @@ namespace Common
     [Serializable]
     public class DataContainer
     {
-        public DataContainerType Type { get; private set; }
-        public object Data { get; private set; }
+        public DataContainerType Type { get;  set; }
+        public object Data { get;  set; }
 
-        private DataContainer()
+        public DataContainer()
         {
             Type = DataContainerType.Undefined;
             Data = null;
