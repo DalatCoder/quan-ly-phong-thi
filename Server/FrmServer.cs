@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common;
+using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,12 +11,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tulpep.NotificationWindow;
+using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace Server
 {
     public partial class Server : Form
     {
         ServerProgram serverProgram;
+        PopupNotifier popup;
+        int counter = 0; // Dem nguoc theo tung giay
+        System.Timers.Timer countdown;
 
         public Server()
         {
@@ -29,8 +36,25 @@ namespace Server
 
             serverProgram.OnServerStarted += HandleOnServerStarted;
             serverProgram.OnClientListChanged += HandleOnClientListChanged;
+            countdown = new System.Timers.Timer();
+            countdown.Elapsed += Countdown_Elapsed;
+            countdown.Interval = 1000;
 
             serverProgram.Start();
+
+            
+
+            InitPopupNotifier();
+        }
+
+
+
+        void InitPopupNotifier()
+        {
+            popup = new PopupNotifier();
+            popup.ShowOptionsButton = false;
+            popup.ContentPadding = new Padding(10, 3, 10, 3);
+            popup.TitlePadding = new Padding(10, 3, 10, 3);
         }
 
         #region Server Program Events
@@ -221,8 +245,6 @@ namespace Server
         }
 
 
-        #endregion
-
         private void button1_Click(object sender, EventArgs e)
         {
             string cmdText;
@@ -236,4 +258,141 @@ namespace Server
             p.Start();
         }
     }
+
+
+
+		#endregion
+
+		private void btnGuiTinNhan_Click(object sender, EventArgs e)
+		{
+            FrmSendMessage frmSendMessage = new FrmSendMessage();
+
+            frmSendMessage.onClickSendButton = HandleOnClickSendButton;
+
+            frmSendMessage.ShowDialog();
+		}
+
+        void HandleOnClickSendButton(string tinnhan)
+		{
+            // gui tin nhan toi client
+            serverProgram.GuiTinNhanChoTatCaMayCon(tinnhan);
+		}
+
+        List<Student> DocNoiDungFileExcel(string duongDanFileExcel)
+		{
+            // Doc file excel
+            List<Student> students = new List<Student>();
+			try
+			{
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                //mở file excel
+                var package = new ExcelPackage(new FileInfo(duongDanFileExcel));
+
+                //lấy ra sheet đầu tiên để thao tác
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                //duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. Lưu ý file excel bắt đầu từ số 1 không phải số 0
+                for (int i = worksheet.Dimension.Start.Row+1; i <= worksheet.Dimension.End.Row; i++)
+				{
+					try
+					{
+                        // biến j biểu thị cho một column trong file
+                        int j = 1;
+
+                        // lấy ra cột mã số sinh viên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
+                        //tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
+                        string mssv = worksheet.Cells[i, j++].Value.ToString();
+
+                        // lấy ra cột họ và tên đệm tương ứng giá trị tại vị trí [i, 2]. i lần đầu là 2
+                        //tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
+                        string hoDem = worksheet.Cells[i, j++].Value.ToString();
+
+                        // lấy ra cột tên tương ứng giá trị tại vị trí [i, 3]. i lần đầu là 2
+                        //tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
+                        string ten = worksheet.Cells[i, j++].Value.ToString();
+
+                        // tạo student từ dữ liệu đã lấy được 
+                        Student student = new Student()
+                        {
+                            MSSV = mssv,
+                            LastName = hoDem,
+                            FirstName = ten
+                        };
+
+                        // add student vào danh sách students
+                        students.Add(student);
+                    }
+                    catch (Exception exe)
+					{
+
+					
+					}
+
+				}
+			}
+			catch (Exception ee)
+			{
+
+                MessageBox.Show("Error!" + ee.Message);
+			}
+            
+
+            return students;
+		}
+
+		private void btnGuiDSSVTuFile_Click(object sender, EventArgs e)
+		{
+            //Doc file excel
+            List<Student> danhSachSV = DocNoiDungFileExcel(@"D:\Nam3_Ki_II\LapTrinhMang\quan-ly-phong-thi\danhsachsinhvien.xlsx");
+
+            //Goi ham gui
+            serverProgram.GuiDanhSachSinhVien(danhSachSV);
+		}
+
+		private void btnLayDSSinhVienTuCSDL_Click(object sender, EventArgs e)
+		{
+            List<Student> danhSachSV = StudentDAO.Instance.GetStudents();
+
+            serverProgram.GuiDanhSachSinhVien(danhSachSV);
+		}
+    
+        private void cmdBatDauLamBai_Click(object sender, EventArgs e)
+        {
+            int minute = Convert.ToInt32(txtThoiGianLamBai.Text);
+            counter = minute * 60;
+            countdown.Enabled = true;
+
+            serverProgram.batDauLamBai(minute);
+            
+            
+          }
+        private void Countdown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            counter -= 1;
+
+            int minute = counter / 60;
+            int second = counter % 60;
+
+            lblTimeLeft.Text = minute + ":" + second;
+            if (counter == 0)
+            {
+                countdown.Stop();
+
+                serverProgram.GuiTinNhanChoTatCaMayCon("Đã Hết Thời Gian Làm bài");
+            }
+
+           
+        }
+    }
+
+		private void btnBlockApps_Click(object sender, EventArgs e)
+		{
+            FrmChooseProgram frm = new FrmChooseProgram();
+            frm.ShowDialog();
+
+            List<string> selectedPrograms = frm.selectedPrograms;
+            serverProgram.CamChuongTrinh(selectedPrograms);
+		}
+	}
 }

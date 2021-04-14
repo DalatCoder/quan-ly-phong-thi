@@ -61,6 +61,9 @@ namespace Server
 			}
 		}
 
+		public Action<Student> onNhanSinhVien;
+		
+
 		#endregion
 
 		#region Init client info list
@@ -133,7 +136,8 @@ namespace Server
 					{
 						Endpoint = clientSocket.RemoteEndPoint as IPEndPoint,
 						ClientIP = clientIP,
-						Status = ClientInfoStatus.ClientConnected
+						Status = ClientInfoStatus.ClientConnected,
+						StudentInfo = new Student()
 					};
 
 					// Thêm mới nếu chưa có, tự cập nhật nếu đã có
@@ -211,10 +215,6 @@ namespace Server
 							if (!Directory.Exists(savePath))
 								Directory.CreateDirectory(savePath);
 
-							string timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString();
-
-							savePath = Path.Combine(savePath, timestamp);
-
 							string fileName = fileNopBaiContainer.FileInfo.Name;
 							string fullPath = Path.Combine(savePath, fileName);
 
@@ -222,6 +222,17 @@ namespace Server
 
 							using (var fileStream = File.Create(fullPath))
 								fileStream.Write(fileContent, 0, fileContent.Length);
+
+							break;
+
+						case DataContainerType.GuiSinhVien:
+							Student student1 = dataContainer.Data as Student;
+
+							clientInfo.StudentInfo = student1;
+							clientInfo.Status = ClientInfoStatus.StudentConnected;
+
+							if (_onClientListChanged != null)
+								_onClientListChanged(clientInfoManager.Clients);
 
 							break;
 
@@ -311,6 +322,15 @@ namespace Server
 			}
 		}
 
+		public void batDauLamBai(int sophut)
+        {
+			DataContainer container = new DataContainer(DataContainerType.BatDauLamBai,sophut);
+            foreach (Socket item in clientList)
+            {
+				item.Send(container.Serialize());
+            }
+        }
+
 		public void ThuBai()
 		{
 			DataContainer container = new DataContainer(DataContainerType.ThuBai, null);
@@ -332,6 +352,40 @@ namespace Server
 			clientList.Clear();
 
 			clientInfoManager.DisconnectAll();
+		}
+
+		public void CamChuongTrinh(List<string> programs)
+		{
+			DataContainer container = new DataContainer(DataContainerType.CamChuongTrinh, programs);
+
+			foreach (Socket item in clientList)
+			{
+				item.Send(container.Serialize());
+			}
+		}
+
+		public void GuiTinNhanChoTatCaMayCon(string tinNhan)
+		{
+			DataContainer dataContainer = new DataContainer(DataContainerType.GuiThongBaoAll, tinNhan);
+
+			byte[] buffer = dataContainer.Serialize();
+
+			foreach (Socket item in clientList)
+			{
+				item.Send(buffer);
+			}
+		}
+
+		public void GuiDanhSachSinhVien(List<Student> students)
+		{
+			DataContainer dataContainer = new DataContainer(DataContainerType.GuiDanhSachSV, students);
+
+			byte[] buffer = dataContainer.Serialize();
+
+			foreach (Socket item in clientList)
+			{
+				item.Send(buffer);
+			}
 		}
 
 		#endregion

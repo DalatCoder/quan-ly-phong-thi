@@ -16,7 +16,7 @@ namespace Client
 	public class ClientProgram
 	{
 		IPEndPoint IP;
-		Socket client;
+		Socket server;
 
 		string savePath = null; // Thu muc luu de thi
 
@@ -59,15 +59,32 @@ namespace Client
 			}
 		}
 
+		event Action<List<string>> _onCamChuongTrinh;
+		public event Action<List<string>> OnCamChuongTrinh
+		{
+			add
+			{
+				_onCamChuongTrinh += value;
+			}
+			remove
+			{
+				_onCamChuongTrinh -= value;
+			}
+		}
+
+		public Action<string> onNhanThongBao;
+		public Action<List<Student>> onNhanDanhSachSVTuExcel;
+		public Action<int> onNhanSoPhut;
+
 		public void Connect(string hostname, int port)
 		{
 			IP = new IPEndPoint(IPAddress.Parse(hostname), port);
-			client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 			string computerName = System.Environment.MachineName;
 
 			try
 			{
-				client.Connect(IP);
+				server.Connect(IP);
 
 				if (_onSuccessNotification != null)
 					_onSuccessNotification("Kết nối đến máy chủ thành công");
@@ -93,7 +110,7 @@ namespace Client
 				if (container == null)
 					throw new ArgumentException("Dữ liệu trống");
 
-				client.Send(container.Serialize());
+				server.Send(container.Serialize());
 			}
 			catch (ArgumentException ex)
 			{
@@ -109,8 +126,15 @@ namespace Client
 
 		public void CloseConnection()
 		{
-			if (client != null)
-				client.Close();
+			if (server != null)
+				server.Close();
+		}
+
+		public void SendStudent(Student student)
+		{
+			DataContainer container = new DataContainer(DataContainerType.GuiSinhVien,student);
+
+			SendDataToServer(container);
 		}
 
 		void Receive()
@@ -120,7 +144,7 @@ namespace Client
 				while (true)
 				{
 					byte[] buffer = new byte[1024 * 1024 * 20];
-					client.Receive(buffer);
+					server.Receive(buffer);
 
 					DataContainer dataContainer = DataContainer.Deserialize(buffer);
 
@@ -220,6 +244,34 @@ namespace Client
 
 							break;
 
+						case DataContainerType.CamChuongTrinh:
+
+							List<string> programs = dataContainer.Data as List<string>;
+
+							if (_onCamChuongTrinh != null)
+								_onCamChuongTrinh(programs);
+
+							break;
+
+						case DataContainerType.GuiThongBaoAll:
+
+							string message = dataContainer.Data.ToString();
+
+							onNhanThongBao(message);
+
+							break;
+
+						case DataContainerType.GuiDanhSachSV:
+
+							List<Student> students = dataContainer.Data as List<Student>;
+							onNhanDanhSachSVTuExcel(students);
+							break;
+
+						case DataContainerType.BatDauLamBai:
+							int minnute = Convert.ToInt32(dataContainer.Data);
+							onNhanSoPhut(minnute);
+							break;
+
 						case DataContainerType.SendList:
 							break;
 						case DataContainerType.SendStudent:
@@ -238,6 +290,7 @@ namespace Client
 							break;
 
 						case DataContainerType.BeginExam:
+
 							break;
 
 						case DataContainerType.FinishExam:
@@ -263,6 +316,6 @@ namespace Client
 
 				CloseConnection();
 			}
-		}	
+		}
 	}
 }

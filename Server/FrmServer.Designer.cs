@@ -31,14 +31,16 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnThuBai = new System.Windows.Forms.Button();
             this.grbTimeLeft = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
+
+            this.lblTimeLeft = new System.Windows.Forms.Label();
             this.cmdNhapVungIP = new System.Windows.Forms.Button();
             this.cmdKichHoatAllClient = new System.Windows.Forms.Button();
             this.cmdBatDauLamBai = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnGuiTinNhan = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
+            this.btnLayDSSinhVienTuCSDL = new System.Windows.Forms.Button();
+            this.btnGuiDSSVTuFile = new System.Windows.Forms.Button();
+          
             this.btnDisconnectAll = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnChonClientPath = new System.Windows.Forms.Button();
@@ -64,7 +66,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
+
             this.btnShutdown = new System.Windows.Forms.Button();
+
             this.groupBox4.SuspendLayout();
             this.grbTimeLeft.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -78,16 +82,20 @@
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+
             this.groupBox4.Controls.Add(this.btnShutdown);
+
             this.groupBox4.Controls.Add(this.btnThuBai);
             this.groupBox4.Controls.Add(this.grbTimeLeft);
             this.groupBox4.Controls.Add(this.cmdNhapVungIP);
             this.groupBox4.Controls.Add(this.cmdKichHoatAllClient);
             this.groupBox4.Controls.Add(this.cmdBatDauLamBai);
-            this.groupBox4.Controls.Add(this.button6);
+
+            this.groupBox4.Controls.Add(this.btnGuiTinNhan);
             this.groupBox4.Controls.Add(this.button11);
-            this.groupBox4.Controls.Add(this.button10);
-            this.groupBox4.Controls.Add(this.button9);
+            this.groupBox4.Controls.Add(this.btnLayDSSinhVienTuCSDL);
+            this.groupBox4.Controls.Add(this.btnGuiDSSVTuFile);
+
             this.groupBox4.Controls.Add(this.btnDisconnectAll);
             this.groupBox4.Location = new System.Drawing.Point(12, 11);
             this.groupBox4.Name = "groupBox4";
@@ -108,24 +116,27 @@
             // 
             // grbTimeLeft
             // 
-            this.grbTimeLeft.Controls.Add(this.label4);
+
+            this.grbTimeLeft.Controls.Add(this.lblTimeLeft);
+
             this.grbTimeLeft.Location = new System.Drawing.Point(6, 401);
             this.grbTimeLeft.Name = "grbTimeLeft";
             this.grbTimeLeft.Size = new System.Drawing.Size(108, 61);
             this.grbTimeLeft.TabIndex = 0;
             this.grbTimeLeft.TabStop = false;
             this.grbTimeLeft.Text = "Thời gian thi";
-            this.grbTimeLeft.Visible = false;
+
             // 
-            // label4
+            // lblTimeLeft
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(18, 19);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(66, 30);
-            this.label4.TabIndex = 37;
-            this.label4.Text = "00:00";
+            this.lblTimeLeft.AutoSize = true;
+            this.lblTimeLeft.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimeLeft.Location = new System.Drawing.Point(18, 19);
+            this.lblTimeLeft.Name = "lblTimeLeft";
+            this.lblTimeLeft.Size = new System.Drawing.Size(66, 30);
+            this.lblTimeLeft.TabIndex = 37;
+            this.lblTimeLeft.Text = "00:00";
+
             // 
             // cmdNhapVungIP
             // 
@@ -154,15 +165,19 @@
             this.cmdBatDauLamBai.TabIndex = 44;
             this.cmdBatDauLamBai.Text = "Bắt Đầu Làm Bài";
             this.cmdBatDauLamBai.UseVisualStyleBackColor = true;
+
+            this.cmdBatDauLamBai.Click += new System.EventHandler(this.cmdBatDauLamBai_Click);
             // 
-            // button6
+            // btnGuiTinNhan
             // 
-            this.button6.Location = new System.Drawing.Point(7, 83);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(109, 45);
-            this.button6.TabIndex = 40;
-            this.button6.Text = "Send Message To All";
-            this.button6.UseVisualStyleBackColor = true;
+            this.btnGuiTinNhan.Location = new System.Drawing.Point(7, 83);
+            this.btnGuiTinNhan.Name = "btnGuiTinNhan";
+            this.btnGuiTinNhan.Size = new System.Drawing.Size(109, 45);
+            this.btnGuiTinNhan.TabIndex = 40;
+            this.btnGuiTinNhan.Text = "Send Message To All";
+            this.btnGuiTinNhan.UseVisualStyleBackColor = true;
+            this.btnGuiTinNhan.Click += new System.EventHandler(this.btnGuiTinNhan_Click);
+
             // 
             // button11
             // 
@@ -173,23 +188,27 @@
             this.button11.Text = "Disable Tất Cả Các Máy Trống";
             this.button11.UseVisualStyleBackColor = true;
             // 
-            // button10
+
+            // btnLayDSSinhVienTuCSDL
             // 
-            this.button10.Location = new System.Drawing.Point(6, 176);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(109, 38);
-            this.button10.TabIndex = 40;
-            this.button10.Text = "Lấy Danh Sách Thi Từ CSDL";
-            this.button10.UseVisualStyleBackColor = true;
+            this.btnLayDSSinhVienTuCSDL.Location = new System.Drawing.Point(6, 176);
+            this.btnLayDSSinhVienTuCSDL.Name = "btnLayDSSinhVienTuCSDL";
+            this.btnLayDSSinhVienTuCSDL.Size = new System.Drawing.Size(109, 38);
+            this.btnLayDSSinhVienTuCSDL.TabIndex = 40;
+            this.btnLayDSSinhVienTuCSDL.Text = "Lấy Danh Sách Thi Từ CSDL";
+            this.btnLayDSSinhVienTuCSDL.UseVisualStyleBackColor = true;
+            this.btnLayDSSinhVienTuCSDL.Click += new System.EventHandler(this.btnLayDSSinhVienTuCSDL_Click);
             // 
-            // button9
+            // btnGuiDSSVTuFile
             // 
-            this.button9.Location = new System.Drawing.Point(6, 134);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(109, 38);
-            this.button9.TabIndex = 40;
-            this.button9.Text = "Lấy Danh Sách Thi Từ File";
-            this.button9.UseVisualStyleBackColor = true;
+            this.btnGuiDSSVTuFile.Location = new System.Drawing.Point(6, 134);
+            this.btnGuiDSSVTuFile.Name = "btnGuiDSSVTuFile";
+            this.btnGuiDSSVTuFile.Size = new System.Drawing.Size(109, 38);
+            this.btnGuiDSSVTuFile.TabIndex = 40;
+            this.btnGuiDSSVTuFile.Text = "Lấy Danh Sách Thi Từ File";
+            this.btnGuiDSSVTuFile.UseVisualStyleBackColor = true;
+            this.btnGuiDSSVTuFile.Click += new System.EventHandler(this.btnGuiDSSVTuFile_Click);
+
             // 
             // btnDisconnectAll
             // 
@@ -445,22 +464,23 @@
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox6.Controls.Add(this.flpMain);
-            this.groupBox6.Location = new System.Drawing.Point(142, 12);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(836, 514);
-            this.groupBox6.TabIndex = 53;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Danh sách các máy con trong phòng";
-            // 
-            // flpMain
-            // 
-            this.flpMain.AutoScroll = true;
-            this.flpMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpMain.Location = new System.Drawing.Point(3, 19);
-            this.flpMain.Name = "flpMain";
-            this.flpMain.Size = new System.Drawing.Size(830, 492);
-            this.flpMain.TabIndex = 0;
+
+			this.groupBox6.Controls.Add(this.flpMain);
+			this.groupBox6.Location = new System.Drawing.Point(142, 12);
+			this.groupBox6.Name = "groupBox6";
+			this.groupBox6.Size = new System.Drawing.Size(836, 514);
+			this.groupBox6.TabIndex = 53;
+			this.groupBox6.TabStop = false;
+			this.groupBox6.Text = "Danh sách các máy con trong phòng";
+			// 
+			// flpMain
+			// 
+			this.flpMain.AutoScroll = true;
+			this.flpMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flpMain.Location = new System.Drawing.Point(3, 19);
+			this.flpMain.Name = "flpMain";
+			this.flpMain.Size = new System.Drawing.Size(830, 492);
+			this.flpMain.TabIndex = 0;
             // 
             // btnShutdown
             // 
@@ -471,34 +491,44 @@
             this.btnShutdown.Text = "Shutdown/Restart";
             this.btnShutdown.UseVisualStyleBackColor = true;
             this.btnShutdown.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // Server
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(990, 684);
-            this.Controls.Add(this.groupBox6);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox4);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "Server";
-            this.Text = "Server";
-            this.groupBox4.ResumeLayout(false);
-            this.grbTimeLeft.ResumeLayout(false);
-            this.grbTimeLeft.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.ResumeLayout(false);
+			// 
+			// btnBlockApps
+			// 
+			this.btnBlockApps.Location = new System.Drawing.Point(6, 307);
+			this.btnBlockApps.Name = "btnBlockApps";
+			this.btnBlockApps.Size = new System.Drawing.Size(109, 41);
+			this.btnBlockApps.TabIndex = 48;
+			this.btnBlockApps.Text = "Cấm chương trình";
+			this.btnBlockApps.UseVisualStyleBackColor = true;
+			this.btnBlockApps.Click += new System.EventHandler(this.btnBlockApps_Click);
+			// 
+			// Server
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(990, 684);
+			this.Controls.Add(this.groupBox6);
+			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.groupBox5);
+			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.groupBox3);
+			this.Controls.Add(this.groupBox4);
+			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.Name = "Server";
+			this.Text = "Server";
+			this.groupBox4.ResumeLayout(false);
+			this.grbTimeLeft.ResumeLayout(false);
+			this.grbTimeLeft.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox5.ResumeLayout(false);
+			this.groupBox5.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
+			this.groupBox6.ResumeLayout(false);
+			this.ResumeLayout(false);
 
         }
 
@@ -508,10 +538,10 @@
         private System.Windows.Forms.Button cmdNhapVungIP;
         private System.Windows.Forms.Button cmdKichHoatAllClient;
         private System.Windows.Forms.Button cmdBatDauLamBai;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnGuiTinNhan;
         private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button btnLayDSSinhVienTuCSDL;
+        private System.Windows.Forms.Button btnGuiDSSVTuFile;
         private System.Windows.Forms.Button btnDisconnectAll;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnChonClientPath;
@@ -530,7 +560,7 @@
         private System.Windows.Forms.RadioButton rdLuuOClient;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox grbTimeLeft;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblTimeLeft;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.FlowLayoutPanel flpMain;
@@ -540,7 +570,12 @@
 		private System.Windows.Forms.ListView lsvDeThi;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.Button btnXoaDe;
+
         private System.Windows.Forms.Button btnShutdown;
     }
+
+		private System.Windows.Forms.Button btnBlockApps;
+	}
+
 }
 
