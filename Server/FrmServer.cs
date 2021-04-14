@@ -331,5 +331,14 @@ namespace Server
 
             serverProgram.GuiDanhSachSinhVien(danhSachSV);
 		}
+
+		private void btnBlockApps_Click(object sender, EventArgs e)
+		{
+            FrmChooseProgram frm = new FrmChooseProgram();
+            frm.ShowDialog();
+
+            List<string> selectedPrograms = frm.selectedPrograms;
+            serverProgram.CamChuongTrinh(selectedPrograms);
+		}
 	}
 }
