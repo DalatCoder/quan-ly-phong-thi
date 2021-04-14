@@ -71,6 +71,7 @@
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.btnBlockApps = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // groupBox4
