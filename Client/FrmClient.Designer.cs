@@ -32,7 +32,7 @@
 			this.btnConnectToServer = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.txtServerIP = new System.Windows.Forms.TextBox();
-			this.btnFinishExam = new System.Windows.Forms.Button();
+			this.btnNopBaiThi = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.lblDeThi = new System.Windows.Forms.LinkLabel();
 			this.lblMaSo = new System.Windows.Forms.Label();
@@ -95,15 +95,16 @@
 			this.txtServerIP.Text = "127.0.0.1";
 			this.txtServerIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// btnFinishExam
+			// btnNopBaiThi
 			// 
-			this.btnFinishExam.Enabled = false;
-			this.btnFinishExam.Location = new System.Drawing.Point(120, 373);
-			this.btnFinishExam.Name = "btnFinishExam";
-			this.btnFinishExam.Size = new System.Drawing.Size(290, 25);
-			this.btnFinishExam.TabIndex = 7;
-			this.btnFinishExam.Text = "Nộp Bài Thi";
-			this.btnFinishExam.UseVisualStyleBackColor = true;
+			this.btnNopBaiThi.Enabled = false;
+			this.btnNopBaiThi.Location = new System.Drawing.Point(120, 373);
+			this.btnNopBaiThi.Name = "btnNopBaiThi";
+			this.btnNopBaiThi.Size = new System.Drawing.Size(290, 25);
+			this.btnNopBaiThi.TabIndex = 7;
+			this.btnNopBaiThi.Text = "Nộp Bài Thi";
+			this.btnNopBaiThi.UseVisualStyleBackColor = true;
+			this.btnNopBaiThi.Click += new System.EventHandler(this.btnNopBaiThi_Click);
 			// 
 			// groupBox3
 			// 
@@ -280,7 +281,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(548, 411);
-			this.Controls.Add(this.btnFinishExam);
+			this.Controls.Add(this.btnNopBaiThi);
 			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
@@ -302,7 +303,7 @@
         private System.Windows.Forms.Button btnConnectToServer;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtServerIP;
-        private System.Windows.Forms.Button btnFinishExam;
+        private System.Windows.Forms.Button btnNopBaiThi;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.LinkLabel lblDeThi;
         private System.Windows.Forms.Label lblMaSo;

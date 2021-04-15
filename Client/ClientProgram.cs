@@ -181,70 +181,7 @@ namespace Client
 							break;
 
 						case DataContainerType.ThuBai:
-
-							// Khong co duong dan chua de thi
-							if (string.IsNullOrWhiteSpace(this.savePath))
-							{
-								// Handle error
-								break;
-							}
-
-							// Khong co thu muc luu bai thi
-							if (!Directory.Exists(this.savePath))
-							{
-								// Handle error
-								if (_onErrorNotification != null)
-								{
-									string msg = "Không tìm thấy thư mục lưu bài thi tại: " + this.savePath;
-
-									_onErrorNotification(msg, null);
-								}
-
-								break;
-							}
-
-							List<string> allowFileExtensions = new List<string>()
-							{
-								".zip",
-								".7z",
-								".rar"
-							};
-
-							// Tim file .zip trong thu muc luu bai thi
-							DirectoryInfo d = new DirectoryInfo(this.savePath);
-							FileInfo[] Files = d.GetFiles("*.*");
-
-							string fileNopBai = null;
-							foreach (FileInfo file in Files)
-							{
-								string filename = file.Name;
-								string extension = Path.GetExtension(filename);
-
-								if (allowFileExtensions.Contains(extension))
-								{
-									fileNopBai = file.FullName;
-									break;
-								}
-							}
-
-							if (string.IsNullOrWhiteSpace(fileNopBai))
-							{
-								if (_onErrorNotification != null)
-									_onErrorNotification("Không tìm thấy file nén bài làm", null);
-
-								break;
-							}
-
-							// Gui file .zip len server
-							FileContainer fileNopBaiContainer = new FileContainer(fileNopBai, null);
-
-							DataContainer dataContainerNopBai = new DataContainer(DataContainerType.ThuBai, fileNopBaiContainer);
-
-							SendDataToServer(dataContainerNopBai);
-
-							if (_onSuccessNotification != null)
-								_onSuccessNotification("Đã gửi file nén bài làm lên máy chủ");
-
+							NopBaiThi();
 							break;
 
 						case DataContainerType.CamChuongTrinh:
@@ -322,6 +259,75 @@ namespace Client
 				if (_onClientDisconnected != null)
 					_onClientDisconnected();
 			}
+		}
+
+		public void NopBaiThi()
+		{
+			// Khong co duong dan chua de thi
+			if (string.IsNullOrWhiteSpace(this.savePath))
+			{
+
+				if (_onErrorNotification != null)
+					_onErrorNotification("Không tìm thấy đường dẫn chứa bài thi", null);
+
+				return;
+			}
+
+			// Khong co thu muc luu bai thi
+			if (!Directory.Exists(this.savePath))
+			{
+				// Handle error
+				if (_onErrorNotification != null)
+				{
+					string msg = "Không tìm thấy thư mục lưu bài thi tại: " + this.savePath;
+
+					_onErrorNotification(msg, null);
+				}
+
+				return;
+			}
+
+			List<string> allowFileExtensions = new List<string>()
+							{
+								".zip",
+								".7z",
+								".rar"
+							};
+
+			// Tim file .zip trong thu muc luu bai thi
+			DirectoryInfo d = new DirectoryInfo(this.savePath);
+			FileInfo[] Files = d.GetFiles("*.*");
+
+			string fileNopBai = null;
+			foreach (FileInfo file in Files)
+			{
+				string filename = file.Name;
+				string extension = Path.GetExtension(filename);
+
+				if (allowFileExtensions.Contains(extension))
+				{
+					fileNopBai = file.FullName;
+					break;
+				}
+			}
+
+			if (string.IsNullOrWhiteSpace(fileNopBai))
+			{
+				if (_onErrorNotification != null)
+					_onErrorNotification("Không tìm thấy file nén bài làm", null);
+
+				return;
+			}
+
+			// Gui file .zip len server
+			FileContainer fileNopBaiContainer = new FileContainer(fileNopBai, null);
+
+			DataContainer dataContainerNopBai = new DataContainer(DataContainerType.ThuBai, fileNopBaiContainer);
+
+			SendDataToServer(dataContainerNopBai);
+
+			if (_onSuccessNotification != null)
+				_onSuccessNotification("Đã gửi file nén bài làm lên máy chủ");
 		}
 	}
 }

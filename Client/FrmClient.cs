@@ -107,12 +107,14 @@ namespace Client
 				{
 					btnConnectToServer.Enabled = true;
 					btnSendStudentInfo.Enabled = false;
+					btnNopBaiThi.Enabled = false;
 				});
 			}
 			else
 			{
 				btnConnectToServer.Enabled = true;
-				btnSendStudentInfo.Enabled = false;				
+				btnSendStudentInfo.Enabled = false;
+				btnNopBaiThi.Enabled = false;
 			}
 		}
 
@@ -239,6 +241,8 @@ namespace Client
 
 			Student student = cbDSThi.SelectedItem as Student;
 			clientProgram.SendStudent(student);
+
+			btnNopBaiThi.Enabled = true;
 		}
 
 		private void Countdown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -267,6 +271,11 @@ namespace Client
 			Student student = cbDSThi.SelectedItem as Student;
 			lblHoTen.Text = student.FullName;
 			lblMaSo.Text = student.MSSV;
+		}
+
+		private void btnNopBaiThi_Click(object sender, EventArgs e)
+		{
+			clientProgram.NopBaiThi();
 		}
 
 		#endregion
