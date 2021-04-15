@@ -59,11 +59,6 @@
 			this.cbMonHoc = new System.Windows.Forms.ComboBox();
 			this.cmdChapNhan = new System.Windows.Forms.Button();
 			this.txtThoiGianLamBai = new System.Windows.Forms.TextBox();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.btnBaiThiLuuODau = new System.Windows.Forms.Button();
-			this.rdLuuOServer = new System.Windows.Forms.RadioButton();
-			this.rdLuuOClient = new System.Windows.Forms.RadioButton();
-			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
 			this.btnBlockApps = new System.Windows.Forms.Button();
@@ -72,7 +67,6 @@
 			this.groupBox3.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
-			this.groupBox2.SuspendLayout();
 			this.groupBox6.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -238,16 +232,16 @@
 			this.groupBox3.Controls.Add(this.label2);
 			this.groupBox3.Location = new System.Drawing.Point(12, 580);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(219, 140);
+			this.groupBox3.Size = new System.Drawing.Size(365, 140);
 			this.groupBox3.TabIndex = 50;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Đường Dẫn";
 			// 
 			// btnChonClientPath
 			// 
-			this.btnChonClientPath.Location = new System.Drawing.Point(151, 104);
+			this.btnChonClientPath.Location = new System.Drawing.Point(258, 105);
 			this.btnChonClientPath.Name = "btnChonClientPath";
-			this.btnChonClientPath.Size = new System.Drawing.Size(62, 24);
+			this.btnChonClientPath.Size = new System.Drawing.Size(101, 24);
 			this.btnChonClientPath.TabIndex = 36;
 			this.btnChonClientPath.Text = "Chọn";
 			this.btnChonClientPath.UseVisualStyleBackColor = true;
@@ -255,9 +249,9 @@
 			// 
 			// btnChonServerPath
 			// 
-			this.btnChonServerPath.Location = new System.Drawing.Point(151, 48);
+			this.btnChonServerPath.Location = new System.Drawing.Point(258, 47);
 			this.btnChonServerPath.Name = "btnChonServerPath";
-			this.btnChonServerPath.Size = new System.Drawing.Size(62, 22);
+			this.btnChonServerPath.Size = new System.Drawing.Size(101, 23);
 			this.btnChonServerPath.TabIndex = 35;
 			this.btnChonServerPath.Text = "Chọn";
 			this.btnChonServerPath.UseVisualStyleBackColor = true;
@@ -267,17 +261,19 @@
 			// 
 			this.txtClientPath.Location = new System.Drawing.Point(6, 106);
 			this.txtClientPath.Name = "txtClientPath";
-			this.txtClientPath.Size = new System.Drawing.Size(139, 23);
+			this.txtClientPath.Size = new System.Drawing.Size(246, 23);
 			this.txtClientPath.TabIndex = 34;
 			this.txtClientPath.Text = "C:\\tam";
+			this.txtClientPath.TextChanged += new System.EventHandler(this.txtClientPath_TextChanged);
 			// 
 			// txtServerPath
 			// 
 			this.txtServerPath.Location = new System.Drawing.Point(6, 47);
 			this.txtServerPath.Name = "txtServerPath";
-			this.txtServerPath.Size = new System.Drawing.Size(139, 23);
+			this.txtServerPath.Size = new System.Drawing.Size(246, 23);
 			this.txtServerPath.TabIndex = 34;
 			this.txtServerPath.Text = "c:\\serverPath";
+			this.txtServerPath.TextChanged += new System.EventHandler(this.txtServerPath_TextChanged);
 			// 
 			// label3
 			// 
@@ -305,7 +301,7 @@
 			this.groupBox1.Controls.Add(this.lsvDeThi);
 			this.groupBox1.Controls.Add(this.btnPhatDe);
 			this.groupBox1.Controls.Add(this.btnThemDe);
-			this.groupBox1.Location = new System.Drawing.Point(237, 580);
+			this.groupBox1.Location = new System.Drawing.Point(383, 580);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(347, 140);
 			this.groupBox1.TabIndex = 51;
@@ -378,7 +374,7 @@
 			this.groupBox5.Controls.Add(this.cbMonHoc);
 			this.groupBox5.Controls.Add(this.cmdChapNhan);
 			this.groupBox5.Controls.Add(this.txtThoiGianLamBai);
-			this.groupBox5.Location = new System.Drawing.Point(590, 580);
+			this.groupBox5.Location = new System.Drawing.Point(736, 580);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(239, 140);
 			this.groupBox5.TabIndex = 52;
@@ -419,61 +415,6 @@
 			this.txtThoiGianLamBai.Text = "120";
 			this.txtThoiGianLamBai.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// groupBox2
-			// 
-			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox2.Controls.Add(this.btnBaiThiLuuODau);
-			this.groupBox2.Controls.Add(this.rdLuuOServer);
-			this.groupBox2.Controls.Add(this.rdLuuOClient);
-			this.groupBox2.Controls.Add(this.label1);
-			this.groupBox2.Location = new System.Drawing.Point(835, 580);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(143, 140);
-			this.groupBox2.TabIndex = 33;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Chọn Nơi Lưu Bài Thi";
-			// 
-			// btnBaiThiLuuODau
-			// 
-			this.btnBaiThiLuuODau.Location = new System.Drawing.Point(10, 106);
-			this.btnBaiThiLuuODau.Name = "btnBaiThiLuuODau";
-			this.btnBaiThiLuuODau.Size = new System.Drawing.Size(122, 23);
-			this.btnBaiThiLuuODau.TabIndex = 31;
-			this.btnBaiThiLuuODau.Text = "Chấp Nhận";
-			this.btnBaiThiLuuODau.UseVisualStyleBackColor = true;
-			// 
-			// rdLuuOServer
-			// 
-			this.rdLuuOServer.AutoSize = true;
-			this.rdLuuOServer.Location = new System.Drawing.Point(71, 51);
-			this.rdLuuOServer.Name = "rdLuuOServer";
-			this.rdLuuOServer.Size = new System.Drawing.Size(57, 19);
-			this.rdLuuOServer.TabIndex = 1;
-			this.rdLuuOServer.TabStop = true;
-			this.rdLuuOServer.Text = "Server";
-			this.rdLuuOServer.UseVisualStyleBackColor = true;
-			// 
-			// rdLuuOClient
-			// 
-			this.rdLuuOClient.AutoSize = true;
-			this.rdLuuOClient.Checked = true;
-			this.rdLuuOClient.Location = new System.Drawing.Point(9, 51);
-			this.rdLuuOClient.Name = "rdLuuOClient";
-			this.rdLuuOClient.Size = new System.Drawing.Size(56, 19);
-			this.rdLuuOClient.TabIndex = 1;
-			this.rdLuuOClient.TabStop = true;
-			this.rdLuuOClient.Text = "Client";
-			this.rdLuuOClient.UseVisualStyleBackColor = true;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(6, 29);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 15);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Bài thi được lưu ở";
-			// 
 			// groupBox6
 			// 
 			this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -512,7 +453,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(990, 732);
 			this.Controls.Add(this.groupBox6);
-			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox5);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.groupBox3);
@@ -529,8 +469,6 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox5.ResumeLayout(false);
 			this.groupBox5.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
 			this.groupBox6.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -559,10 +497,6 @@
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.Button cmdChapNhan;
 		private System.Windows.Forms.TextBox txtThoiGianLamBai;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.RadioButton rdLuuOServer;
-		private System.Windows.Forms.RadioButton rdLuuOClient;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.GroupBox grbTimeLeft;
 		private System.Windows.Forms.Label lblTimeLeft;
 		private System.Windows.Forms.ComboBox cbMonHoc;
@@ -570,7 +504,6 @@
 		private System.Windows.Forms.FlowLayoutPanel flpMain;
 		private System.Windows.Forms.Button btnPhatDe;
 		private System.Windows.Forms.Button btnThuBai;
-		private System.Windows.Forms.Button btnBaiThiLuuODau;
 		private System.Windows.Forms.ListView lsvDeThi;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.Button btnXoaDe;

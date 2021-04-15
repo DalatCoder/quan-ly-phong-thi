@@ -340,12 +340,19 @@ namespace Server
 
 		private void btnGuiDSSVTuFile_Click(object sender, EventArgs e)
 		{
-			List<Student> danhSachSV = DocNoiDungFileExcel(@"../../../danhsachsinhvien.xlsx");
+			OpenFileDialog fileDialog = new OpenFileDialog();
+			DialogResult result = fileDialog.ShowDialog();
+			if (result==DialogResult.OK)
+			{
+				string duongdan = fileDialog.FileName;
+				List<Student> danhSachSV = DocNoiDungFileExcel(duongdan);
 
-			if (danhSachSV.Count == 0)
-				return;
+				if (danhSachSV.Count == 0)
+					return;
 
-			serverProgram.GuiDanhSachSinhVien(danhSachSV);
+				serverProgram.GuiDanhSachSinhVien(danhSachSV);
+			}
+			
 		}
 
 		private void btnLayDSSinhVienTuCSDL_Click(object sender, EventArgs e)
@@ -400,6 +407,16 @@ namespace Server
 			data.Minute = Convert.ToInt32(txtThoiGianLamBai.Text);
 
 			serverProgram.GuiMonThiVaThoiGian(data);
+		}
+
+		private void txtServerPath_TextChanged(object sender, EventArgs e)
+		{
+			serverProgram.SetServerPath(txtServerPath.Text);
+		}
+
+		private void txtClientPath_TextChanged(object sender, EventArgs e)
+		{
+			serverProgram.SetClientPath(txtClientPath.Text);
 		}
 	}
 }

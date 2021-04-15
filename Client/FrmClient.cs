@@ -233,5 +233,16 @@ namespace Client
 			}
 		}
 
+		private void cbDSThi_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (cbDSThi.SelectedItem==null)
+			{
+				return;
+			}
+
+			Student student = cbDSThi.SelectedItem as Student;
+			lblHoTen.Text = student.FullName;
+			lblMaSo.Text = student.MSSV;
+		}
 	}
 }
