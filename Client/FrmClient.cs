@@ -252,12 +252,78 @@ namespace Client
 			int minute = counter / 60;
 			int second = counter % 60;
 
-			lblThoiGian.Text = minute + ":" + second;
+			if (counter % (30 * 60) == 0)
+			{
+				if (this.InvokeRequired)
+				{
+					this.BeginInvoke((MethodInvoker)delegate ()
+					{
+						string msg = "Thời gian còn lại để làm bài là: " + minute + " phút - " + second + " giây";
+						RenderNotificationPopup("Chú ý thời gian làm bài thi", msg);
+					});
+				}
+				else
+				{
+					string msg = "Thời gian còn lại để làm bài là: " + minute + " phút - " + second + " giây";
+					RenderNotificationPopup("Chú ý thời gian làm bài thi", msg);
+				}
+			}
+			else if (counter == (5 * 60))
+			{
+				if (this.InvokeRequired)
+				{
+					this.BeginInvoke((MethodInvoker)delegate ()
+					{
+						string msg = "Bạn cón 5 phút để hoàn thành bài thi";
+						RenderNotificationPopup("Chú ý thời gian làm bài thi", msg);
+					});
+				}
+				else
+				{
+					string msg = "Bạn cón 5 phút để hoàn thành bài thi";
+					RenderNotificationPopup("Chú ý thời gian làm bài thi", msg);
+				}
+			}
+			else if (counter == (3 * 60))
+			{
+				if (this.InvokeRequired)
+				{
+					this.BeginInvoke((MethodInvoker)delegate ()
+					{
+						string msg = "Bạn còn 3 phút để làm bài thi, chú ý thời gian để nén bài thi";
+						RenderNotificationPopup("Chú ý thời gian làm bài thi", msg);
+					});
+				}
+				else
+				{
+					string msg = "Bạn còn 3 phút để làm bài thi, chú ý thời gian để nén bài thi";
+					RenderNotificationPopup("Chú ý thời gian làm bài thi", msg);
+				}
+			}
+			else if (counter == (1 * 60))
+			{
+				if (this.InvokeRequired)
+				{
+					this.BeginInvoke((MethodInvoker)delegate ()
+					{
+						string msg = "Vui lòng nén bài thi để chuẩn bị thu bài, chấp nhận file nén kiểu: zip, 7z, rar";
+						RenderNotificationPopup("Chú ý thời gian làm bài thi", msg);
+					});
+				}
+				else
+				{
+					string msg = "Vui lòng nén bài thi để chuẩn bị thu bài, chấp nhận file nén kiểu: zip, 7z, rar";
+					RenderNotificationPopup("Chú ý thời gian làm bài thi", msg);
+				}
+			}
+
+			lblThoiGianConLai.Text = minute + " phút - " + second + " giây";
 
 			if (counter == 0)
 			{
 				countdown.Stop();
 
+				btnNopBaiThi.PerformClick();
 			}
 		}
 
