@@ -34,6 +34,7 @@ namespace Client
 			clientProgram.OnErrorNotification += HandleOnErrorNotification;
 			clientProgram.OnReceivedExam += HandleOnReceivedExam;
 			clientProgram.OnCamChuongTrinh += HandleOnCamChuongTrinh;
+			clientProgram.OnNhanMonThiVaThoiGian += HandleOnNhanMonThiVaThoiGian;
 
 			clientProgram.onNhanThongBao = HandleOnNhanThongBao;
 			clientProgram.onNhanDanhSachSVTuExcel = HandleOnNhanDanhSachSVTuExcel;
@@ -45,6 +46,11 @@ namespace Client
 			InitPopupNotifier();
 		}
 
+		private void HandleOnNhanMonThiVaThoiGian(SubjectAndTime data)
+		{
+			lblThoiGian.Text = data.Minute.ToString() + " phút";
+			lblMonThi.Text = data.Subject;
+		}
 
 		private void HandleOnCamChuongTrinh(List<string> programs)
 		{

@@ -388,6 +388,18 @@ namespace Server
 			}
 		}
 
+		public void GuiMonThiVaThoiGian(SubjectAndTime data)
+		{
+			DataContainer container = new DataContainer(DataContainerType.GuiThoiGianLamBai, data);
+
+			byte[] buffer = container.Serialize();
+
+			foreach (Socket socket in clientList)
+			{
+				socket.Send(buffer);
+			}
+		}
+
 		#endregion
 	}
 }

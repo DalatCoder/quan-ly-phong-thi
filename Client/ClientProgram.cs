@@ -72,6 +72,19 @@ namespace Client
 			}
 		}
 
+		event Action<SubjectAndTime> _onNhanMonThiVaThoiGian;
+		public event Action<SubjectAndTime> OnNhanMonThiVaThoiGian
+		{
+			add
+			{
+				_onNhanMonThiVaThoiGian += value;
+			}
+			remove
+			{
+				_onNhanMonThiVaThoiGian -= value;
+			}
+		}
+
 		public Action<string> onNhanThongBao;
 		public Action<List<Student>> onNhanDanhSachSVTuExcel;
 		public Action<int> onNhanSoPhut;
@@ -270,6 +283,15 @@ namespace Client
 						case DataContainerType.BatDauLamBai:
 							int minnute = Convert.ToInt32(dataContainer.Data);
 							onNhanSoPhut(minnute);
+							break;
+
+						case DataContainerType.GuiThoiGianLamBai:
+
+							SubjectAndTime data = dataContainer.Data as SubjectAndTime;
+
+							if (_onNhanMonThiVaThoiGian != null)
+								_onNhanMonThiVaThoiGian(data);
+
 							break;
 
 						case DataContainerType.SendList:
