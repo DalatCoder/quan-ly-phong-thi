@@ -1,12 +1,6 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 
@@ -25,6 +19,7 @@ namespace Client
 		public FrmClient()
 		{
 			InitializeComponent();
+			InitPopupNotifier();
 
 			CheckForIllegalCrossThreadCalls = false;
 
@@ -32,6 +27,7 @@ namespace Client
 
 			clientProgram.OnSuccessNotification += HandleOnSuccessNotification;
 			clientProgram.OnErrorNotification += HandleOnErrorNotification;
+			clientProgram.OnClientDisconnected += HandleOnClientDisconnected;
 			clientProgram.OnReceivedExam += HandleOnReceivedExam;
 			clientProgram.OnCamChuongTrinh += HandleOnCamChuongTrinh;
 			clientProgram.OnNhanMonThiVaThoiGian += HandleOnNhanMonThiVaThoiGian;
@@ -39,12 +35,13 @@ namespace Client
 			clientProgram.onNhanThongBao = HandleOnNhanThongBao;
 			clientProgram.onNhanDanhSachSVTuExcel = HandleOnNhanDanhSachSVTuExcel;
 			clientProgram.onNhanSoPhut = HandleOnNhanSoPhut;
+
 			countdown = new System.Timers.Timer();
 			countdown.Elapsed += Countdown_Elapsed; ;
 			countdown.Interval = 1000;
-
-			InitPopupNotifier();
 		}
+
+		#region Handle ClientProgram events
 
 		private void HandleOnNhanMonThiVaThoiGian(SubjectAndTime data)
 		{
@@ -64,43 +61,6 @@ namespace Client
 			{
 				processManager.AddProcess(program);
 			}
-		}
-
-		void InitProcessManager(List<string> processes)
-		{
-			processManager = new ProcessManager(processes);
-			processManager.OnInvalidProcessKilled += HandleOnInvalidProcessKilled;
-		}
-
-		private void HandleOnInvalidProcessKilled(string processName)
-		{
-			if (this.InvokeRequired)
-			{
-				this.BeginInvoke((MethodInvoker)delegate ()
-				{
-					RenderNotificationPopup("Lỗi", "chương trình không được phép chạy: " + processName);
-				});
-			}
-			else
-			{
-				RenderNotificationPopup("Lỗi", "chương trình không được phép chạy: " + processName);
-			}
-		}
-
-		void InitPopupNotifier()
-		{
-			popup = new PopupNotifier();
-			popup.ShowOptionsButton = false;
-			popup.ContentPadding = new Padding(10, 3, 10, 3);
-			popup.TitlePadding = new Padding(10, 3, 10, 3);
-		}
-
-		void RenderNotificationPopup(string title, string content)
-		{
-			popup.TitleText = title;
-			popup.ContentText = content;
-
-			popup.Popup();
 		}
 
 		private void HandleOnErrorNotification(string errorMessage, Exception ex)
@@ -139,15 +99,28 @@ namespace Client
 
 		}
 
+		private void HandleOnClientDisconnected()
+		{
+			if (this.InvokeRequired)
+			{
+				this.BeginInvoke((MethodInvoker)delegate ()
+				{
+					btnConnectToServer.Enabled = true;
+					btnSendStudentInfo.Enabled = false;
+					btnNopBaiThi.Enabled = false;
+				});
+			}
+			else
+			{
+				btnConnectToServer.Enabled = true;
+				btnSendStudentInfo.Enabled = false;
+				btnNopBaiThi.Enabled = false;
+			}
+		}
+
 		private void HandleOnReceivedExam(string examFileUrl)
 		{
 			lblDeThi.Text = examFileUrl;
-		}
-
-		private void btnConnectToServer_Click(object sender, EventArgs e)
-		{
-			clientProgram.Connect(txtServerIP.Text, SERVER_PORT);
-			btnConnectToServer.Enabled = false;
 		}
 
 		void HandleOnNhanThongBao(string message)
@@ -170,8 +143,6 @@ namespace Client
 
 				popup.Popup();
 			}
-
-
 		}
 
 		void HandleOnNhanDanhSachSVTuExcel(List<Student> students)
@@ -208,6 +179,61 @@ namespace Client
 			countdown.Enabled = true;
 		}
 
+		#endregion
+
+		#region Init state
+
+		void InitPopupNotifier()
+		{
+			popup = new PopupNotifier();
+			popup.ShowOptionsButton = false;
+			popup.ContentPadding = new Padding(10, 3, 10, 3);
+			popup.TitlePadding = new Padding(10, 3, 10, 3);
+		}
+
+		void InitProcessManager(List<string> processes)
+		{
+			processManager = new ProcessManager(processes);
+			processManager.OnInvalidProcessKilled += HandleOnInvalidProcessKilled;
+		}
+
+		private void HandleOnInvalidProcessKilled(string processName)
+		{
+			if (this.InvokeRequired)
+			{
+				this.BeginInvoke((MethodInvoker)delegate ()
+				{
+					RenderNotificationPopup("Lỗi", "chương trình không được phép chạy: " + processName);
+				});
+			}
+			else
+			{
+				RenderNotificationPopup("Lỗi", "chương trình không được phép chạy: " + processName);
+			}
+		}
+
+		#endregion
+
+		#region Methods
+
+		void RenderNotificationPopup(string title, string content)
+		{
+			popup.TitleText = title;
+			popup.ContentText = content;
+
+			popup.Popup();
+		}
+
+		#endregion
+
+		#region Handle UI events
+
+		private void btnConnectToServer_Click(object sender, EventArgs e)
+		{
+			clientProgram.Connect(txtServerIP.Text, SERVER_PORT);
+			btnConnectToServer.Enabled = false;
+		}
+
 		private void btnSendStudentInfo_Click(object sender, EventArgs e)
 		{
 			if (cbDSThi.SelectedItem == null)
@@ -215,6 +241,8 @@ namespace Client
 
 			Student student = cbDSThi.SelectedItem as Student;
 			clientProgram.SendStudent(student);
+
+			btnNopBaiThi.Enabled = true;
 		}
 
 		private void Countdown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -235,7 +263,7 @@ namespace Client
 
 		private void cbDSThi_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (cbDSThi.SelectedItem==null)
+			if (cbDSThi.SelectedItem == null)
 			{
 				return;
 			}
@@ -244,5 +272,12 @@ namespace Client
 			lblHoTen.Text = student.FullName;
 			lblMaSo.Text = student.MSSV;
 		}
+
+		private void btnNopBaiThi_Click(object sender, EventArgs e)
+		{
+			clientProgram.NopBaiThi();
+		}
+
+		#endregion
 	}
 }

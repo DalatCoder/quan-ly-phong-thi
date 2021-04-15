@@ -35,34 +35,28 @@ namespace Server
 
 		#region Events
 
+		event Action<string> _onNotification;
+		public event Action<string> OnNotification
+		{
+			add { _onNotification += value; }
+			remove { _onNotification -= value; }
+		}
+
 		event Action<List<ClientInfo>> _onClientListChanged;
 		public event Action<List<ClientInfo>> OnClientListChanged
 		{
-			add
-			{
-				_onClientListChanged += value;
-			}
-			remove
-			{
-				_onClientListChanged -= value;
-			}
+			add { _onClientListChanged += value; }
+			remove { _onClientListChanged -= value; }
 		}
 
 		event Action<IPEndPoint> _onServerStarted;
 		public event Action<IPEndPoint> OnServerStarted
 		{
-			add
-			{
-				_onServerStarted += value;
-			}
-			remove
-			{
-				_onServerStarted -= value;
-			}
+			add { _onServerStarted += value; }
+			remove { _onServerStarted -= value; }
 		}
 
 		public Action<Student> onNhanSinhVien;
-		
 
 		#endregion
 
@@ -74,6 +68,18 @@ namespace Server
 
 			if (_onClientListChanged != null)
 				_onClientListChanged(clientInfoManager.Clients);
+
+			if (_onNotification != null)
+			{
+				string numClients = clientInfoManager.Clients.Count.ToString();
+				string message =
+					"Đã khởi tạo " + numClients + 
+					" máy con trong vùng IP từ " + 
+					FirstIP + " đến " + LastIP + ".";
+
+				_onNotification(message);
+			}
+
 		}
 
 		public void SetClientInfoList(int numberOfClients)
@@ -82,6 +88,9 @@ namespace Server
 
 			if (_onClientListChanged != null)
 				_onClientListChanged(clientInfoManager.Clients);
+
+			if (_onNotification != null)
+				_onNotification("Đã khởi tạo " + clientInfoManager.Clients.Count + " máy con");
 		}
 
 		#endregion
@@ -116,6 +125,9 @@ namespace Server
 
 			if (_onServerStarted != null && serverIP != null)
 				_onServerStarted(serverIP);
+
+			if (_onNotification != null)
+				_onNotification("Máy chủ đã khởi động tại cổng " + PORT);
 		}
 
 		void StartServer()
@@ -275,11 +287,17 @@ namespace Server
 		public void SetClientPath(string clientPath)
 		{
 			this.clientPath = clientPath;
+
+			if (_onNotification != null)
+				_onNotification("Đã cập nhật đường dẫn lưu đề thi ở máy con");
 		}
 
 		public void SetServerPath(string serverPath)
 		{
 			this.serverPath = serverPath;
+
+			if (_onNotification != null)
+				_onNotification("Đã cập nhật đường dẫn lưu bài thi ở máy chủ");
 		}
 
 		public void PhatDeThi(List<string> danhSachDeThi)
@@ -301,6 +319,9 @@ namespace Server
 					DataContainer container = new DataContainer(DataContainerType.PhatDe, fileDeThi);
 					client.Send(container.Serialize());
 				}
+
+				if (_onNotification != null)
+					_onNotification("Đã phát 1 đề cho tất cả máy con");
 			}
 
 			if (danhSachDeThi.Count > 1)
@@ -319,17 +340,23 @@ namespace Server
 					if (counter == soLuongDeThi)
 						counter = 0;
 				}
+
+				if (_onNotification != null)
+					_onNotification("Đã phát xen kẽ đề thi cho tất cả máy con");
 			}
 		}
 
 		public void batDauLamBai(int sophut)
-        {
-			DataContainer container = new DataContainer(DataContainerType.BatDauLamBai,sophut);
-            foreach (Socket item in clientList)
-            {
+		{
+			DataContainer container = new DataContainer(DataContainerType.BatDauLamBai, sophut);
+			foreach (Socket item in clientList)
+			{
 				item.Send(container.Serialize());
-            }
-        }
+			}
+
+			if (_onNotification != null)
+				_onNotification("Bắt đầu tính thời gian làm bài");
+		}
 
 		public void ThuBai()
 		{
@@ -339,6 +366,9 @@ namespace Server
 			{
 				socket.Send(container.Serialize());
 			}
+
+			if (_onNotification != null)
+				_onNotification("Đã gửi yêu cầu thu bài đến tất cả máy con");
 		}
 
 		public void DisconnectAll()
@@ -362,6 +392,9 @@ namespace Server
 			{
 				item.Send(container.Serialize());
 			}
+
+			if (_onNotification != null)
+				_onNotification("Đã gửi danh sách các chương trình bị cấm tới tất cả máy con");
 		}
 
 		public void GuiTinNhanChoTatCaMayCon(string tinNhan)
@@ -374,6 +407,9 @@ namespace Server
 			{
 				item.Send(buffer);
 			}
+
+			if (_onNotification != null)
+				_onNotification("Đã gửi tin nhắn đến tất cả máy con");
 		}
 
 		public void GuiDanhSachSinhVien(List<Student> students)
@@ -386,6 +422,9 @@ namespace Server
 			{
 				item.Send(buffer);
 			}
+
+			if (_onNotification != null)
+				_onNotification("Đã gửi danh sách sinh viên tới tất cả máy con");
 		}
 
 		public void GuiMonThiVaThoiGian(SubjectAndTime data)
@@ -398,6 +437,9 @@ namespace Server
 			{
 				socket.Send(buffer);
 			}
+
+			if (_onNotification != null)
+				_onNotification("Đã gửi thông tin môn thi và thời gian làm bài tới tất cả máy con");
 		}
 
 		#endregion
