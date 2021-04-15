@@ -2,14 +2,8 @@
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 using LicenseContext = OfficeOpenXml.LicenseContext;
@@ -26,6 +20,7 @@ namespace Server
 		public Server()
 		{
 			InitializeComponent();
+			InitPopupNotifier();
 
 			CheckForIllegalCrossThreadCalls = false;
 
@@ -36,18 +31,14 @@ namespace Server
 
 			serverProgram.OnServerStarted += HandleOnServerStarted;
 			serverProgram.OnClientListChanged += HandleOnClientListChanged;
+			serverProgram.OnNotification += HandleOnNotification;
+
 			countdown = new System.Timers.Timer();
 			countdown.Elapsed += Countdown_Elapsed;
 			countdown.Interval = 1000;
 
 			serverProgram.Start();
-
-
-
-			InitPopupNotifier();
 		}
-
-
 
 		void InitPopupNotifier()
 		{
@@ -58,6 +49,21 @@ namespace Server
 		}
 
 		#region Server Program Events
+
+		private void HandleOnNotification(string message)
+		{
+			if (this.InvokeRequired)
+			{
+				this.BeginInvoke((MethodInvoker)delegate ()
+				{
+					RenderNotificationPopup("Thông báo mới", message);
+				});
+			}
+			else
+			{
+				RenderNotificationPopup("Thông báo mới", message);
+			}
+		}
 
 		private void HandleOnClientListChanged(List<ClientInfo> clientList)
 		{
@@ -82,6 +88,14 @@ namespace Server
 		#endregion
 
 		#region Methods
+
+		void RenderNotificationPopup(string title, string content)
+		{
+			popup.TitleText = title;
+			popup.ContentText = content;
+
+			popup.Popup();
+		}
 
 		void RenderClientList(List<ClientInfo> clientList)
 		{
@@ -119,6 +133,68 @@ namespace Server
 			if (i < flpMain.Controls.Count)
 				for (int j = flpMain.Controls.Count - 1; j >= i; j--)
 					flpMain.Controls.RemoveAt(j);
+		}
+
+		List<Student> DocNoiDungFileExcel(string duongDanFileExcel)
+		{
+			List<Student> students = new List<Student>();
+			try
+			{
+				ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+				//mở file excel
+				var package = new ExcelPackage(new FileInfo(duongDanFileExcel));
+
+				//lấy ra sheet đầu tiên để thao tác
+				ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+				//duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. Lưu ý file excel bắt đầu từ số 1 không phải số 0
+				for (int i = worksheet.Dimension.Start.Row + 1; i <= worksheet.Dimension.End.Row; i++)
+				{
+					try
+					{
+						// biến j biểu thị cho một column trong file
+						int j = 1;
+
+						// lấy ra cột mã số sinh viên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
+						//tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
+						string mssv = worksheet.Cells[i, j++].Value.ToString();
+
+						// lấy ra cột họ và tên đệm tương ứng giá trị tại vị trí [i, 2]. i lần đầu là 2
+						//tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
+						string hoDem = worksheet.Cells[i, j++].Value.ToString();
+
+						// lấy ra cột tên tương ứng giá trị tại vị trí [i, 3]. i lần đầu là 2
+						//tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
+						string ten = worksheet.Cells[i, j++].Value.ToString();
+
+						// tạo student từ dữ liệu đã lấy được 
+						Student student = new Student()
+						{
+							MSSV = mssv,
+							LastName = hoDem,
+							FirstName = ten
+						};
+
+						// add student vào danh sách students
+						students.Add(student);
+					}
+					catch (Exception exe)
+					{
+
+
+					}
+
+				}
+			}
+			catch (Exception ee)
+			{
+
+				MessageBox.Show("Error!" + ee.Message);
+			}
+
+
+			return students;
 		}
 
 		#endregion
@@ -244,7 +320,6 @@ namespace Server
 			}
 		}
 
-
 		private void button1_Click(object sender, EventArgs e)
 		{
 			string cmdText;
@@ -257,8 +332,6 @@ namespace Server
 
 			p.Start();
 		}
-
-		#endregion
 
 		private void btnGuiTinNhan_Click(object sender, EventArgs e)
 		{
@@ -273,69 +346,6 @@ namespace Server
 		{
 			// gui tin nhan toi client
 			serverProgram.GuiTinNhanChoTatCaMayCon(tinnhan);
-		}
-
-		List<Student> DocNoiDungFileExcel(string duongDanFileExcel)
-		{
-			// Doc file excel
-			List<Student> students = new List<Student>();
-			try
-			{
-				ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-				//mở file excel
-				var package = new ExcelPackage(new FileInfo(duongDanFileExcel));
-
-				//lấy ra sheet đầu tiên để thao tác
-				ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-
-				//duyệt tuần tự từ dòng thứ 2 đến dòng cuối cùng của file. Lưu ý file excel bắt đầu từ số 1 không phải số 0
-				for (int i = worksheet.Dimension.Start.Row + 1; i <= worksheet.Dimension.End.Row; i++)
-				{
-					try
-					{
-						// biến j biểu thị cho một column trong file
-						int j = 1;
-
-						// lấy ra cột mã số sinh viên tương ứng giá trị tại vị trí [i, 1]. i lần đầu là 2
-						//tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
-						string mssv = worksheet.Cells[i, j++].Value.ToString();
-
-						// lấy ra cột họ và tên đệm tương ứng giá trị tại vị trí [i, 2]. i lần đầu là 2
-						//tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
-						string hoDem = worksheet.Cells[i, j++].Value.ToString();
-
-						// lấy ra cột tên tương ứng giá trị tại vị trí [i, 3]. i lần đầu là 2
-						//tăng j lên 1 đơn vị sau khi thực hiện xong câu lệnh
-						string ten = worksheet.Cells[i, j++].Value.ToString();
-
-						// tạo student từ dữ liệu đã lấy được 
-						Student student = new Student()
-						{
-							MSSV = mssv,
-							LastName = hoDem,
-							FirstName = ten
-						};
-
-						// add student vào danh sách students
-						students.Add(student);
-					}
-					catch (Exception exe)
-					{
-
-
-					}
-
-				}
-			}
-			catch (Exception ee)
-			{
-
-				MessageBox.Show("Error!" + ee.Message);
-			}
-
-
-			return students;
 		}
 
 		private void btnGuiDSSVTuFile_Click(object sender, EventArgs e)
@@ -375,6 +385,7 @@ namespace Server
 
 
 		}
+		
 		private void Countdown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
 			counter -= 1;
@@ -418,5 +429,8 @@ namespace Server
 		{
 			serverProgram.SetClientPath(txtClientPath.Text);
 		}
+
+		#endregion
+		
 	}
 }
