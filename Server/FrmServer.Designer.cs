@@ -56,7 +56,7 @@
 			this.btnPhatDe = new System.Windows.Forms.Button();
 			this.btnThemDe = new System.Windows.Forms.Button();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.cbMonHoc = new System.Windows.Forms.ComboBox();
 			this.cmdChapNhan = new System.Windows.Forms.Button();
 			this.txtThoiGianLamBai = new System.Windows.Forms.TextBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -375,7 +375,7 @@
 			// groupBox5
 			// 
 			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox5.Controls.Add(this.comboBox1);
+			this.groupBox5.Controls.Add(this.cbMonHoc);
 			this.groupBox5.Controls.Add(this.cmdChapNhan);
 			this.groupBox5.Controls.Add(this.txtThoiGianLamBai);
 			this.groupBox5.Location = new System.Drawing.Point(590, 580);
@@ -385,13 +385,20 @@
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Môn Thi Và Thời Gian";
 			// 
-			// comboBox1
+			// cbMonHoc
 			// 
-			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Location = new System.Drawing.Point(11, 33);
-			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(222, 23);
-			this.comboBox1.TabIndex = 30;
+			this.cbMonHoc.FormattingEnabled = true;
+			this.cbMonHoc.Items.AddRange(new object[] {
+            "Lập trình mạng",
+            "Phương pháp nghiên cứu khoa học",
+            "Đồ họa ứng dụng",
+            "Toán xác suất thống kê",
+            "An toàn và bảo mật hệ thống",
+            "Đồ án cơ sở"});
+			this.cbMonHoc.Location = new System.Drawing.Point(11, 33);
+			this.cbMonHoc.Name = "cbMonHoc";
+			this.cbMonHoc.Size = new System.Drawing.Size(222, 23);
+			this.cbMonHoc.TabIndex = 30;
 			// 
 			// cmdChapNhan
 			// 
@@ -558,7 +565,7 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.GroupBox grbTimeLeft;
 		private System.Windows.Forms.Label lblTimeLeft;
-		private System.Windows.Forms.ComboBox comboBox1;
+		private System.Windows.Forms.ComboBox cbMonHoc;
 		private System.Windows.Forms.GroupBox groupBox6;
 		private System.Windows.Forms.FlowLayoutPanel flpMain;
 		private System.Windows.Forms.Button btnPhatDe;

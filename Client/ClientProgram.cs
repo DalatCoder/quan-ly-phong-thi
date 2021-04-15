@@ -72,16 +72,16 @@ namespace Client
 			}
 		}
 
-		event Action<int> _onNhanThoiGianLamBai;
-		public event Action<int> OnNhanThoiGianLamBai
+		event Action<SubjectAndTime> _onNhanMonThiVaThoiGian;
+		public event Action<SubjectAndTime> OnNhanMonThiVaThoiGian
 		{
 			add
 			{
-				_onNhanThoiGianLamBai += value;
+				_onNhanMonThiVaThoiGian += value;
 			}
 			remove
 			{
-				_onNhanThoiGianLamBai -= value;
+				_onNhanMonThiVaThoiGian -= value;
 			}
 		}
 
@@ -287,9 +287,10 @@ namespace Client
 
 						case DataContainerType.GuiThoiGianLamBai:
 
-							int minute = Convert.ToInt32(dataContainer.Data);
-							if (_onNhanThoiGianLamBai != null)
-								_onNhanThoiGianLamBai(minute);
+							SubjectAndTime data = dataContainer.Data as SubjectAndTime;
+
+							if (_onNhanMonThiVaThoiGian != null)
+								_onNhanMonThiVaThoiGian(data);
 
 							break;
 

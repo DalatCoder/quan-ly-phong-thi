@@ -52,6 +52,7 @@
     <Compile Include="DataContainer.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentDAO.cs" />
+    <Compile Include="SubjectAndTime.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

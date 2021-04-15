@@ -388,9 +388,9 @@ namespace Server
 			}
 		}
 
-		public void GuiThoiGianLamBai(int minute)
+		public void GuiMonThiVaThoiGian(SubjectAndTime data)
 		{
-			DataContainer container = new DataContainer(DataContainerType.GuiThoiGianLamBai, minute);
+			DataContainer container = new DataContainer(DataContainerType.GuiThoiGianLamBai, data);
 
 			byte[] buffer = container.Serialize();
 

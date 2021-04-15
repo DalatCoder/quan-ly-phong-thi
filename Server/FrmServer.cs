@@ -395,9 +395,11 @@ namespace Server
 
 		private void cmdChapNhan_Click(object sender, EventArgs e)
 		{
-			int minute = Convert.ToInt32(txtThoiGianLamBai.Text);
+			SubjectAndTime data = new SubjectAndTime();
+			data.Subject = cbMonHoc.SelectedItem.ToString();
+			data.Minute = Convert.ToInt32(txtThoiGianLamBai.Text);
 
-			serverProgram.GuiThoiGianLamBai(minute);
+			serverProgram.GuiMonThiVaThoiGian(data);
 		}
 	}
 }
