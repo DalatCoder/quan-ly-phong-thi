@@ -340,7 +340,7 @@ namespace Server
 
 		private void btnGuiDSSVTuFile_Click(object sender, EventArgs e)
 		{
-			List<Student> danhSachSV = DocNoiDungFileExcel(@"D:\Nam3_Ki_II\LapTrinhMang\quan-ly-phong-thi\danhsachsinhvien.xlsx");
+			List<Student> danhSachSV = DocNoiDungFileExcel(@"../../../danhsachsinhvien.xlsx");
 
 			if (danhSachSV.Count == 0)
 				return;
