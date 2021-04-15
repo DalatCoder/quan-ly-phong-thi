@@ -42,22 +42,27 @@ namespace Client
 			countdown.Elapsed += Countdown_Elapsed; ;
 			countdown.Interval = 1000;
 
-			InitProcessManager();
 			InitPopupNotifier();
 		}
 
 
 		private void HandleOnCamChuongTrinh(List<string> programs)
 		{
+			if (processManager == null)
+			{
+				InitProcessManager(programs);
+				return;
+			}
+
 			foreach (string program in programs)
 			{
 				processManager.AddProcess(program);
 			}
 		}
 
-		void InitProcessManager()
+		void InitProcessManager(List<string> processes)
 		{
-			processManager = new ProcessManager();
+			processManager = new ProcessManager(processes);
 			processManager.OnInvalidProcessKilled += HandleOnInvalidProcessKilled;
 		}
 
@@ -192,7 +197,7 @@ namespace Client
 		}
 
 		private void HandleOnNhanSoPhut(int minute)
-        {
+		{
 			counter = minute * 60;
 			countdown.Enabled = true;
 		}
