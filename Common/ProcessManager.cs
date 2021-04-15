@@ -38,6 +38,44 @@ namespace Common
 			WaitForProcess();
 		}
 
+		public ProcessManager(List<string> processes)
+		{
+			processNames = new List<string>(processes);
+			KillRunningProcess();
+			WaitForProcess();
+		}
+
+		void KillRunningProcess()
+		{
+			try
+			{
+				foreach (string processName in processNames)
+				{
+
+					string processNameWithoutEXE = processName.Split('.')[0];
+					Process[] pname = Process.GetProcessesByName(processNameWithoutEXE);
+
+					if (pname.Length > 0)
+					{
+						foreach (Process item in pname)
+						{
+							if (item.ProcessName.ToUpper() == processNameWithoutEXE.ToUpper())
+							{
+								item.Kill();
+							}
+						}
+
+						if (_onInvalidProcessKilled != null)
+							_onInvalidProcessKilled(processNameWithoutEXE);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+
+			}
+		}
+
 		void WaitForProcess()
 		{
 			ManagementEventWatcher startWatch = new ManagementEventWatcher(
@@ -82,6 +120,7 @@ namespace Common
 				return;
 
 			processNames.Add(process);
+
 		}
 
 		public void RemoveProcess(string process)
