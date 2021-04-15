@@ -392,5 +392,12 @@ namespace Server
 			List<string> selectedPrograms = frm.selectedPrograms;
 			serverProgram.CamChuongTrinh(selectedPrograms);
 		}
+
+		private void cmdChapNhan_Click(object sender, EventArgs e)
+		{
+			int minute = Convert.ToInt32(txtThoiGianLamBai.Text);
+
+			serverProgram.GuiThoiGianLamBai(minute);
+		}
 	}
 }

@@ -134,7 +134,7 @@
 			this.grbTimeLeft.Controls.Add(this.lblTimeLeft);
 			this.grbTimeLeft.Location = new System.Drawing.Point(7, 484);
 			this.grbTimeLeft.Name = "grbTimeLeft";
-			this.grbTimeLeft.Size = new System.Drawing.Size(133, 61);
+			this.grbTimeLeft.Size = new System.Drawing.Size(132, 61);
 			this.grbTimeLeft.TabIndex = 0;
 			this.grbTimeLeft.TabStop = false;
 			this.grbTimeLeft.Text = "Thời gian thi";
@@ -401,6 +401,7 @@
 			this.cmdChapNhan.TabIndex = 29;
 			this.cmdChapNhan.Text = "Chấp Nhận";
 			this.cmdChapNhan.UseVisualStyleBackColor = true;
+			this.cmdChapNhan.Click += new System.EventHandler(this.cmdChapNhan_Click);
 			// 
 			// txtThoiGianLamBai
 			// 
