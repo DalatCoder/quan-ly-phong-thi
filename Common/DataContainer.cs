@@ -28,6 +28,9 @@ namespace Common
         BeginExam,
         FinishExam,
         LockClient,
+        UnlockClient,
+        Shutdown,
+        Restart,
         Undefined
     }
 

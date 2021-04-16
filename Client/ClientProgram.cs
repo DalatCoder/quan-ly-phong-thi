@@ -22,9 +22,14 @@ namespace Client
 
 		string savePath = null; // Thu muc luu de thi
 
-		#region Define events
+        public Action OnLockClientReceived;
+        public Action OnUnLockClientReceived;
+        public Action OnShutDownClientReceived;
+        public Action OnRestartClientReceived;
+        #region Define events
 
-		event Action<string> _onSuccessNotification;
+        event Action<string> _onSuccessNotification;
+
 		public event Action<string> OnSuccessNotification
 		{
 			add { _onSuccessNotification += value; }
@@ -237,7 +242,27 @@ namespace Client
 
 							break;
 
-						default:
+                        case DataContainerType.LockClient:
+                            if (OnLockClientReceived != null)
+                                OnLockClientReceived();
+                            break;
+
+                        case DataContainerType.UnlockClient:
+                            if (OnUnLockClientReceived != null)
+                                OnUnLockClientReceived();
+                            break;
+
+                        case DataContainerType.Shutdown:
+                            if (OnShutDownClientReceived != null)
+                                OnShutDownClientReceived();
+                            break;
+
+                        case DataContainerType.Restart:
+                            if (OnRestartClientReceived != null)
+                                OnRestartClientReceived();
+                            break;
+
+                        default:
 
 							if (_onErrorNotification != null)
 								_onErrorNotification("Lỗi không xác định, vui lòng khởi động lại phần mềm", null);

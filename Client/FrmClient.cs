@@ -16,7 +16,11 @@ namespace Client
 		System.Timers.Timer countdown;
 		ProcessManager processManager;
 
-		public FrmClient()
+        LockClient lockClient;
+        Shutdown shutdownClient;
+        Restart restartClient;
+
+        public FrmClient()
 		{
 			InitializeComponent();
 			InitPopupNotifier();
@@ -36,14 +40,94 @@ namespace Client
 			clientProgram.onNhanDanhSachSVTuExcel = HandleOnNhanDanhSachSVTuExcel;
 			clientProgram.onNhanSoPhut = HandleOnNhanSoPhut;
 
-			countdown = new System.Timers.Timer();
+
+            clientProgram.OnLockClientReceived = HandleOnLockClientReceived;
+            clientProgram.OnUnLockClientReceived = HandleOnUnLockClientReceived;
+
+            clientProgram.OnShutDownClientReceived = HandleOnShutdownClientReceived;
+            clientProgram.OnRestartClientReceived = HandleOnRestartClientReceived;
+
+            countdown = new System.Timers.Timer();
 			countdown.Elapsed += Countdown_Elapsed; ;
 			countdown.Interval = 1000;
 		}
 
-		#region Handle ClientProgram events
+        #region Handle ClientProgram events
 
-		private void HandleOnNhanMonThiVaThoiGian(SubjectAndTime data)
+        void HandleOnLockClientReceived()
+        {
+
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    lockClient = new LockClient();
+
+                    lockClient.ShowDialog();
+                });
+            }
+            else
+            {
+                lockClient = new LockClient();
+                lockClient.Show();
+            }
+        }
+
+        void HandleOnUnLockClientReceived()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    lockClient.close();
+                });
+            }
+            else
+            {
+                lockClient.close();
+            }
+        }
+
+        void HandleOnShutdownClientReceived()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    shutdownClient = new Shutdown();
+
+                    shutdownClient.Show();
+                });
+            }
+            else
+            {
+                shutdownClient = new Shutdown();
+
+                shutdownClient.Show();
+            }
+        }
+
+        void HandleOnRestartClientReceived()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    restartClient = new Restart();
+
+                    restartClient.Show();
+                });
+            }
+            else
+            {
+                restartClient = new Restart();
+
+                restartClient.Show();
+            }
+        }
+
+
+        private void HandleOnNhanMonThiVaThoiGian(SubjectAndTime data)
 		{
 			lblThoiGian.Text = data.Minute.ToString() + " phút";
 			lblMonThi.Text = data.Subject;

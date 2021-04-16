@@ -172,5 +172,18 @@ namespace Server
 					item.Status = ClientInfoStatus.Disconnected;
 			}
 		}
-	}
+
+        public List<ClientInfo> GetEmptyClients()
+        {
+            List<ClientInfo> result = new List<ClientInfo>();
+            foreach (ClientInfo item in _clients)
+            {
+                if (item.Status == ClientInfoStatus.ClientConnected)
+                {
+                    result.Add(item);
+                }
+            }
+            return result;
+        }
+    }
 }

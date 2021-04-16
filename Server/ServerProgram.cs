@@ -442,6 +442,49 @@ namespace Server
 				_onNotification("Đã gửi thông tin môn thi và thời gian làm bài tới tất cả máy con");
 		}
 
-		#endregion
-	}
+        public void Disable()
+        {
+            List<ClientInfo> disableClients = clientInfoManager.GetEmptyClients();
+
+            foreach (Socket socket in clientList)
+            {
+                string ip = socket.RemoteEndPoint.ToString().Split(':')[0];
+
+                if (disableClients.Exists(c => c.ClientIP.Equals(ip)))
+                {
+                    DataContainer response = new DataContainer(DataContainerType.LockClient, null);
+                    socket.Send(response.Serialize());
+                }
+            }
+        }
+
+        public void Enable()
+        {
+            foreach (Socket socket in clientList)
+            {
+                DataContainer response = new DataContainer(DataContainerType.UnlockClient, null);
+                socket.Send(response.Serialize());
+            }
+        }
+
+        public void Shutdown()
+        {
+            foreach (Socket socket in clientList)
+            {
+                DataContainer response = new DataContainer(DataContainerType.Shutdown, null);
+                socket.Send(response.Serialize());
+            }
+        }
+
+        public void Restart()
+        {
+            foreach (Socket socket in clientList)
+            {
+                DataContainer response = new DataContainer(DataContainerType.Restart, null);
+                socket.Send(response.Serialize());
+            }
+        }
+
+        #endregion
+    }
 }

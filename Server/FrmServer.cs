@@ -322,15 +322,7 @@ namespace Server
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			string cmdText;
-			cmdText = "/C shutdown -i";
-
-			Process p = new Process();
-			p.StartInfo.FileName = "cmd.exe";
-			p.StartInfo.Arguments = cmdText;
-			p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
-			p.Start();
+            ctmShutdown.Show();
 		}
 
 		private void btnGuiTinNhan_Click(object sender, EventArgs e)
@@ -430,7 +422,26 @@ namespace Server
 			serverProgram.SetClientPath(txtClientPath.Text);
 		}
 
-		#endregion
-		
-	}
+        #endregion
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            serverProgram.Disable();
+        }
+
+        private void cmdKichHoatAllClient_Click(object sender, EventArgs e)
+        {
+            serverProgram.Enable();
+        }
+
+        private void shutdownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            serverProgram.Shutdown();
+        }
+
+        private void restartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            serverProgram.Restart();
+        }
+    }
 }
