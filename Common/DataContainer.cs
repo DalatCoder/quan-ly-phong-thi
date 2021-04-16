@@ -17,6 +17,8 @@ namespace Common
         GuiThongBaoAll,
         GuiDanhSachSV,
         GuiSinhVien,
+        DiemDanhSinhVien,
+        GuiThongTinDiemDanh,
         BatDauLamBai,
         GuiThoiGianLamBai,
         CamChuongTrinh,

@@ -38,6 +38,7 @@ namespace Client
 
 			clientProgram.onNhanThongBao = HandleOnNhanThongBao;
 			clientProgram.onNhanDanhSachSVTuExcel = HandleOnNhanDanhSachSVTuExcel;
+			clientProgram.onNhanThongBaoDiemDanh = HandleOnNhanThongBaoDiemDanh;
 			clientProgram.onNhanSoPhut = HandleOnNhanSoPhut;
 
 
@@ -235,6 +236,7 @@ namespace Client
 			{
 				this.BeginInvoke((MethodInvoker)delegate ()
 				{
+					
 					popup.TitleText = "Thông báo";
 					popup.ContentText = "Đã nhận danh sách sinh viên từ máy chủ";
 
@@ -255,6 +257,11 @@ namespace Client
 				cbDSThi.DisplayMember = "FullNameAndId";
 			}
 
+		}
+
+		private void HandleOnNhanThongBaoDiemDanh()
+		{
+			btnDiemDanh.Enabled = true;
 		}
 
 		private void HandleOnNhanSoPhut(int minute)
@@ -429,5 +436,16 @@ namespace Client
 		}
 
 		#endregion
+
+		private void btnDiemDanh_Click(object sender, EventArgs e)
+		{
+			if (cbDSThi.SelectedItem == null)
+				return;
+
+			Student student = cbDSThi.SelectedItem as Student;
+			clientProgram.DiemDanhSinhVien(student);
+
+			btnDiemDanh.Enabled = false;
+		}
 	}
 }

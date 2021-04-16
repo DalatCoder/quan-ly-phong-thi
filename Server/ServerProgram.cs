@@ -248,6 +248,13 @@ namespace Server
 
 							break;
 
+
+						case DataContainerType.GuiThongTinDiemDanh:
+							Student student2 = dataContainer.Data as Student;
+
+							File.AppendAllText("../../../diemdanh-"+ DateTime.Now.ToString("dd-MM-yyyy") +".txt", student2.FullNameAndId + Environment.NewLine);
+
+							break;
 						case DataContainerType.SendList:
 							break;
 
@@ -484,6 +491,21 @@ namespace Server
                 socket.Send(response.Serialize());
             }
         }
+
+		public void BatDauDiemDanh()
+		{
+			DataContainer dataContainer = new DataContainer(DataContainerType.DiemDanhSinhVien,null);
+
+			byte[] buffer = dataContainer.Serialize();
+
+			foreach (Socket item in clientList)
+			{
+				item.Send(buffer);
+			}
+
+			if (_onNotification != null)
+				_onNotification("Đã gửi yêu cầu điểm danh đến sinh viên");
+		}
 
         #endregion
     }

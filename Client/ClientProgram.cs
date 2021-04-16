@@ -73,6 +73,7 @@ namespace Client
 
 		public Action<string> onNhanThongBao;
 		public Action<List<Student>> onNhanDanhSachSVTuExcel;
+		public Action onNhanThongBaoDiemDanh;
 		public Action<int> onNhanSoPhut;
 
 		#endregion
@@ -210,6 +211,17 @@ namespace Client
 
 							if (onNhanDanhSachSVTuExcel != null)
 								onNhanDanhSachSVTuExcel(students);
+
+							break;
+
+						case DataContainerType.DiemDanhSinhVien:
+							if (onNhanThongBaoDiemDanh!=null)
+							{
+								onNhanThongBaoDiemDanh();
+							}
+
+							if (_onSuccessNotification != null)
+								_onSuccessNotification("Bắt đầu điểm danh");
 
 							break;
 
@@ -353,6 +365,15 @@ namespace Client
 
 			if (_onSuccessNotification != null)
 				_onSuccessNotification("Đã gửi file nén bài làm lên máy chủ");
+		}
+	
+	
+		public void DiemDanhSinhVien(Student student)
+		{
+			DataContainer dataContainer = new DataContainer(DataContainerType.GuiThongTinDiemDanh, student);
+
+			
+			SendDataToServer(dataContainer);
 		}
 	}
 }

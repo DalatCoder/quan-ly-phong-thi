@@ -443,5 +443,10 @@ namespace Server
         {
             serverProgram.Restart();
         }
-    }
+
+		private void btnDiemDanh_Click(object sender, EventArgs e)
+		{
+			serverProgram.BatDauDiemDanh();
+		}
+	}
 }
