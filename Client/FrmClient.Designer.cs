@@ -64,9 +64,9 @@
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.txtServerIP);
 			this.groupBox1.Location = new System.Drawing.Point(16, 15);
-			this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
 			this.groupBox1.Size = new System.Drawing.Size(696, 86);
 			this.groupBox1.TabIndex = 2;
 			this.groupBox1.TabStop = false;
@@ -75,7 +75,7 @@
 			// btnConnectToServer
 			// 
 			this.btnConnectToServer.Location = new System.Drawing.Point(497, 33);
-			this.btnConnectToServer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnConnectToServer.Margin = new System.Windows.Forms.Padding(4);
 			this.btnConnectToServer.Name = "btnConnectToServer";
 			this.btnConnectToServer.Size = new System.Drawing.Size(176, 25);
 			this.btnConnectToServer.TabIndex = 2;
@@ -96,7 +96,7 @@
 			// txtServerIP
 			// 
 			this.txtServerIP.Location = new System.Drawing.Point(103, 33);
-			this.txtServerIP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.txtServerIP.Margin = new System.Windows.Forms.Padding(4);
 			this.txtServerIP.Name = "txtServerIP";
 			this.txtServerIP.Size = new System.Drawing.Size(385, 22);
 			this.txtServerIP.TabIndex = 0;
@@ -107,7 +107,7 @@
 			// 
 			this.btnNopBaiThi.Enabled = false;
 			this.btnNopBaiThi.Location = new System.Drawing.Point(168, 620);
-			this.btnNopBaiThi.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnNopBaiThi.Margin = new System.Windows.Forms.Padding(4);
 			this.btnNopBaiThi.Name = "btnNopBaiThi";
 			this.btnNopBaiThi.Size = new System.Drawing.Size(387, 31);
 			this.btnNopBaiThi.TabIndex = 7;
@@ -130,9 +130,9 @@
 			this.groupBox3.Controls.Add(this.label6);
 			this.groupBox3.Controls.Add(this.label3);
 			this.groupBox3.Location = new System.Drawing.Point(16, 228);
-			this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
 			this.groupBox3.Size = new System.Drawing.Size(696, 212);
 			this.groupBox3.TabIndex = 9;
 			this.groupBox3.TabStop = false;
@@ -148,6 +148,7 @@
 			this.lblDeThi.TabIndex = 2;
 			this.lblDeThi.TabStop = true;
 			this.lblDeThi.Text = "N/A";
+			this.lblDeThi.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblDeThi_LinkClicked);
 			// 
 			// lblMaSo
 			// 
@@ -265,9 +266,9 @@
 			this.groupBox2.Controls.Add(this.btnSendStudentInfo);
 			this.groupBox2.Controls.Add(this.cbDSThi);
 			this.groupBox2.Location = new System.Drawing.Point(17, 108);
-			this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
 			this.groupBox2.Size = new System.Drawing.Size(696, 112);
 			this.groupBox2.TabIndex = 8;
 			this.groupBox2.TabStop = false;
@@ -286,7 +287,7 @@
 			// btnSendStudentInfo
 			// 
 			this.btnSendStudentInfo.Location = new System.Drawing.Point(497, 65);
-			this.btnSendStudentInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnSendStudentInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.btnSendStudentInfo.Name = "btnSendStudentInfo";
 			this.btnSendStudentInfo.Size = new System.Drawing.Size(176, 26);
 			this.btnSendStudentInfo.TabIndex = 1;
@@ -298,7 +299,7 @@
 			// 
 			this.cbDSThi.FormattingEnabled = true;
 			this.cbDSThi.Location = new System.Drawing.Point(16, 65);
-			this.cbDSThi.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cbDSThi.Margin = new System.Windows.Forms.Padding(4);
 			this.cbDSThi.Name = "cbDSThi";
 			this.cbDSThi.Size = new System.Drawing.Size(472, 24);
 			this.cbDSThi.TabIndex = 0;
@@ -308,9 +309,9 @@
 			// 
 			this.groupBox4.Controls.Add(this.btnDiemDanh);
 			this.groupBox4.Location = new System.Drawing.Point(16, 459);
-			this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
 			this.groupBox4.Size = new System.Drawing.Size(696, 130);
 			this.groupBox4.TabIndex = 10;
 			this.groupBox4.TabStop = false;
@@ -320,7 +321,7 @@
 			// 
 			this.btnDiemDanh.Enabled = false;
 			this.btnDiemDanh.Location = new System.Drawing.Point(152, 59);
-			this.btnDiemDanh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnDiemDanh.Margin = new System.Windows.Forms.Padding(4);
 			this.btnDiemDanh.Name = "btnDiemDanh";
 			this.btnDiemDanh.Size = new System.Drawing.Size(387, 31);
 			this.btnDiemDanh.TabIndex = 8;
@@ -338,7 +339,7 @@
 			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
-			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "FrmClient";
 			this.Text = "Client";
 			this.groupBox1.ResumeLayout(false);

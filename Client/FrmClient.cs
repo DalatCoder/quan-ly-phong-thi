@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 
@@ -206,6 +207,7 @@ namespace Client
 		private void HandleOnReceivedExam(string examFileUrl)
 		{
 			lblDeThi.Text = examFileUrl;
+
 		}
 
 		void HandleOnNhanThongBao(string message)
@@ -446,6 +448,11 @@ namespace Client
 			clientProgram.DiemDanhSinhVien(student);
 
 			btnDiemDanh.Enabled = false;
+		}
+
+		private void lblDeThi_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{ 
+			Process.Start(lblDeThi.Text);
 		}
 	}
 }
